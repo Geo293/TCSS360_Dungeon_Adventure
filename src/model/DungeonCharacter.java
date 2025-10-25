@@ -50,6 +50,13 @@ public class DungeonCharacter {
     public boolean isAlive(){
         return myHealth > 0;
     }
+
+    /**
+     * Whenever the user gets healed it will call this
+     * method which will determined if the user health is
+     * full and then raise its health depending on that.
+     * @param theHeal
+     */
     public void setHealth(int theHeal) {
         if (myHealth < myMaxHealth) {
             myHealth = theHeal + myHealth;

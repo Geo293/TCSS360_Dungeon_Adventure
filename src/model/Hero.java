@@ -10,6 +10,9 @@ package model;
  */
 public class Hero extends DungeonCharacter {
 
+    protected Hero(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance) {
+        super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
+    }
 }
 
 

@@ -9,7 +9,7 @@ package model;
  * @version Oct, 24 2025
  */
 public class Dungeon {
-    private char[300][300] myDungeon;
+
     public Dungeon() {
 
     }

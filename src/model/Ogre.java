@@ -8,4 +8,7 @@ package model;
  * @version Oct, 24 2025
  */
 public class Ogre extends Monster {
+    protected Ogre(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance) {
+        super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
+    }
 }
