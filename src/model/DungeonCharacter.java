@@ -8,4 +8,24 @@ package model;
  * @version Oct, 24 2025
  */
 public class DungeonCharacter {
+    protected String myName;
+    protected int myHealth;
+    protected int myDamageMin;
+    protected int myDamageMax;
+    protected int myAttackSpeed;
+    protected double myChance;
+    protected DungeonCharacter(String theName, int theHitPoints, int theMinDamage,
+                               int theMaxDamage, int theAttackSpeed, double theChance) {
+        myName = theName;
+        myHealth = theHitPoints;
+        myDamageMin = theMinDamage;
+        myDamageMax = theMaxDamage;
+        myAttackSpeed = theAttackSpeed;
+        myChance = theChance;
+    }
+    public void attack(DungeonCharacter opponent) {
+
+    }
 }
+
+

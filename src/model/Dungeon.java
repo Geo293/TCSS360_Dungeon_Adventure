@@ -1,4 +1,4 @@
-package view;
+package model;
 
 /**
  * This class creates a randomly generated maze for the player to
@@ -9,4 +9,11 @@ package view;
  * @version Oct, 24 2025
  */
 public class Dungeon {
+    private char[300][300] myDungeon;
+    public Dungeon() {
+
+    }
+    public void makeEntrnce(){
+
+    }
 }
