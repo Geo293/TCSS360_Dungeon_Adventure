@@ -7,12 +7,12 @@ package model;
  * @version Oct, 24 2025
  */
 public class Room {
-  //  public Room room(boolean theDead, String tehDirection, int theX, int theY ){
+    public room(boolean theDead, String tehDirection, int theX, int theY ){
 
-      //  char[][] currentRoom = new char[3][3];
-        //retrun NULL;
+        char[][] currentRoom = new char[3][3];
 
-//    }
+
+    }
     public void poition(){
 
     }
