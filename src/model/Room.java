@@ -11,26 +11,51 @@ public class Room {
     //Constants
     /**Spawn chance for the Healing Potion.*/
     private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;
+
     /**Spawn chance for the Healing Potion.*/
     private static final double VISION_POTION_SPAWN_CHANCE = 0.10;
+
     /**Spawn chance for the Healing Potion.*/
     private static final double PIT_SPAWN_CHANCE = 0.10;
-    //Constants for the toString
+
+    /**What character you want to represent the walls.*/
     private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
+
+    /**If you want to have the doors ("-|") shown in the toString or not.*/
     private static final boolean SHOW_DOORS = true;
 
 
-    // Instance Variables of the Room
+    /**Is there a door to the North.*/
     private boolean northDoor;
+
+    /**Is there a door to the South.*/
     private boolean southDoor;
+
+    /**Is there a door to the East.*/
     private boolean eastDoor;
+
+    /**Is there a door to the West.*/
     private boolean westDoor;
+
+    /**Is there a healing potion in this room.*/
     private boolean healingPotion;
+
+    /**Is there a vision potion in this room.*/
     private boolean visionPotion;
+
+    /**Is there a pit in this room.*/
     private boolean pit;
+
+    /**Is this room an entrance.*/
     private boolean entrance;
+
+    /**Is this room an exit.*/
     private boolean exit;
+
+    /**The pillars that the hero can collect.*/
     private String pillar; // null if no pillar, or "A", "E", "I", "P"
+
+    /**The monster in this room (if there is one).*/
     private Monster monster;
 
     /**
@@ -162,6 +187,10 @@ public class Room {
         this.westDoor = hasWestDoor;
     }
 
+    /**
+     * Checks if there are multiple items in this room.
+     * @return  true or false for if there are multiple items
+     */
     public boolean hasMultipleItems() {
         int count = 0;
         if (healingPotion) count++;
@@ -172,46 +201,90 @@ public class Room {
         return count > 1;
     }
 
+    /**
+     * Does this room have a door to the North.
+     * @return  true/false if there is a door
+     */
     public boolean hasNorthDoor() {
         return northDoor;
     }
 
+    /**
+     * Does this room have a door to the East.
+     * @return  true/false if there is a door
+     */
     public boolean hasEastDoor() {
         return eastDoor;
     }
 
+    /**
+     * Does this room have a door to the South.
+     * @return  true/false if there is a door
+     */
     public boolean hasSouthDoor() {
         return southDoor;
     }
 
+    /**
+     * Does this room have a door to the West.
+     * @return  true/false if there is a door
+     */
     public boolean hasWestDoor() {
         return westDoor;
     }
 
+    /**
+     * Does this room have a Pit.
+     * @return  true/false
+     */
     public boolean hasPit() {
         return pit;
     }
 
+    /**
+     * Does this room have a Healing potion.
+     * @return  true/false
+     */
     public boolean hasHealingPotion() {
         return healingPotion;
     }
 
+    /**
+     * Does this room have a Vision Potion.
+     * @return  true/false
+     */
     public boolean hasVisionPotion() {
         return visionPotion;
     }
 
+    /**
+     * Is this room an entrance.
+     * @return  true/false
+     */
     public boolean isEntrance() {
         return entrance;
     }
 
+    /**
+     * Is this room an exit.
+     * @return  true/false
+     */
     public boolean isExit() {
         return exit;
     }
 
+    /**
+     * What Pillar of OO is in this room of there is one.
+     * @return  the Pillar or Null if there is none.
+     */
     public String getPillar() {
         return pillar;
     }
 
+    /**
+     * What Monster is in this room of there is one.
+     * @return  the Pillar or Null if there is none.
+     */
     public Monster getMonster() {
         return monster;
     }
@@ -253,7 +326,10 @@ public class Room {
         return sb.toString();
     }
 
-    // Helper method to determine what symbol to show in center
+    /**
+     * A helper method to get the corresponding letter to what is in the room.
+     * @return  A character depicting what is in the room.
+     */
     private char getRoomSymbol() {
         if (entrance) return 'i';
         if (exit) return 'O';
