@@ -1,5 +1,7 @@
 package view;
-
+import util.CharacterImageLoader;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import controller.GameController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
+
+
 
 /**
  * this class displays a character selection screen that will prompted
@@ -25,6 +29,7 @@ public class CharacterSelected extends Scene {
     private Button myWarrior;
     private Label myStatsDisplay;
     private Button myConfirmChar;
+    private ImageView myCharacterImage;
 
     /**
      * This is the main method that sets the instance fields
@@ -38,6 +43,13 @@ public class CharacterSelected extends Scene {
         myController = theController;
         myCharacterName = new TextField();
         myCharacterName.setVisible(false);
+        myCharacterImage = new ImageView();
+        myCharacterImage.setVisible(false);
+        myCharacterImage.setFitHeight(100);
+        myCharacterImage.setFitWidth(100);
+        myCharacterImage.setPreserveRatio(true);
+
+
         VBox characters = createCharacterButtons();
         HBox characterWStats = showStats(characters);
         HBox bottomSec = bacKToMenu();
@@ -56,16 +68,20 @@ public class CharacterSelected extends Scene {
         myThief = new Button("Thief");
         myWarrior.setOnAction(e -> {
             showStats("Warrior");
+            myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
+
             });
         myPriestess.setOnAction(e -> {
             showStats("Priestess");
+            myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
             });
         myThief.setOnAction(e -> {
             showStats("Thief");
+            myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
         });
@@ -95,6 +111,7 @@ public class CharacterSelected extends Scene {
             myCharacterName.setVisible(false);
             myCharacterName.clear();
             myConfirmChar.setVisible(false);
+            myCharacterImage.setVisible(false);
         });
         bac.getChildren().addAll(myBackButton, myConfirmChar, myCharacterName);
         return bac;
@@ -107,7 +124,7 @@ public class CharacterSelected extends Scene {
      */
     public HBox showStats(VBox theCharButton){
         HBox statsDisplay = new HBox();
-        statsDisplay.getChildren().addAll(theCharButton, myStatsDisplay);
+        statsDisplay.getChildren().addAll(theCharButton, myStatsDisplay,myCharacterImage);
         return statsDisplay;
 
 
@@ -120,6 +137,11 @@ public class CharacterSelected extends Scene {
      */
     public void showStats(String theName) {
         String stats = "";
+        String imagePerson = CharacterImageLoader.getImage(theName);
+        if(imagePerson != null){
+            Image image = new Image(getClass().getResourceAsStream(imagePerson));
+            myCharacterImage.setImage(image);
+        }
 
         switch(theName) {
             case "Warrior":
