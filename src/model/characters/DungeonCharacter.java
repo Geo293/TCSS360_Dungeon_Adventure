@@ -1,4 +1,5 @@
-package Dungeon_Adventure;
+package model.characters;
+
 
 import java.util.Random;
 
