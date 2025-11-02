@@ -37,7 +37,11 @@ public class CharacterSelected extends Scene {
      * @param theController tells the window what screen to display.
      */
     public CharacterSelected(GameController theController) {
-        super(new VBox(),300,250);
+        super(new VBox());
+        VBox root = (VBox)this.getRoot();
+        root.setAlignment(javafx.geometry.Pos.CENTER);
+        root.setSpacing(20);
+        root.setFillWidth(true);
         myBackButton = new Button("Back to main menu");
         myStatsDisplay = new Label("Select a Character");
         myController = theController;
@@ -53,7 +57,7 @@ public class CharacterSelected extends Scene {
         VBox characters = createCharacterButtons();
         HBox characterWStats = showStats(characters);
         HBox bottomSec = bacKToMenu();
-        ((VBox)this.getRoot()).getChildren().addAll(characterWStats, bottomSec);
+        root.getChildren().addAll(characterWStats, bottomSec);
 
     }
 
@@ -67,20 +71,20 @@ public class CharacterSelected extends Scene {
         myPriestess = new Button("Priestess");
         myThief = new Button("Thief");
         myWarrior.setOnAction(e -> {
-            showStats("Warrior");
+            showStringStats("Warrior");
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
 
             });
         myPriestess.setOnAction(e -> {
-            showStats("Priestess");
+            showStringStats("Priestess");
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
             });
         myThief.setOnAction(e -> {
-            showStats("Thief");
+            showStringStats("Thief");
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
@@ -99,6 +103,8 @@ public class CharacterSelected extends Scene {
      */
     public HBox bacKToMenu(){
         HBox bac = new HBox();
+        bac.setAlignment(javafx.geometry.Pos.CENTER);
+        bac.setSpacing(20);
         myConfirmChar = new Button("confirm");
         myConfirmChar.setVisible(false);
         myConfirmChar.setOnAction(e -> {
@@ -124,6 +130,8 @@ public class CharacterSelected extends Scene {
      */
     public HBox showStats(VBox theCharButton){
         HBox statsDisplay = new HBox();
+        statsDisplay.setAlignment(javafx.geometry.Pos.CENTER);
+        statsDisplay.setSpacing(20);
         statsDisplay.getChildren().addAll(theCharButton, myStatsDisplay,myCharacterImage);
         return statsDisplay;
 
@@ -135,7 +143,7 @@ public class CharacterSelected extends Scene {
      * it displays the corresponding stat of the character being called.
      * @param theName The character being choosen
      */
-    public void showStats(String theName) {
+    public void showStringStats(String theName) {
         String stats = "";
         String imagePerson = CharacterImageLoader.getImage(theName);
         if(imagePerson != null){
