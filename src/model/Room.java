@@ -9,8 +9,11 @@ package model;
  */
 public class Room {
     //Constants
+    /**Spawn chance for the Healing Potion.*/
     private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;
+    /**Spawn chance for the Healing Potion.*/
     private static final double VISION_POTION_SPAWN_CHANCE = 0.10;
+    /**Spawn chance for the Healing Potion.*/
     private static final double PIT_SPAWN_CHANCE = 0.10;
     //Constants for the toString
     private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
