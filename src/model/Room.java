@@ -9,9 +9,12 @@ package model;
  */
 public class Room {
     //Constants
-    private static final double HEALING_POTION_SPAWN_CHANCE = 0.10;
+    private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;
     private static final double VISION_POTION_SPAWN_CHANCE = 0.10;
     private static final double PIT_SPAWN_CHANCE = 0.10;
+    //Constants for the toString
+    private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
+    private static final boolean SHOW_DOORS = true;
 
 
     // Instance Variables of the Room
@@ -166,6 +169,22 @@ public class Room {
         return count > 1;
     }
 
+    public boolean hasNorthDoor() {
+        return northDoor;
+    }
+
+    public boolean hasEastDoor() {
+        return eastDoor;
+    }
+
+    public boolean hasSouthDoor() {
+        return southDoor;
+    }
+
+    public boolean hasWestDoor() {
+        return westDoor;
+    }
+
     public boolean hasPit() {
         return pit;
     }
@@ -194,24 +213,31 @@ public class Room {
         return monster;
     }
 
+    /**
+     * the toString to display a room correctly
+     *
+     * @return a string of the room
+     */
     @Override
     public String toString() {
         char[][] roomDisplay = new char[3][3];
+        char nsDoor = SHOW_DOORS ? '-' : ' ';
+        char ewDoor = SHOW_DOORS ? '|' : ' ';
 
         // Top row - north door or wall
-        roomDisplay[0][0] = '*';
-        roomDisplay[0][1] = northDoor ? '-' : '*';
-        roomDisplay[0][2] = '*';
+        roomDisplay[0][0] = WALL_CHARACTER;
+        roomDisplay[0][1] = northDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[0][2] = WALL_CHARACTER;
 
         // Middle row - west door, center content, east door
-        roomDisplay[1][0] = westDoor ? '|' : '*';
+        roomDisplay[1][0] = westDoor ? ewDoor : WALL_CHARACTER;
         roomDisplay[1][1] = getRoomSymbol();
-        roomDisplay[1][2] = eastDoor ? '|' : '*';
+        roomDisplay[1][2] = eastDoor ? ewDoor : WALL_CHARACTER;
 
         // Bottom row - south door or wall
-        roomDisplay[2][0] = '*';
-        roomDisplay[2][1] = southDoor ? '-' : '*';
-        roomDisplay[2][2] = '*';
+        roomDisplay[2][0] = WALL_CHARACTER;
+        roomDisplay[2][1] = southDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[2][2] = WALL_CHARACTER;
 
         // Build string
         StringBuilder sb = new StringBuilder();
