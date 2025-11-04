@@ -1,4 +1,5 @@
 package view;
+import javafx.geometry.Pos;
 import util.CharacterImageLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +31,8 @@ public class CharacterSelected extends Scene {
     private Label myStatsDisplay;
     private Button myConfirmChar;
     private ImageView myCharacterImage;
+    private String myChosenCharacter;
+    private Button myStartButton;
 
     /**
      * This is the main method that sets the instance fields
@@ -52,12 +55,15 @@ public class CharacterSelected extends Scene {
         myCharacterImage.setFitHeight(100);
         myCharacterImage.setFitWidth(100);
         myCharacterImage.setPreserveRatio(true);
-
+        myChosenCharacter = "";
+        myStartButton = new Button("Start Game");
+        myStartButton.setVisible(false);
 
         VBox characters = createCharacterButtons();
         HBox characterWStats = showStats(characters);
         HBox bottomSec = bacKToMenu();
-        root.getChildren().addAll(characterWStats, bottomSec);
+        HBox gameStart = startTheGame();
+        root.getChildren().addAll(characterWStats, bottomSec, gameStart);
 
     }
 
@@ -75,6 +81,7 @@ public class CharacterSelected extends Scene {
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
+            myChosenCharacter = "Warrior";
 
             });
         myPriestess.setOnAction(e -> {
@@ -82,12 +89,14 @@ public class CharacterSelected extends Scene {
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
+            myChosenCharacter = "Priestess";
             });
         myThief.setOnAction(e -> {
             showStringStats("Thief");
             myCharacterImage.setVisible(true);
             myConfirmChar.setVisible(true);
             myConfirmChar.requestFocus();
+            myChosenCharacter = "Thief";
         });
         VBox characterButtons = new VBox();
         characterButtons.getChildren().addAll(myWarrior, myPriestess, myThief);
@@ -110,17 +119,31 @@ public class CharacterSelected extends Scene {
         myConfirmChar.setOnAction(e -> {
             myCharacterName.setVisible(true);
             myCharacterName.requestFocus();
+            myStartButton.setVisible(true);
+            myStartButton.requestFocus();
         });
         myBackButton.setOnAction(e -> {
-            myController.goBackToStart();
-            myStatsDisplay.setText("Select a Character");
-            myCharacterName.setVisible(false);
-            myCharacterName.clear();
-            myConfirmChar.setVisible(false);
-            myCharacterImage.setVisible(false);
+            reset();
         });
         bac.getChildren().addAll(myBackButton, myConfirmChar, myCharacterName);
         return bac;
+    }
+    public HBox startTheGame(){
+        HBox gameStart = new HBox();
+        gameStart.setAlignment(Pos.CENTER);
+        gameStart.setSpacing(20);
+        myStartButton.setOnAction(e -> {
+            String heroName = myCharacterName.getText().trim();
+
+            if (heroName.isEmpty()) {
+                myStatsDisplay.setText("Please enter a name!");
+                return;
+            }
+
+            myController.startNewGame(myChosenCharacter, heroName);
+        });
+        gameStart.getChildren().addAll(myStartButton);
+        return gameStart;
     }
 
     /**
@@ -134,7 +157,6 @@ public class CharacterSelected extends Scene {
         statsDisplay.setSpacing(20);
         statsDisplay.getChildren().addAll(theCharButton, myStatsDisplay,myCharacterImage);
         return statsDisplay;
-
 
     }
 
@@ -183,6 +205,16 @@ public class CharacterSelected extends Scene {
 
         myStatsDisplay.setText(stats);
 
+    }
+    public void reset(){
+        myController.goBackToStart();
+        myStatsDisplay.setText("Select a Character");
+        myCharacterName.setVisible(false);
+        myCharacterName.clear();
+        myConfirmChar.setVisible(false);
+        myCharacterImage.setVisible(false);
+        myChosenCharacter = "";
+        myStartButton.setVisible(false);
     }
 
 }
