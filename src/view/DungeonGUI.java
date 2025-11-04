@@ -22,7 +22,8 @@ public class DungeonGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Dungeon_Adventure");
-
+        primaryStage.setWidth(400);
+        primaryStage.setHeight(300);
         GameController myController = new GameController(primaryStage);
         myController.startApp();
 

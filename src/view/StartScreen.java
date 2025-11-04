@@ -9,10 +9,12 @@ public class StartScreen extends Scene{
     Button myButton;
     GameController myController;
     public StartScreen(GameController theController) {
-        super(new StackPane(),300,250);
+        super(new StackPane());
+        StackPane root = (StackPane)getRoot();
+        root.setAlignment(javafx.geometry.Pos.CENTER);
         myController = theController;
         myButton = new Button("Start the game");
         myButton.setOnAction(e -> myController.startCharacter());
-        ((StackPane)this.getRoot()).getChildren().add(myButton);
+        root.getChildren().add(myButton);
     }
 }
