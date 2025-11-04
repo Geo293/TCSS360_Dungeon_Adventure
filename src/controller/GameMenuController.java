@@ -1,76 +1,63 @@
 package controller;
 
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import model.characters.Hero;
-import model.characters.Monster;
-import model.dungeon.Dungeon;
+import model.Dungeon;
+import model.DungeonCharacter;
 
 public class GameMenuController {
     private Dungeon dungeon;
-    private Hero hero;
+    private DungeonCharacter hero;
 
-    public void initializeGame(Dungeon dungeon, Hero hero) {
+    public void initializeGame(Dungeon dungeon, DungeonCharacter hero) {
         this.dungeon = dungeon;
         this.hero = hero;
     }
 
-    @FXML private void moveNorth() { move("N"); }
-    @FXML private void moveSouth() { move("S"); }
-    @FXML private void moveEast()  { move("E"); }
-    @FXML private void moveWest()  { move("W"); }
+    public void moveNorth() { move("N"); }
+    public void moveSouth() { move("S"); }
+    public void moveEast()  { move("E"); }
+    public void moveWest()  { move("W"); }
 
     private void move(String direction) {
-        if (!dungeon.moveHero(hero, direction)) {
+        if (!dungeon.moveHero(direction)) {
             showAlert("Can't move in that direction.");
         } else {
             checkRoom();
         }
     }
 
-    @FXML private void useHealingPotion() {
-        dungeon.useHealingPotion(hero);
-        showAlert("Healing potion used.");
+    public void useHealingPotion() {
+        // TODO: Implement when Hero class is ready
+        showAlert("Healing potion functionality coming soon.");
     }
 
-    @FXML private void useVisionPotion() {
-        dungeon.useVisionPotion(hero);
-        showAlert("Vision potion used.");
+    public void useVisionPotion() {
+        // TODO: Implement when Hero class is ready
+        showAlert("Vision potion functionality coming soon.");
     }
 
-    @FXML private void useSpecialSkill() {
-        Monster monster = dungeon.getMonsterAt(hero);
-        if (monster != null && monster.isAlive()) {
-            hero.useSpecialSkill(monster);
-        } else {
-            showAlert("No monster to use skill on.");
-        }
+    public void useSpecialSkill() {
+        // TODO: Implement when Hero and Monster classes are ready
+        showAlert("Special skill functionality coming soon.");
     }
 
-    @FXML private void viewStats() {
+    public void viewStats() {
         showAlert(hero.toString());
     }
 
-    @FXML private void revealDungeon() {
-        dungeon.revealEntireDungeon();
-        showAlert("Dungeon revealed.");
+    public void revealDungeon() {
+        showAlert(dungeon.toString());
     }
 
-    @FXML private void quitGame() {
+    public void quitGame() {
         System.exit(0);
     }
 
     private void checkRoom() {
-        Monster monster = dungeon.getMonsterAt(hero);
-        if (monster != null && monster.isAlive()) {
-            CombatSystem.battle(hero, monster);
-        }
+        // TODO: Implement monster checking when Monster class is ready
+        // For now, just check if hero is still alive
         if (!hero.isAlive()) {
             showAlert("You have died.");
-            System.exit(0);
-        } else if (dungeon.hasWon(hero)) {
-            showAlert("You won!");
-            dungeon.revealEntireDungeon();
             System.exit(0);
         }
     }
