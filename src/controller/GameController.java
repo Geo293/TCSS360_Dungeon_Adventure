@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 import view.CharacterSelected;
 import view.StartScreen;
 
-public class GameController {
+public class  logsGameController {
     private StartScreen myStartScreen;
     private CharacterSelected myCharacterSelected;
     private Stage myStage;
