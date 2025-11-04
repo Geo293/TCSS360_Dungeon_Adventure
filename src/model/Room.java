@@ -9,22 +9,53 @@ package model;
  */
 public class Room {
     //Constants
-    private static final double HEALING_POTION_SPAWN_CHANCE = 0.10;
+    /**Spawn chance for the Healing Potion.*/
+    private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;
+
+    /**Spawn chance for the Healing Potion.*/
     private static final double VISION_POTION_SPAWN_CHANCE = 0.10;
+
+    /**Spawn chance for the Healing Potion.*/
     private static final double PIT_SPAWN_CHANCE = 0.10;
 
+    /**What character you want to represent the walls.*/
+    private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
 
-    // Instance Variables of the Room
+    /**If you want to have the doors ("-|") shown in the toString or not.*/
+    private static final boolean SHOW_DOORS = true;
+
+
+    /**Is there a door to the North.*/
     private boolean northDoor;
+
+    /**Is there a door to the South.*/
     private boolean southDoor;
+
+    /**Is there a door to the East.*/
     private boolean eastDoor;
+
+    /**Is there a door to the West.*/
     private boolean westDoor;
+
+    /**Is there a healing potion in this room.*/
     private boolean healingPotion;
+
+    /**Is there a vision potion in this room.*/
     private boolean visionPotion;
+
+    /**Is there a pit in this room.*/
     private boolean pit;
+
+    /**Is this room an entrance.*/
     private boolean entrance;
+
+    /**Is this room an exit.*/
     private boolean exit;
+
+    /**The pillars that the hero can collect.*/
     private String pillar; // null if no pillar, or "A", "E", "I", "P"
+
+    /**The monster in this room (if there is one).*/
     private Monster monster;
 
     /**
@@ -156,6 +187,10 @@ public class Room {
         this.westDoor = hasWestDoor;
     }
 
+    /**
+     * Checks if there are multiple items in this room.
+     * @return  true or false for if there are multiple items
+     */
     public boolean hasMultipleItems() {
         int count = 0;
         if (healingPotion) count++;
@@ -166,52 +201,119 @@ public class Room {
         return count > 1;
     }
 
+    /**
+     * Does this room have a door to the North.
+     * @return  true/false if there is a door
+     */
+    public boolean hasNorthDoor() {
+        return northDoor;
+    }
+
+    /**
+     * Does this room have a door to the East.
+     * @return  true/false if there is a door
+     */
+    public boolean hasEastDoor() {
+        return eastDoor;
+    }
+
+    /**
+     * Does this room have a door to the South.
+     * @return  true/false if there is a door
+     */
+    public boolean hasSouthDoor() {
+        return southDoor;
+    }
+
+    /**
+     * Does this room have a door to the West.
+     * @return  true/false if there is a door
+     */
+    public boolean hasWestDoor() {
+        return westDoor;
+    }
+
+    /**
+     * Does this room have a Pit.
+     * @return  true/false
+     */
     public boolean hasPit() {
         return pit;
     }
 
+    /**
+     * Does this room have a Healing potion.
+     * @return  true/false
+     */
     public boolean hasHealingPotion() {
         return healingPotion;
     }
 
+    /**
+     * Does this room have a Vision Potion.
+     * @return  true/false
+     */
     public boolean hasVisionPotion() {
         return visionPotion;
     }
 
+    /**
+     * Is this room an entrance.
+     * @return  true/false
+     */
     public boolean isEntrance() {
         return entrance;
     }
 
+    /**
+     * Is this room an exit.
+     * @return  true/false
+     */
     public boolean isExit() {
         return exit;
     }
 
+    /**
+     * What Pillar of OO is in this room of there is one.
+     * @return  the Pillar or Null if there is none.
+     */
     public String getPillar() {
         return pillar;
     }
 
+    /**
+     * What Monster is in this room of there is one.
+     * @return  the Pillar or Null if there is none.
+     */
     public Monster getMonster() {
         return monster;
     }
 
+    /**
+     * the toString to display a room correctly
+     *
+     * @return a string of the room
+     */
     @Override
     public String toString() {
         char[][] roomDisplay = new char[3][3];
+        char nsDoor = SHOW_DOORS ? '-' : ' ';
+        char ewDoor = SHOW_DOORS ? '|' : ' ';
 
         // Top row - north door or wall
-        roomDisplay[0][0] = '*';
-        roomDisplay[0][1] = northDoor ? '-' : '*';
-        roomDisplay[0][2] = '*';
+        roomDisplay[0][0] = WALL_CHARACTER;
+        roomDisplay[0][1] = northDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[0][2] = WALL_CHARACTER;
 
         // Middle row - west door, center content, east door
-        roomDisplay[1][0] = westDoor ? '|' : '*';
+        roomDisplay[1][0] = westDoor ? ewDoor : WALL_CHARACTER;
         roomDisplay[1][1] = getRoomSymbol();
-        roomDisplay[1][2] = eastDoor ? '|' : '*';
+        roomDisplay[1][2] = eastDoor ? ewDoor : WALL_CHARACTER;
 
         // Bottom row - south door or wall
-        roomDisplay[2][0] = '*';
-        roomDisplay[2][1] = southDoor ? '-' : '*';
-        roomDisplay[2][2] = '*';
+        roomDisplay[2][0] = WALL_CHARACTER;
+        roomDisplay[2][1] = southDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[2][2] = WALL_CHARACTER;
 
         // Build string
         StringBuilder sb = new StringBuilder();
@@ -224,7 +326,10 @@ public class Room {
         return sb.toString();
     }
 
-    // Helper method to determine what symbol to show in center
+    /**
+     * A helper method to get the corresponding letter to what is in the room.
+     * @return  A character depicting what is in the room.
+     */
     private char getRoomSymbol() {
         if (entrance) return 'i';
         if (exit) return 'O';
