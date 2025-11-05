@@ -334,7 +334,7 @@ public class Room {
         if (entrance) return 'i';
         if (exit) return 'O';
         if (pit) return 'X'; // Pit takes priority - no other items with pit
-        if (hasMultipleItems()) return 'M';
+        if (hasMultipleItems()) return 'U';
         if (healingPotion) return 'H';
         if (visionPotion) return 'V';
         if (pillar != null) return pillar.charAt(0); // A, E, I, or P
