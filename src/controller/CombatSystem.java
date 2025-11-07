@@ -1,61 +1,35 @@
 package controller;
 
-import model.characters.DungeonCharacter;
-import model.characters.Hero;
-import model.characters.Monster;
+import model.DungeonCharacter;
 
 public class CombatSystem {
 
     /**
-     * Executes a full round of combat between a hero and a monster.
+     * Executes a full round of combat between two dungeon characters.
+     * For now, uses basic attack method from DungeonCharacter.
      */
-    public static void battle(Hero hero, Monster monster) {
-        System.out.println("\n Combat Begins: " + hero.getName() + " vs " + monster.getName());
+    public static void battle(DungeonCharacter char1, DungeonCharacter char2) {
+        System.out.println("\nCombat Begins: " + char1.getName() + " vs " + char2.getName());
 
-        while (hero.isAlive() && monster.isAlive()) {
-            System.out.println("\n" + hero.getName() + "'s Turn:");
-            hero.attack(monster);
+        while (char1.isAlive() && char2.isAlive()) {
+            System.out.println("\n" + char1.getName() + "'s Turn:");
+            char1.attack(char2);
 
-            if (monster.isAlive()) {
-                System.out.println("\n" + monster.getName() + "'s Turn:");
-                monsterAttack(monster, hero);
+            if (char2.isAlive()) {
+                System.out.println("\n" + char2.getName() + "'s Turn:");
+                char2.attack(char1);
             }
 
-            System.out.println("\n Status:");
-            System.out.println(hero);
-            System.out.println(monster);
+            System.out.println("\nStatus:");
+            System.out.println(char1);
+            System.out.println(char2);
         }
 
-        System.out.println("\n Combat Over!");
-        if (hero.isAlive()) {
-            System.out.println(hero.getName() + " is victorious!");
+        System.out.println("\nCombat Over!");
+        if (char1.isAlive()) {
+            System.out.println(char1.getName() + " is victorious!");
         } else {
-            System.out.println(monster.getName() + " has defeated " + hero.getName() + "!");
-        }
-    }
-
-    /**
-     * Handles monster attacking hero, with hero's chance to block.
-     */
-    private static void monsterAttack(Monster monster, Hero hero) {
-        int numAttacks = Math.max(1, monster.getAttackSpeed() / hero.getAttackSpeed());
-
-        for (int i = 0; i < numAttacks; i++) {
-            if (hero.blockAttack()) {
-                System.out.println(hero.getName() + " blocked the attack!");
-                continue;
-            }
-
-            if (monster.canHit()) {
-                int damage = monster.calculateDamage();
-                hero.subtractHitPoints(damage);
-                System.out.println(monster.getName() + " hits " + hero.getName() + " for " + damage + " damage.");
-            } else {
-                System.out.println(monster.getName() + " missed the attack.");
-            }
-
-            monster.tryHeal();
-            if (!hero.isAlive()) break;
+            System.out.println(char2.getName() + " has defeated " + char1.getName() + "!");
         }
     }
 }
