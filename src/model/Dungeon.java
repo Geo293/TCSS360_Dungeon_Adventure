@@ -17,18 +17,19 @@ public class Dungeon {
     private static final int DEFAULT_WIDTH = 10;
     private static final int DEFAULT_HEIGHT = 10;
     private static final String[] PILLAR_TYPES = {"A", "E", "I", "P"}; // Abstraction, Encapsulation, Inheritance, Polymorphism
+    private static final double EXTRA_DOOR_CHANCE = 0.25; // 25% chance to add extra doors
 
     // Instance variables
-    private Room[][] maze;
-    private int width;
-    private int height;
+    private final Room[][] maze;
+    private final int width;
+    private final int height;
+    private final Random random;
     private int entranceX;
     private int entranceY;
     private int exitX;
     private int exitY;
     private int heroX;
     private int heroY;
-    private Random random;
 
     /**
      * default constructor for the Dungeon.
@@ -56,6 +57,7 @@ public class Dungeon {
         }
 
         generateMaze();
+        addExtraDoors();
         generateRoomContents();
         placeExit();
         placeEntrance();
@@ -193,6 +195,51 @@ public class Dungeon {
     }
 
     /**
+     * adding extra doors so that the dungeon feels less like a maze.
+     * make sure the no doors are on the edge of the dungeon (out of bounds).
+     */
+    private void addExtraDoors() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                // skip if random chance doesn't hit
+                if (random.nextDouble() >= EXTRA_DOOR_CHANCE) {
+                    continue;
+                }
+
+                // try to add extra doors in random directions
+                int direction = random.nextInt(4); // 0: North, 1: South, 2: East, 3: West
+
+                switch (direction) {
+                    case 0: // north
+                        if (y > 0 && !maze[x][y].hasNorthDoor()) { // not on top border and no door exists
+                            maze[x][y].setNorthDoor(true);
+                            maze[x][y-1].setSouthDoor(true);
+                        }
+                        break;
+                    case 1: // south
+                        if (y < height - 1 && !maze[x][y].hasSouthDoor()) { // not on bottom border and no door exists
+                            maze[x][y].setSouthDoor(true);
+                            maze[x][y+1].setNorthDoor(true);
+                        }
+                        break;
+                    case 2: // east
+                        if (x < width - 1 && !maze[x][y].hasEastDoor()) { // not on right border and no door exists
+                            maze[x][y].setEastDoor(true);
+                            maze[x+1][y].setWestDoor(true);
+                        }
+                        break;
+                    case 3: // west
+                        if (x > 0 && !maze[x][y].hasWestDoor()) { // not on left border and no door exists
+                            maze[x][y].setWestDoor(true);
+                            maze[x-1][y].setEastDoor(true);
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
      * Moves the hero in the specified direction
      */
     public boolean moveHero(String direction) {
@@ -292,9 +339,9 @@ public class Dungeon {
                 // Append each line (removing the last character if not the last room)
                 if (x < width - 1) {
                     // Remove the rightmost character to merge with next room
-                    line1.append(lines[0].substring(0, lines[0].length() - 1));
-                    line2.append(lines[1].substring(0, lines[1].length() - 1));
-                    line3.append(lines[2].substring(0, lines[2].length() - 1));
+                    line1.append(lines[0], 0, lines[0].length() - 1);
+                    line2.append(lines[1], 0, lines[1].length() - 1);
+                    line3.append(lines[2], 0, lines[2].length() - 1);
                 } else {
                     // Last room in row, keep full string
                     line1.append(lines[0]);
