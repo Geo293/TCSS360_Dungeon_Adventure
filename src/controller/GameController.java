@@ -3,14 +3,26 @@ package controller;
 import javafx.stage.Stage;
 import model.*;
 import view.CharacterSelected;
-import view.DungeonWindow;
+//import view.DungeonWindow;
 import view.StartScreen;
 
+/**
+ * This class changes all the windows
+ *
+ * @author Geovani Vasquez
+ * @version Oct, 31 2025
+ */
 public class GameController {
+    /**
+     * This is the start screen
+     */
     private StartScreen myStartScreen;
+    /**
+     * this is the character select screen
+     */
     private CharacterSelected myCharacterSelected;
     private Stage myStage;
-    private DungeonWindow myGameWindow;
+    //private DungeonWindow myGameWindow;
     private Dungeon myDungeon;
     private Hero myHero;
 
@@ -30,22 +42,23 @@ public class GameController {
 
     public void goBackToStart() {
         myStage.setScene(myStartScreen);
+        myStartScreen.show();
     }
-    public void startNewGame(String characterType, String characterName){
+    public void startNewGame(String theCharacterType, String theCharacterName){
         myDungeon = new Dungeon();
-        switch(characterType) {
+        switch(theCharacterType) {
             case "Warrior":
-                //myHero = new Warrior(characterName);
+                //myHero = new Warrior(theCharacterName);
                 break;
             case "Priestess":
-                //myHero = new Priestess(characterName);
+                //myHero = new Priestess(theCharacterName);
                 break;
             case "Thief":
-                //myHero = new Thief(characterName);
+                //myHero = new Thief(theCharacterName);
                 break;
         }
-        myGameWindow = new DungeonWindow(this, myDungeon,myHero);
-        myStage.setScene(myGameWindow);
+        //myGameWindow = new DungeonWindow(this, myDungeon,myHero);
+       // myStage.setScene(myGameWindow);
 
     }
 }
