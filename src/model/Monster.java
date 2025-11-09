@@ -23,10 +23,10 @@ public abstract class Monster extends DungeonCharacter {
 
     public void tryHeal() {
         if (!isAlive()) return;
-        if (rand.nextDouble() <= chanceToHeal) {
-            int healAmount = rand.nextInt(maxHeal - minHeal + 1) + minHeal;
-            hitPoints += healAmount;
-            System.out.println(name + " heals for " + healAmount + " HP.");
+        if (myRand.nextDouble() <= chanceToHeal) {
+            int healAmount = myRand.nextInt(maxHeal - minHeal + 1) + minHeal;
+            myHitPoints += healAmount;
+            System.out.println(myName + " heals for " + healAmount + " HP.");
         }
     }
 }

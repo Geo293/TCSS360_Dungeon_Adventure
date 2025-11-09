@@ -7,7 +7,9 @@ package model;
  * @version 11/8/25
  */
 public class Skeleton extends Monster {
-    public Skeleton(String name) {
-        super(name, 100, 30, 50, 3, 0.8, 0.3, 30, 50);
+    public Skeleton(String theName, int theHitPoints, int theMinDamage, int theMaxDamage,
+                    int theAttackSpeed, double theChanceToHit, double theChanceToHeal, int theMinHeal, int theMaxHeal) {
+        super(theName, theHitPoints, theMinDamage, theMaxDamage,theAttackSpeed, theChanceToHit,
+                theChanceToHeal, theMinHeal, theMaxHeal);
     }
 }

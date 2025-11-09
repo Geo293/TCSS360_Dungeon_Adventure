@@ -65,20 +65,29 @@ public class MonsterFactory {
      * @throws SQLException if column access fails.
      */
     private static Monster createMonsterFromRow(ResultSet rs) throws SQLException {
-        String name = rs.getString("name").toLowerCase();
+        String name = rs.getString("name");
+        int hitPoints = rs.getInt("hit_points");
         int attackSpeed = rs.getInt("attack_speed");
-        double chanceToHit = rs.getDouble("Crit_chance_1");
-        int maxDamage = rs.getInt("Crit_damage_1");
-        double chanceToHeal = rs.getDouble("Crit_chance_2");
-        int maxHeal = rs.getInt("Crit_damage_2");
+        double chanceToHit = rs.getDouble("chance_to_hit");
+        int minDamage = rs.getInt("min_damage");
+        int maxDamage = rs.getInt("max_damage");
+        double chanceToHeal = rs.getDouble("chance_to_heal");
+        int minHeal = rs.getInt("min_heal");
+        int maxHeal = rs.getInt("max_heal");
+        String nameLower = name.toLowerCase();
 
-        // Assign default values based on monster type
-        return switch (name) {
-            case "ogre" -> new Ogre(name);       // uses hardcoded stats from Ogre class
-            case "skeleton" -> new Skeleton(name);
-            case "gremlin" -> new Gremlin(name);
-            default -> new Monster(name, 100, 20, maxDamage, attackSpeed,
-                    chanceToHit, chanceToHeal, 10, maxHeal) {};
+
+        return switch (nameLower) {
+            case "orge" -> new Ogre(name, hitPoints, minDamage, maxDamage,
+                    attackSpeed, chanceToHit,
+                    chanceToHeal, minHeal, maxHeal);
+            case "skeleton" -> new Skeleton(name, hitPoints, minDamage, maxDamage,
+                    attackSpeed, chanceToHit,
+                    chanceToHeal, minHeal, maxHeal);
+            case "gremlin" -> new Gremlin(name, hitPoints, minDamage, maxDamage,
+                    attackSpeed, chanceToHit,
+                    chanceToHeal, minHeal, maxHeal);
+            default -> throw new IllegalArgumentException("Unknown monster type: " + name);
         };
     }
 }

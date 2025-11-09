@@ -23,7 +23,7 @@ public class DungeonWindow extends Scene {
         myDungeon = theDungeon;
         myHero = theHero;
         myGameController = theController;
-        myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getHeroX(),myDungeon.getHeroY(),0));
+        myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),0));
         VBox bottomBox = bottomPlane();
         setUpKeyListeners();
         BorderPane root = (BorderPane)this.getRoot();
@@ -67,7 +67,7 @@ public class DungeonWindow extends Scene {
         }
     }
     public void updateDisplay(){
-        myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getHeroX(), myDungeon.getHeroY(), 0));
+        myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(), myDungeon.getMyHeroY(), 0));
     }
 
     public void checkRooms(){
@@ -82,6 +82,7 @@ public class DungeonWindow extends Scene {
           //  myHero.addVisionPotion();
            // currentRoom.setVisionPotion(false);
         }
+
     }
 
 

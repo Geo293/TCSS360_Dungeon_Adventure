@@ -8,7 +8,9 @@ package model;
  * @version O11/8/25
  */
 public class Ogre extends Monster {
-    public Ogre(String name) {
-        super(name, 200, 30, 60, 2, 0.6, 0.1, 30, 60);
+    public Ogre(String theName, int theHitPoints, int theMinDamage, int theMaxDamage,
+                int theAttackSpeed, double theChanceToHit, double theChanceToHeal, int theMinHeal, int theMaxHeal ) {
+        super( theName, theHitPoints, theMinDamage, theMaxDamage,theAttackSpeed, theChanceToHit,
+        theChanceToHeal, theMinHeal, theMaxHeal);
     }
 }

@@ -19,16 +19,16 @@ public class Dungeon {
     private static final String[] PILLAR_TYPES = {"A", "E", "I", "P"}; // Abstraction, Encapsulation, Inheritance, Polymorphism
 
     // Instance variables
-    private Room[][] maze;
-    private int width;
-    private int height;
-    private int entranceX;
-    private int entranceY;
-    private int exitX;
-    private int exitY;
-    private int heroX;
-    private int heroY;
-    private Random random;
+    private Room[][] myMaze;
+    private int myWidth;
+    private int myHeight;
+    private int myEntranceX;
+    private int myEntranceY;
+    private int myExitX;
+    private int myExitY;
+    private int myHeroX;
+    private int myHeroY;
+    private Random myRandom;
 
     /**
      * default constructor for the Dungeon.
@@ -40,18 +40,18 @@ public class Dungeon {
     /**
      * Constructor for dungeon of custom dimensions.
      *
-     * @param width  the width of the dungeon
-     * @param height the height of the dungeon
+     * @param theWidth  the width of the dungeon
+     * @param theHeight the height of the dungeon
      */
-    public Dungeon(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.maze = new Room[width][height];
-        this.random = new Random();
+    public Dungeon(int theWidth, int theHeight) {
+        myWidth = theWidth;
+        myHeight = theHeight;
+        myMaze = new Room[theWidth][theHeight];
+        myRandom = new Random();
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                maze[i][j] = new Room();
+        for (int i = 0; i < theWidth; i++) {
+            for (int j = 0; j < theHeight; j++) {
+                myMaze[i][j] = new Room();
             }
         }
 
@@ -67,7 +67,7 @@ public class Dungeon {
      * Places entrance, exit, and pillars down as well.
      */
     private void generateMaze() {
-        boolean[][] visited = new boolean[width][height];
+        boolean[][] visited = new boolean[myWidth][myHeight];
         Stack<int[]> stack = new Stack<>();
 
         // Start DFS from top left cell
@@ -85,23 +85,23 @@ public class Dungeon {
 
             if (neighbors.length > 0) {
                 // Choose a random neighbor
-                int[] neighbor = neighbors[random.nextInt(neighbors.length)];
+                int[] neighbor = neighbors[myRandom.nextInt(neighbors.length)];
                 int nx = neighbor[0];
                 int ny = neighbor[1];
 
                 // Remove wall between current and neighbor
                 if (nx == x + 1) { // East
-                    maze[x][y].setEastDoor(true);
-                    maze[nx][ny].setWestDoor(true);
+                    myMaze[x][y].setEastDoor(true);
+                    myMaze[nx][ny].setWestDoor(true);
                 } else if (nx == x - 1) { // West
-                    maze[x][y].setWestDoor(true);
-                    maze[nx][ny].setEastDoor(true);
+                    myMaze[x][y].setWestDoor(true);
+                    myMaze[nx][ny].setEastDoor(true);
                 } else if (ny == y + 1) { // South
-                    maze[x][y].setSouthDoor(true);
-                    maze[nx][ny].setNorthDoor(true);
+                    myMaze[x][y].setSouthDoor(true);
+                    myMaze[nx][ny].setNorthDoor(true);
                 } else if (ny == y - 1) { // North
-                    maze[x][y].setNorthDoor(true);
-                    maze[nx][ny].setSouthDoor(true);
+                    myMaze[x][y].setNorthDoor(true);
+                    myMaze[nx][ny].setSouthDoor(true);
                 }
 
                 visited[nx][ny] = true;
@@ -113,15 +113,15 @@ public class Dungeon {
         }
     }
 
-    private int[][] getUnvisitedNeighbors(int x, int y, boolean[][] visited) {
+    private int[][] getUnvisitedNeighbors(int theX, int theY, boolean[][] theVisited) {
         int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // E, W, S, N
         int count = 0;
 
         // Count all valid neighbors
         for (int[] dir : directions) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nx][ny]) {
+            int nx = theX + dir[0];
+            int ny = theY + dir[1];
+            if (nx >= 0 && nx < myWidth && ny >= 0 && ny < myHeight && !theVisited[nx][ny]) {
                 count++;
             }
         }
@@ -130,9 +130,9 @@ public class Dungeon {
         int index = 0;
 
         for (int[] dir : directions) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nx][ny]) {
+            int nx = theX + dir[0];
+            int ny = theY + dir[1];
+            if (nx >= 0 && nx < myWidth && ny >= 0 && ny < myHeight && !theVisited[nx][ny]) {
                 neighbors[index][0] = nx;
                 neighbors[index][1] = ny;
                 index++;
@@ -146,20 +146,20 @@ public class Dungeon {
      * Places the entrance at 0,0 and sets the hero x,y to 0,0 as well.
      */
     private void placeEntrance() {
-        entranceX = 0;
-        entranceY = 0;
-        maze[entranceX][entranceY].setEntrance(true);
-        heroX = entranceX;
-        heroY = entranceY;
+        myEntranceX = 0;
+        myEntranceY = 0;
+        myMaze[myEntranceX][myEntranceY].setEntrance(true);
+        myHeroX = myEntranceX;
+        myHeroY = myEntranceY;
     }
 
     /**
      * Places the exit in the bottom left corner of the dungeon.
      */
     private void placeExit() {
-        exitX = width - 1;
-        exitY = height - 1;
-        maze[exitX][exitY].setExit(true);
+        myExitX = myWidth - 1;
+        myExitY = myHeight - 1;
+        myMaze[myExitX][myExitY].setExit(true);
     }
 
     /**
@@ -169,13 +169,13 @@ public class Dungeon {
         for (String pillar : PILLAR_TYPES) {
             int pillarX, pillarY;
             do {
-                pillarX = random.nextInt(width);
-                pillarY = random.nextInt(height);
-            } while ((pillarX == entranceX && pillarY == entranceY) ||
-                    (pillarX == exitX && pillarY == exitY) ||
-                    maze[pillarX][pillarY].getPillar() != null);
+                pillarX = myRandom.nextInt(myWidth);
+                pillarY = myRandom.nextInt(myHeight);
+            } while ((pillarX == myEntranceX && pillarY == myEntranceY) ||
+                    (pillarX == myExitX && pillarY == myExitY) ||
+                    myMaze[pillarX][pillarY].getPillar() != null);
 
-            maze[pillarX][pillarY].setPillar(pillar);
+            myMaze[pillarX][pillarY].setPillar(pillar);
         }
     }
 
@@ -183,10 +183,10 @@ public class Dungeon {
      * Generates all the contents in the Rooms of the Dungeon.
      */
     private void generateRoomContents() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (!maze[x][y].isEntrance() && !maze[x][y].isExit()) {
-                    maze[x][y].generateContents();
+        for (int x = 0; x < myWidth; x++) {
+            for (int y = 0; y < myHeight; y++) {
+                if (!myMaze[x][y].isEntrance() && !myMaze[x][y].isExit()) {
+                    myMaze[x][y].generateContents();
                 }
             }
         }
@@ -195,32 +195,32 @@ public class Dungeon {
     /**
      * Moves the hero in the specified direction
      */
-    public boolean moveHero(String direction) {
-        int newX = heroX;
-        int newY = heroY;
+    public boolean moveHero(String theDirection) {
+        int newX = myHeroX;
+        int newY = myHeroY;
 
-        switch (direction.toUpperCase()) {
+        switch (theDirection.toUpperCase()) {
             case "N":
-                if (maze[heroX][heroY].hasNorthDoor()) newY--;
+                if (myMaze[myHeroX][myHeroY].hasNorthDoor()) newY--;
                 break;
             case "S":
-                if (maze[heroX][heroY].hasSouthDoor()) newY++;
+                if (myMaze[myHeroX][myHeroY].hasSouthDoor()) newY++;
                 break;
             case "E":
-                if (maze[heroX][heroY].hasEastDoor()) newX++;
+                if (myMaze[myHeroX][myHeroY].hasEastDoor()) newX++;
                 break;
             case "W":
-                if (maze[heroX][heroY].hasWestDoor()) newX--;
+                if (myMaze[myHeroX][myHeroY].hasWestDoor()) newX--;
                 break;
             default:
                 return false;
         }
 
         // Check if move is valid
-        if (newX >= 0 && newX < width && newY >= 0 && newY < height &&
-                !(newX == heroX && newY == heroY)) {
-            heroX = newX;
-            heroY = newY;
+        if (newX >= 0 && newX < myWidth && newY >= 0 && newY < myHeight &&
+                !(newX == myHeroX && newY == myHeroY)) {
+            myHeroX = newX;
+            myHeroY = newY;
             return true;
         }
         return false;
@@ -230,48 +230,48 @@ public class Dungeon {
      * Gets the current room where the hero is located
      */
     public Room getCurrentRoom() {
-        return maze[heroX][heroY];
+        return myMaze[myHeroX][myHeroY];
     }
 
     //Other getters
-    public int getWidth() {
-        return width;
+    public int getMyWidth() {
+        return myWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getMyHeight() {
+        return myHeight;
     }
 
-    public int getHeroX() {
-        return heroX;
+    public int getMyHeroX() {
+        return myHeroX;
     }
 
-    public int getHeroY() {
-        return heroY;
+    public int getMyHeroY() {
+        return myHeroY;
     }
 
-    public int getEntranceX() {
-        return entranceX;
+    public int getMyEntranceX() {
+        return myEntranceX;
     }
 
-    public int getEntranceY() {
-        return entranceY;
+    public int getMyEntranceY() {
+        return myEntranceY;
     }
 
-    public int getExitX() {
-        return exitX;
+    public int getMyExitX() {
+        return myExitX;
     }
 
-    public int getExitY() {
-        return exitY;
+    public int getMyExitY() {
+        return myExitY;
     }
 
     public String getVisableArea(int theCenterX, int theCenterY, int theRadius){
         StringBuilder sb = new StringBuilder();
         int minX = Math.max(0, theCenterX - theRadius);
-        int maxX = Math.min(width - 1, theCenterX + theRadius);
+        int maxX = Math.min(myWidth - 1, theCenterX + theRadius);
         int minY = Math.max(0, theCenterY - theRadius);
-        int maxY = Math.min(height - 1, theCenterY + theRadius);
+        int maxY = Math.min(myHeight - 1, theCenterY + theRadius);
 
         for (int y = minY; y <= maxY; y++) {
             StringBuilder line1 = new StringBuilder();
@@ -279,7 +279,7 @@ public class Dungeon {
             StringBuilder line3 = new StringBuilder();
 
             for (int x = minX; x <= maxX; x++) {
-                String roomStr = maze[x][y].toString();
+                String roomStr = myMaze[x][y].toString();
                 String[] lines = roomStr.split("\n");
 
                 if (x < maxX) {
@@ -316,20 +316,20 @@ public class Dungeon {
         StringBuilder sb = new StringBuilder();
 
         // go through each row of rooms (y-axis)
-        for (int y = 0; y < height; y++) {
+        for (int y = 0; y < myHeight; y++) {
             // three lines for each row of rooms
             StringBuilder line1 = new StringBuilder();
             StringBuilder line2 = new StringBuilder();
             StringBuilder line3 = new StringBuilder();
 
             // go through each column in this row (x-axis)
-            for (int x = 0; x < width; x++) {
+            for (int x = 0; x < myWidth; x++) {
                 // Get the room's string representation and split into lines
-                String roomStr = maze[x][y].toString();
+                String roomStr = myMaze[x][y].toString();
                 String[] lines = roomStr.split("\n");
 
                 // Append each line (removing the last character if not the last room)
-                if (x < width - 1) {
+                if (x < myWidth - 1) {
                     // Remove the rightmost character to merge with next room
                     line1.append(lines[0].substring(0, lines[0].length() - 1));
                     line2.append(lines[1].substring(0, lines[1].length() - 1));

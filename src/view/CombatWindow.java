@@ -8,10 +8,6 @@ import javafx.scene.layout.*;
 import model.Hero;
 import model.Monster;
 
-import java.awt.*;
-
-import static javax.swing.SwingUtilities.getRoot;
-
 /**
  * JavaFX scene for handling turn-based combat between a Hero and a Monster.
  * Displays stats, logs actions, and provides buttons for attack and special skill.
@@ -65,7 +61,7 @@ public class CombatWindow extends Scene {
      * Handles a regular attack turn.
      */
     private void handleAttack() {
-        combatLog.appendText(hero.getName() + " attacks.\n");
+        combatLog.appendText(hero.getMyName() + " attacks.\n");
         CombatSystem.battleRound(hero, monster, combatLog);
         updateStats();
         checkCombatEnd();
@@ -75,8 +71,8 @@ public class CombatWindow extends Scene {
      * Handles the hero's special skill usage.
      */
     private void handleSpecial() {
-        combatLog.appendText(hero.getName() + " uses special skill.\n");
-        hero.useSpecialSkill(monster);
+        combatLog.appendText(hero.getMyName() + " uses special skill.\n");
+       // hero.useSpecialSkill(monster);
         updateStats();
         checkCombatEnd();
     }
@@ -85,8 +81,8 @@ public class CombatWindow extends Scene {
      * Updates the displayed stats for both hero and monster.
      */
     private void updateStats() {
-        heroStats.setText("Hero: " + hero.getName() + " | HP: " + hero.getHitPoints());
-        monsterStats.setText("Monster: " + monster.getName() + " | HP: " + monster.getHitPoints());
+        heroStats.setText("Hero: " + hero.getMyName() + " | HP: " + hero.getMyHitPoints());
+        monsterStats.setText("Monster: " + monster.getMyName() + " | HP: " + monster.getMyHitPoints());
     }
 
     /**
@@ -94,11 +90,11 @@ public class CombatWindow extends Scene {
      */
     private void checkCombatEnd() {
         if (!monster.isAlive()) {
-            combatLog.appendText(monster.getName() + " has been defeated.\n");
+            combatLog.appendText(monster.getMyName() + " has been defeated.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
         } else if (!hero.isAlive()) {
-            combatLog.appendText(hero.getName() + " has fallen.\n");
+            combatLog.appendText(hero.getMyName() + " has fallen.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
         }
