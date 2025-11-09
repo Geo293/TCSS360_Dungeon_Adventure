@@ -266,6 +266,45 @@ public class Dungeon {
         return exitY;
     }
 
+    public String getVisableArea(int theCenterX, int theCenterY, int theRadius){
+        StringBuilder sb = new StringBuilder();
+        int minX = Math.max(0, theCenterX - theRadius);
+        int maxX = Math.min(width - 1, theCenterX + theRadius);
+        int minY = Math.max(0, theCenterY - theRadius);
+        int maxY = Math.min(height - 1, theCenterY + theRadius);
+
+        for (int y = minY; y <= maxY; y++) {
+            StringBuilder line1 = new StringBuilder();
+            StringBuilder line2 = new StringBuilder();
+            StringBuilder line3 = new StringBuilder();
+
+            for (int x = minX; x <= maxX; x++) {
+                String roomStr = maze[x][y].toString();
+                String[] lines = roomStr.split("\n");
+
+                if (x < maxX) {
+
+                    line1.append(lines[0].substring(0, lines[0].length() - 1));
+                    line2.append(lines[1].substring(0, lines[1].length() - 1));
+                    line3.append(lines[2].substring(0, lines[2].length() - 1));
+                } else {
+
+                    line1.append(lines[0]);
+                    line2.append(lines[1]);
+                    line3.append(lines[2]);
+                }
+            }
+
+            if (y == minY) {
+                sb.append(line1).append("\n");
+            }
+
+            sb.append(line2).append("\n");
+            sb.append(line3).append("\n");
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Returns a string representation of the entire dungeon.

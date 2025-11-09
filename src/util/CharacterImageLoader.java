@@ -1,4 +1,6 @@
 package util;
+import util.CharacterImageLoader;
+import java.awt.*;
 
 public class CharacterImageLoader {
     public static String getImage(String theImageName) {
@@ -9,4 +11,5 @@ public class CharacterImageLoader {
             default -> null;
         };
     }
+
 }
