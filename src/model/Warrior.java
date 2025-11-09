@@ -11,4 +11,14 @@ public class Warrior extends  Hero{
     protected Warrior(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance) {
         super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
     }
+
+    /**
+     * Abstract method for special skill - implemented by subclasses
+     *
+     * @param opponent the opponent to use skill on
+     */
+    @Override
+    public void specialSkill(DungeonCharacter opponent) {
+
+    }
 }
