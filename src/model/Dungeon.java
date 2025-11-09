@@ -210,31 +210,31 @@ public class Dungeon {
                 }
 
                 // try to add extra doors in random directions
-                int direction = random.nextInt(4); // 0: North, 1: South, 2: East, 3: West
+                int direction = myRandom.nextInt(4); // 0: North, 1: South, 2: East, 3: West
 
                 switch (direction) {
                     case 0: // north
-                        if (y > 0 && !maze[x][y].hasNorthDoor()) { // not on top border and no door exists
-                            maze[x][y].setNorthDoor(true);
-                            maze[x][y-1].setSouthDoor(true);
+                        if (y > 0 && !myMaze[x][y].hasNorthDoor()) { // not on top border and no door exists
+                            myMaze[x][y].setNorthDoor(true);
+                            myMaze[x][y-1].setSouthDoor(true);
                         }
                         break;
                     case 1: // south
-                        if (y < height - 1 && !maze[x][y].hasSouthDoor()) { // not on bottom border and no door exists
-                            maze[x][y].setSouthDoor(true);
-                            maze[x][y+1].setNorthDoor(true);
+                        if (y < myHeight - 1 && !myMaze[x][y].hasSouthDoor()) { // not on bottom border and no door exists
+                            myMaze[x][y].setSouthDoor(true);
+                            myMaze[x][y+1].setNorthDoor(true);
                         }
                         break;
                     case 2: // east
-                        if (x < width - 1 && !maze[x][y].hasEastDoor()) { // not on right border and no door exists
-                            maze[x][y].setEastDoor(true);
-                            maze[x+1][y].setWestDoor(true);
+                        if (x < myWidth - 1 && !myMaze[x][y].hasEastDoor()) { // not on right border and no door exists
+                            myMaze[x][y].setEastDoor(true);
+                            myMaze[x+1][y].setWestDoor(true);
                         }
                         break;
                     case 3: // west
-                        if (x > 0 && !maze[x][y].hasWestDoor()) { // not on left border and no door exists
-                            maze[x][y].setWestDoor(true);
-                            maze[x-1][y].setEastDoor(true);
+                        if (x > 0 && !myMaze[x][y].hasWestDoor()) { // not on left border and no door exists
+                            myMaze[x][y].setWestDoor(true);
+                            myMaze[x-1][y].setEastDoor(true);
                         }
                         break;
                 }
