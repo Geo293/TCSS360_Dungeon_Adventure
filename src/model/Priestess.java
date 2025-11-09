@@ -10,4 +10,14 @@ public class Priestess extends Hero {
     protected Priestess(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance) {
         super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
     }
+
+    /**
+     * Abstract method for special skill - implemented by subclasses
+     *
+     * @param opponent the opponent to use skill on
+     */
+    @Override
+    public void specialSkill(DungeonCharacter opponent) {
+
+    }
 }
