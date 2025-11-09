@@ -1,35 +1,57 @@
 package controller;
 
-import model.DungeonCharacter;
+import javafx.scene.control.TextArea;
+import model.Hero;
+import model.Monster;
 
+/**
+ * Controller class for managing combat logic between Hero and Monster.
+ * Supports multi-attack rounds, blocking, healing, and logging.
+ * @author Carson Poirier
+ * @version 11/8/25
+ */
 public class CombatSystem {
 
     /**
-     * Executes a full round of combat between two dungeon characters.
-     * For now, uses basic attack method from DungeonCharacter.
+     * Executes a single round of combat: hero attacks, then monster retaliates.
+     *
+     * @param hero       The hero character.
+     * @param monster    The monster character.
+     * @param combatLog  TextArea to append combat messages.
      */
-    public static void battle(DungeonCharacter char1, DungeonCharacter char2) {
-        System.out.println("\nCombat Begins: " + char1.getName() + " vs " + char2.getName());
+    public static void battleRound(Hero hero, Monster monster, TextArea combatLog) {
+        hero.attack(monster);
+        if (monster.isAlive()) {
+            combatLog.appendText(monster.getName() + " attacks.\n");
+            monsterAttack(monster, hero, combatLog);
+        }
+    }
 
-        while (char1.isAlive() && char2.isAlive()) {
-            System.out.println("\n" + char1.getName() + "'s Turn:");
-            char1.attack(char2);
+    /**
+     * Handles monster attacking hero, including block chance and healing.
+     *
+     * @param monster    The attacking monster.
+     * @param hero       The defending hero.
+     * @param combatLog  TextArea to append combat messages.
+     */
+    private static void monsterAttack(Monster monster, Hero hero, TextArea combatLog) {
+        int numAttacks = Math.max(1, monster.getAttackSpeed() / hero.getAttackSpeed());
 
-            if (char2.isAlive()) {
-                System.out.println("\n" + char2.getName() + "'s Turn:");
-                char2.attack(char1);
+        for (int i = 0; i < numAttacks; i++) {
+            if (hero.blockAttack()) {
+                combatLog.appendText(hero.getName() + " blocked the attack.\n");
+                continue;
             }
 
-            System.out.println("\nStatus:");
-            System.out.println(char1);
-            System.out.println(char2);
-        }
+            if (monster.canHit()) {
+                int damage = monster.calculateDamage();
+                hero.subtractHitPoints(damage);
+                combatLog.appendText(monster.getName() + " hits for " + damage + " damage.\n");
+            } else {
+                combatLog.appendText(monster.getName() + " missed.\n");
+            }
 
-        System.out.println("\nCombat Over!");
-        if (char1.isAlive()) {
-            System.out.println(char1.getName() + " is victorious!");
-        } else {
-            System.out.println(char2.getName() + " has defeated " + char1.getName() + "!");
+            monster.tryHeal();
         }
     }
 }
