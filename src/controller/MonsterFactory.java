@@ -18,7 +18,16 @@ import java.util.Random;
  * @version 11/8/25
  */
 public class MonsterFactory {
-    private static final String DB_URL = "jdbc:sqlite:resources/monsters.db";
+    private static final String DB_URL = "jdbc:sqlite:monsters.db";
+    static {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println("SQLite JDBC driver not found!");
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Loads all monsters from the database and returns them as a list of Monster objects.
@@ -78,7 +87,7 @@ public class MonsterFactory {
 
 
         return switch (nameLower) {
-            case "orge" -> new Ogre(name, hitPoints, minDamage, maxDamage,
+            case "ogre" -> new Ogre(name, hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit,
                     chanceToHeal, minHeal, maxHeal);
             case "skeleton" -> new Skeleton(name, hitPoints, minDamage, maxDamage,
