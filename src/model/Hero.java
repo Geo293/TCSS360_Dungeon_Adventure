@@ -1,9 +1,7 @@
 package model;
 
-import java.util.Random;
-
 /**
- * This class will has all the basic logic that every playable character
+ * This class will have all the basic logic that every playable character
  * will have including how many attacks they get, whether they block
  * an attack.
  *
@@ -44,8 +42,8 @@ public abstract class Hero extends DungeonCharacter {
      */
     @Override
     public void subtractHitPoints(int damage) {
-        if (rand.nextDouble() < chanceToBlock) {
-            System.out.println(name + " blocked the attack!");
+        if (myRand.nextDouble() < chanceToBlock) {
+            System.out.println(myName + " blocked the attack!");
         } else {
             super.subtractHitPoints(damage);
         }
@@ -56,10 +54,10 @@ public abstract class Hero extends DungeonCharacter {
      */
     public void useHealingPotion() {
         if (healingPotions > 0) {
-            int healAmount = rand.nextInt(MAX_HEAL_AMOUNT - MIN_HEAL_AMOUNT + 1) + MIN_HEAL_AMOUNT;
-            setHitPoints(hitPoints + healAmount);
+            int healAmount = myRand.nextInt(MAX_HEAL_AMOUNT - MIN_HEAL_AMOUNT + 1) + MIN_HEAL_AMOUNT;
+            super.setMyHitPoints(myHitPoints + healAmount);
             healingPotions--;
-            System.out.println(getName() + " used a healing potion and restored " + healAmount + " HP!");
+            System.out.println(myName + " used a healing potion and restored " + healAmount + " HP!");
         } else {
             System.out.println("No healing potions available!");
         }
@@ -72,7 +70,7 @@ public abstract class Hero extends DungeonCharacter {
     public void useVisionPotion(Dungeon dungeon) {
         if (visionPotions > 0) {
             visionPotions--;
-            System.out.println(getName() + " used a vision potion!");
+            System.out.println(myName + " used a vision potion!");
             //TODO: How the hell does a vision potion work
         } else {
             System.out.println("No vision potions available!");
@@ -92,7 +90,7 @@ public abstract class Hero extends DungeonCharacter {
         if (room.hasHealingPotion()) {
             healingPotions++;
             room.removeHealingPotion();
-            System.out.println(getName() + " picked up a healing potion!");
+            System.out.println(myName + " picked up a healing potion!");
             pickedUpSomething = true;
         }
 
@@ -100,7 +98,7 @@ public abstract class Hero extends DungeonCharacter {
         if (room.hasVisionPotion()) {
             visionPotions++;
             room.removeVisionPotion();
-            System.out.println(getName() + " picked up a vision potion!");
+            System.out.println(myName + " picked up a vision potion!");
             pickedUpSomething = true;
         }
 
@@ -110,7 +108,7 @@ public abstract class Hero extends DungeonCharacter {
             int index = getPillarIndex(pillar);
             if (index != -1 && !pillarsFound[index]) {
                 pillarsFound[index] = true;
-                System.out.println(getName() + " collected the Pillar of " + getPillarName(pillar) + "!");
+                System.out.println(myName + " collected the Pillar of " + getPillarName(pillar) + "!");
                 pickedUpSomething = true;
             }
         }

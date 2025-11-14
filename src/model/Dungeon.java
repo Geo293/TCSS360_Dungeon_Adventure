@@ -1,5 +1,6 @@
 package model;
 
+import controller.MonsterFactory;
 import java.util.Random;
 import java.util.Stack;
 
@@ -18,6 +19,9 @@ public class Dungeon {
     private static final int DEFAULT_HEIGHT = 10;
     private static final String[] PILLAR_TYPES = {"A", "E", "I", "P"}; // Abstraction, Encapsulation, Inheritance, Polymorphism
     private static final double EXTRA_DOOR_CHANCE = 0.25; // 25% chance to add extra doors
+    private static final double BASE_MONSTER_SPAWN_CHANCE = 0.25; // 25% base chance for monster
+    private static final double PILLAR_MONSTER_SPAWN_CHANCE = 0.8; // 80% chance near pillars
+    private static final double EXIT_MONSTER_SPAWN_CHANCE = 0.6; // 60% chance near exit
 
     // Instance variables
 
@@ -65,6 +69,7 @@ public class Dungeon {
         placeExit();
         placeEntrance();
         placePillars();
+        placeMonsters();
     }
 
     /**
@@ -353,6 +358,74 @@ public class Dungeon {
             sb.append(line3).append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Places monsters throughout the dungeon with higher probability near pillars and exit.
+     */
+    private void placeMonsters() {
+        // Pre-load all monsters once at the start
+        MonsterFactory.loadMonsters();
+
+        for (int x = 0; x < myWidth; x++) {
+            for (int y = 0; y < myHeight; y++) {
+                // Skip entrance room
+                if (x == myEntranceX && y == myEntranceY) {
+                    continue;
+                }
+
+                // Skip exit room (though you might want monsters near exit)
+                if (x == myExitX && y == myExitY) {
+                    continue;
+                }
+
+                double spawnChance = calculateMonsterSpawnChance(x, y);
+
+                if (myRandom.nextDouble() < spawnChance) {
+                    // Now getRandomMonster() uses the pre-loaded list
+                    Monster monster = MonsterFactory.getRandomMonster();
+                    if (monster != null) {
+                        myMaze[x][y].setMonster(monster);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculates the probability of spawning a monster in a given room.
+     * Higher chances near pillars and exit.
+     *
+     * @param theX x-coordinate of the room
+     * @param theY y-coordinate of the room
+     * @return probability between 0 and 1
+     */
+    private double calculateMonsterSpawnChance(int theX, int theY) {
+        double chance = BASE_MONSTER_SPAWN_CHANCE;
+
+        // Check if this room has a pillar
+        if (myMaze[theX][theY].getPillar() != null) {
+            chance = PILLAR_MONSTER_SPAWN_CHANCE;
+        } else {
+            // Increase chance based on proximity to pillars and exit
+            for (int x = 0; x < myWidth; x++) {
+                for (int y = 0; y < myHeight; y++) {
+                    if (myMaze[x][y].getPillar() != null) {
+                        double distance = Math.sqrt(Math.pow(x - theX, 2) + Math.pow(y - theY, 2));
+                        double pillarBonus = 0.3 / (distance + 1); // Bonus decreases with distance
+                        chance += pillarBonus;
+                    }
+                }
+            }
+
+            // Increase chance near exit
+            double exitDistance = Math.sqrt(Math.pow(theX - myExitX, 2) + Math.pow(theY - myExitY, 2));
+            double exitBonus = 0.2 / (exitDistance + 1);
+            chance += exitBonus;
+        }
+
+        // Cap the probability at 90%
+        return Math.min(chance, 0.9);
     }
 
 
