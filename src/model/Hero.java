@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 /**
  * This class will has all the basic logic that every playable character
  * will have including how many attacks they get, whether they block
