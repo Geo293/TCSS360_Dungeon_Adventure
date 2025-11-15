@@ -19,7 +19,7 @@ public class Dungeon {
     private static final int DEFAULT_HEIGHT = 10;
     private static final String[] PILLAR_TYPES = {"A", "E", "I", "P"}; // Abstraction, Encapsulation, Inheritance, Polymorphism
     private static final double EXTRA_DOOR_CHANCE = 0.25; // 25% chance to add extra doors
-    private static final double MONSTER_SPAWN_CHANCE = 0.3; // 30% base chance for monster
+    private static final double MONSTER_SPAWN_CHANCE = 0.2; // 20% base chance for monster
 
     // Instance variables
 
