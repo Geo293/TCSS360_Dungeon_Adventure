@@ -15,6 +15,9 @@ import model.Room;
 
 
 public class DungeonWindow extends Scene {
+    private static final Image DOOR = new Image("/images/Area/Door.png");
+    private static final Image WALLW = new Image("/images/Area/WestW.png");
+    private static final Image WALLN = new Image("/images/Area/NorthW.png");
     private Label myGameAction = new Label( "    W/↑ North\n" +
             "A/← West  East →/D\n" +
             "    S/↓ South");
@@ -28,30 +31,37 @@ public class DungeonWindow extends Scene {
     private ImageView myPillarP;
     private ImageView myWestW;
     private ImageView myEastW;
-    //private ImageView mySouthW;
-    //private ImageView myNorthW;
+    private ImageView mySouthW;
+    private ImageView myNorthW;
     private ImageView myDoorW;
     private ImageView myDoorE;
+    private ImageView myDoorN;
+    private ImageView myDoorS;
     private ImageView myFloor;
+    private Room myCurrentRoom;
 
 
     public DungeonWindow(GameController theController, Dungeon theDungeon, Hero theHero) {
         super(new BorderPane());
         myDungeon = theDungeon;
+        myGameController = theController;
+        myCurrentRoom = myDungeon.getCurrentRoom();
         myHero = theHero;
+        myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),0));
         myPillarA = new ImageView();
         myPillarE = new ImageView();
         myPillarI = new ImageView();
         myPillarP = new ImageView();
-        myWestW = new ImageView(new Image("/images/Area/WestW.png"));
-        myEastW = new ImageView(new Image("/images/Area/WestW.png"));
-        myDoorW = new ImageView(new Image("/images/Area/Door.png"));
-        myDoorE = new ImageView(new Image("/images/Area/Door.png"));
+        myWestW = new ImageView(WALLW);
+        myEastW = new ImageView(WALLW);
+        mySouthW = new ImageView(WALLN);
+        myNorthW = new ImageView(WALLN);
+        myDoorW = new ImageView(DOOR);
+        myDoorE = new ImageView(DOOR);
+        myDoorN = new ImageView(DOOR);
+        myDoorS = new ImageView(DOOR);
         myFloor = new ImageView(new Image("/images/Area/Floor.png"));
-        hide();
 
-        myGameController = theController;
-        myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),0));
         HBox bottomBox = bottomPlane();
         HBox topBox = topPlane();
         BorderPane center = centerWindow();
@@ -61,6 +71,8 @@ public class DungeonWindow extends Scene {
         root.setBottom(bottomBox);
         root.setTop(topBox);
         root.setCenter(center);
+        displayDoor();
+        hide();
     }
     public HBox bottomPlane(){
         HBox bottomPlane = new HBox();
@@ -82,12 +94,15 @@ public class DungeonWindow extends Scene {
     public BorderPane centerWindow(){
         StackPane westStack = west();
         StackPane eastStack = east();
+        StackPane northStack = north();
+        StackPane southStack = south();
         BorderPane centerWindow = new BorderPane();
         centerWindow.setLeft(westStack);
         centerWindow.setRight(eastStack);
-        myFloor.setFitWidth(1760);
-        myFloor.setFitHeight(880);
-
+        centerWindow.setTop(northStack);
+        centerWindow.setBottom(southStack);
+        myFloor.setFitWidth(1000);
+        myFloor.setFitHeight(500);
         centerWindow.setCenter(myFloor);
 
         return centerWindow;
@@ -112,6 +127,26 @@ public class DungeonWindow extends Scene {
         myDoorE.setFitHeight(120);
         eastStack.getChildren().addAll(myEastW, myDoorE);
         return eastStack;
+    }
+   public StackPane north(){
+        StackPane northStack = new StackPane();
+        myNorthW.setPreserveRatio(false);
+        myNorthW.fitWidthProperty().bind(northStack.widthProperty());
+        myNorthW.fitHeightProperty().bind(northStack.heightProperty());
+        myDoorN.setFitWidth(80);
+        myDoorN.setFitHeight(120);
+        northStack.getChildren().addAll(myNorthW, myDoorN);
+        return northStack;
+    }
+    public StackPane south(){
+        StackPane southStack = new StackPane();
+        mySouthW.setPreserveRatio(false);
+        mySouthW.fitWidthProperty().bind(southStack.widthProperty());
+        mySouthW.fitHeightProperty().bind(southStack.heightProperty());
+        myDoorS.setFitWidth(80);
+        myDoorS.setFitHeight(120);
+        southStack.getChildren().addAll(mySouthW, myDoorS);
+        return southStack;
     }
 
     public void setUpKeyListeners(){
@@ -139,26 +174,19 @@ public class DungeonWindow extends Scene {
 
     public void handleMove(String theMove){
         if(myDungeon.moveHero(theMove)){
+            myCurrentRoom = myDungeon.getCurrentRoom();
             updateDisplay();
-            checkRooms();
+            myGameController.processRoomEvents();
+            displayDoor();
+            checkForPillars();
         }
     }
     public void updateDisplay(){
         myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(), myDungeon.getMyHeroY(), 0));
     }
 
-    public void checkRooms() {
-        Room currentRoom = myDungeon.getCurrentRoom();
-        myHero.pickUpItem(currentRoom);
-        if (currentRoom.hasPit()) {
-            int damage = (int) (Math.random() * 20) + 1;
-            myHero.subtractHitPoints(damage);
-        }
-        if (currentRoom.getMonster() != null) {
-            myGameController.startFight(myHero, currentRoom.getMonster());
-            currentRoom.removeMonster();
-        }
-        String pillar = currentRoom.getPillar();
+    public void checkForPillars() {
+        String pillar = myCurrentRoom.getPillar();
         if (pillar != null) {
 
             switch (pillar.toUpperCase()) {
@@ -179,20 +207,14 @@ public class DungeonWindow extends Scene {
                     myPillarP.setVisible(true);
                     break;
             }
-            if(currentRoom.hasWestDoor()) {
-                myDoorW.setVisible(true);
-            }
-            if(currentRoom.hasEastDoor()) {
-                myDoorE.setVisible(true);
-            }
 
         }
     }
 
     public void hide(){
         myPillarA.setVisible(false);
-        myPillarP.setFitWidth(60);
-        myPillarP.setFitHeight(60);
+        myPillarA.setFitWidth(60);
+        myPillarA.setFitHeight(60);
         myPillarE.setVisible(false);
         myPillarE.setFitWidth(60);
         myPillarE.setFitHeight(60);
@@ -202,10 +224,30 @@ public class DungeonWindow extends Scene {
         myPillarP.setVisible(false);
         myPillarP.setFitWidth(60);
         myPillarP.setFitHeight(60);
-        myDoorW.setVisible(false);
-        myDoorE.setVisible(false);
     }
 
+    public void displayDoor(){
+        if(myCurrentRoom.hasWestDoor()){
+            myDoorW.setVisible(true);
+        } else{
+            myDoorW.setVisible(false);
+        }
+        if(myCurrentRoom.hasEastDoor()){
+            myDoorE.setVisible(true);
+        } else {
+            myDoorE.setVisible(false);
+        }
+        if(myCurrentRoom.hasNorthDoor()){
+            myDoorN.setVisible(true);
+        } else {
+            myDoorN.setVisible(false);
+        }
+        if(myCurrentRoom.hasSouthDoor()){
+            myDoorS.setVisible(true);
+        } else {
+            myDoorS.setVisible(false);
+        }
+    }
 
 
 
