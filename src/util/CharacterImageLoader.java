@@ -1,9 +1,7 @@
 package util;
-import util.CharacterImageLoader;
-import java.awt.*;
 
 public class CharacterImageLoader {
-    public static String getImage(String theImageName) {
+    public static String getImageChar(String theImageName) {
         return switch (theImageName) {
             case "Warrior" -> "/images/characters/Warrior.png";
             case "Priestess" -> "/images/characters/Priestess.png";

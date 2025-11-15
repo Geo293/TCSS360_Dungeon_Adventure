@@ -203,7 +203,7 @@ public class CharacterSelected extends Scene {
      */
     public void showStringStats(String theName) {
         String stats = "";
-        String imagePerson = CharacterImageLoader.getImage(theName);
+        String imagePerson = CharacterImageLoader.getImageChar(theName);
         if(imagePerson != null){
             Image image = new Image(getClass().getResourceAsStream(imagePerson));
             myCharacterImage.setImage(image);

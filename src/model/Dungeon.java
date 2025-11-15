@@ -364,7 +364,7 @@ public class Dungeon {
      * Places monsters throughout the dungeon with higher probability near pillars and exit.
      */
     private void placeMonsters() {
-        // Pre-load all monsters once at the start
+        //Pre-load all monsters once at the start
         MonsterFactory.loadMonsters();
 
         for (int x = 0; x < myWidth; x++) {
