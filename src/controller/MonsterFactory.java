@@ -1,9 +1,6 @@
 package controller;
 
-import model.Gremlin;
-import model.Monster;
-import model.Ogre;
-import model.Skeleton;
+import model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -96,6 +93,11 @@ public class MonsterFactory {
             case "gremlin" -> new Gremlin(name, hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit,
                     chanceToHeal, minHeal, maxHeal);
+            case "super ogre" -> new SuperOgre(name, hitPoints, minDamage, maxDamage,
+                    attackSpeed, chanceToHit,
+                    chanceToHeal, minHeal, maxHeal);
+
+
             default -> throw new IllegalArgumentException("Unknown monster type: " + name);
         };
     }

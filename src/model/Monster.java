@@ -44,4 +44,5 @@ public abstract class Monster extends DungeonCharacter {
             System.out.println(myName + " heals for " + healAmount + " HP.");
         }
     }
+
 }
