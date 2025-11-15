@@ -4,7 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A boss monster that appears in pillar rooms.
+ * A boss monster that appears in pillar rooms/near pillars
  * Stronger than a regular Ogre, with stats defined in the database(TODO).
  * @author Carson Poirier
  * @version 11/15/25
