@@ -23,16 +23,17 @@ public class Dungeon {
 
     // Instance variables
 
-    private Room[][] myMaze;
-    private int myWidth;
-    private int myHeight;
+    private final Room[][] myMaze;
+    private final int myWidth;
+    private final int myHeight;
+    private final Random myRandom;
     private int myEntranceX;
     private int myEntranceY;
     private int myExitX;
     private int myExitY;
     private int myHeroX;
     private int myHeroY;
-    private Random myRandom;
+
 
 
 
