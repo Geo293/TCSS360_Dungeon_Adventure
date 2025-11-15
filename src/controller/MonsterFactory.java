@@ -101,4 +101,6 @@ public class MonsterFactory {
             default -> throw new IllegalArgumentException("Unknown monster type: " + name);
         };
     }
+
+
 }
