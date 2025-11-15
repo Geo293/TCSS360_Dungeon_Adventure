@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<GridPane fx:controller="controller.GameMenuController"
+          xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10">
+    <Label text="Choose an action:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+    <Button text="Move North" onAction="#moveNorth" GridPane.rowIndex="1"/>
+    <Button text="Move South" onAction="#moveSouth" GridPane.rowIndex="2"/>
+    <Button text="Move East" onAction="#moveEast" GridPane.rowIndex="3"/>
+    <Button text="Move West" onAction="#moveWest" GridPane.rowIndex="4"/>
+
+    <Button text="Use Healing Potion" onAction="#useHealingPotion" GridPane.rowIndex="5"/>
+    <Button text="Use Vision Potion" onAction="#useVisionPotion" GridPane.rowIndex="6"/>
+    <Button text="Use Special Skill" onAction="#useSpecialSkill" GridPane.rowIndex="7"/>
+
+    <Button text="View Hero Stats" onAction="#viewStats" GridPane.rowIndex="8"/>
+    <Button text="Reveal Dungeon (Debug)" onAction="#revealDungeon" GridPane.rowIndex="9"/>
+    <Button text="Quit" onAction="#quitGame" GridPane.rowIndex="10"/>
+</GridPane>

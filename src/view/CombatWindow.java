@@ -1,6 +1,7 @@
 package view;
 
 import controller.CombatSystem;
+import controller.GameController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,6 +21,7 @@ public class CombatWindow extends Scene {
     private final Label monsterStats;
     private final Button attackButton;
     private final Button specialButton;
+    private GameController myController;
 
     /**
      * Constructs the CombatWindow scene.
@@ -27,11 +29,11 @@ public class CombatWindow extends Scene {
      * @param hero    The player's hero character.
      * @param monster The monster to battle.
      */
-    public CombatWindow(Hero hero, Monster monster) {
+    public CombatWindow(Hero hero, Monster monster , GameController theController) {
         super(new VBox(), 600, 400);
         this.hero = hero;
         this.monster = monster;
-
+        myController = theController;
         VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(15);
@@ -72,7 +74,7 @@ public class CombatWindow extends Scene {
      */
     private void handleSpecial() {
         combatLog.appendText(hero.getMyName() + " uses special skill.\n");
-       // hero.useSpecialSkill(monster);
+       //hero.useSpecialSkill(monster);
         updateStats();
         checkCombatEnd();
     }
@@ -93,10 +95,12 @@ public class CombatWindow extends Scene {
             combatLog.appendText(monster.getMyName() + " has been defeated.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
+            myController.backToDungeon();
         } else if (!hero.isAlive()) {
             combatLog.appendText(hero.getMyName() + " has fallen.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
+
         }
     }
 }

@@ -4,6 +4,8 @@ import javafx.stage.Stage;
 import model.*;
 import view.CharacterSelected;
 //import view.DungeonWindow;
+import view.CombatWindow;
+import view.DungeonWindow;
 import view.StartScreen;
 
 /**
@@ -22,7 +24,8 @@ public class GameController {
      */
     private CharacterSelected myCharacterSelected;
     private Stage myStage;
-    //private DungeonWindow myGameWindow;
+    private DungeonWindow myGameWindow;
+    private CombatWindow myCombatWindow;
     private Dungeon myDungeon;
     private Hero myHero;
 
@@ -31,12 +34,15 @@ public class GameController {
         myStartScreen = new StartScreen(this);
         myCharacterSelected = new CharacterSelected(this);
 
+
     }
-    public void startApp(){
-     myStage.setScene(myStartScreen);
-     myStage.show();
-   }
-    public void startCharacter(){
+
+    public void startApp() {
+        myStage.setScene(myStartScreen);
+        myStage.show();
+    }
+
+    public void startCharacter() {
         myStage.setScene(myCharacterSelected);
     }
 
@@ -44,21 +50,46 @@ public class GameController {
         myStage.setScene(myStartScreen);
         myStartScreen.show();
     }
-    public void startNewGame(String theCharacterType, String theCharacterName){
+
+    public void startNewGame(String theCharacterType, String theCharacterName) {
         myDungeon = new Dungeon();
-        switch(theCharacterType) {
+        switch (theCharacterType) {
             case "Warrior":
-                //myHero = new Warrior(theCharacterName);
+                myHero = new Warrior(theCharacterName);
                 break;
             case "Priestess":
-                //myHero = new Priestess(theCharacterName);
+                myHero = new Priestess(theCharacterName);
                 break;
             case "Thief":
-                //myHero = new Thief(theCharacterName);
+                myHero = new Thief(theCharacterName);
                 break;
         }
-        //myGameWindow = new DungeonWindow(this, myDungeon,myHero);
-       // myStage.setScene(myGameWindow);
+        myGameWindow = new DungeonWindow(this, myDungeon, myHero);
+        myStage.setScene(myGameWindow);
 
     }
+
+    public void startFight(Hero theHero, Monster theMonster) {
+        myCombatWindow = new CombatWindow(theHero, theMonster, this);
+        myStage.setScene(myCombatWindow);
+    }
+
+    public void backToDungeon() {
+        myStage.setScene(myGameWindow);
+    }
+
+    public void processRoomEvents() {
+            Room myCurrentRoom = myDungeon.getCurrentRoom();
+
+            myHero.pickUpItem(myCurrentRoom);
+            if (myCurrentRoom.hasPit()) {
+                int damage = (int) (Math.random() * 20) + 1;
+                myHero.subtractHitPoints(damage);
+            }
+            if (myCurrentRoom.getMonster() != null) {
+                startFight(myHero, myCurrentRoom.getMonster());
+                myCurrentRoom.removeMonster();
+            }
+        }
 }
+
