@@ -93,7 +93,7 @@ public class MonsterFactory {
             case "gremlin" -> new Gremlin(name, hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit,
                     chanceToHeal, minHeal, maxHeal);
-            case "super ogre" -> new SuperOgre(name, hitPoints, minDamage, maxDamage,
+            case "superogre" -> new SuperOgre(name, hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit,
                     chanceToHeal, minHeal, maxHeal);
 

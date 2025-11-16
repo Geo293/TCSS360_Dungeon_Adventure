@@ -5,9 +5,14 @@ import controller.GameController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import model.Hero;
 import model.Monster;
+import util.CharacterImageLoader;
+
+import javafx.scene.image.ImageView;
 
 /**
  * JavaFX scene for handling turn-based combat between a Hero and a Monster.
@@ -22,6 +27,7 @@ public class CombatWindow extends Scene {
     private final Button attackButton;
     private final Button specialButton;
     private GameController myController;
+    private ImageView myMonsterImage;
 
     /**
      * Constructs the CombatWindow scene.
@@ -52,11 +58,14 @@ public class CombatWindow extends Scene {
 
         attackButton.setOnAction(e -> handleAttack());
         specialButton.setOnAction(e -> handleSpecial());
-
+        String monsterName = monster.getMyName();
+        myMonsterImage = new ImageView(new Image(CharacterImageLoader.getMonster(monsterName)));
+        myMonsterImage.setFitWidth(200);
+        myMonsterImage.setFitHeight(200);
         HBox buttonBox = new HBox(10, attackButton, specialButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        root.getChildren().addAll(heroStats, monsterStats, buttonBox, combatLog);
+        root.getChildren().addAll(heroStats, monsterStats,myMonsterImage, buttonBox, combatLog);
     }
 
     /**

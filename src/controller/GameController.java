@@ -2,11 +2,9 @@ package controller;
 
 import javafx.stage.Stage;
 import model.*;
-import view.CharacterSelected;
+import view.*;
 //import view.DungeonWindow;
-import view.CombatWindow;
-import view.DungeonWindow;
-import view.StartScreen;
+
 
 /**
  * This class changes all the windows
@@ -26,14 +24,15 @@ public class GameController {
     private Stage myStage;
     private DungeonWindow myGameWindow;
     private CombatWindow myCombatWindow;
+    private PauseMenu myPauseMenu;
     private Dungeon myDungeon;
     private Hero myHero;
+    private GameState myGameState;
 
     public GameController(Stage theStage) {
         myStage = theStage;
         myStartScreen = new StartScreen(this);
         myCharacterSelected = new CharacterSelected(this);
-
 
     }
 
@@ -73,7 +72,19 @@ public class GameController {
         myCombatWindow = new CombatWindow(theHero, theMonster, this);
         myStage.setScene(myCombatWindow);
     }
+    public void pauseMenu(Dungeon theDungeon, Hero theHero){
+        myPauseMenu = new PauseMenu(this, theDungeon, theHero);
+        myStage.setScene(myPauseMenu);
+    }
+    public void saveQuit(Hero theHero, Dungeon theDungeon) {
+        myGameState = new GameState(theHero, theDungeon);
+        goBackToStart();
+    }
 
+    public void loadGame() {
+        myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero());
+        myStage.setScene(myGameWindow);
+    }
     public void backToDungeon() {
         myStage.setScene(myGameWindow);
     }

@@ -60,7 +60,7 @@ public class DungeonWindow extends Scene {
         myDoorE = new ImageView(DOOR);
         myDoorN = new ImageView(DOOR);
         myDoorS = new ImageView(DOOR);
-        myFloor = new ImageView(new Image("/images/Area/Floor.png"));
+        myFloor = new ImageView(new Image("/images/Area/NewFloor.png"));
 
         HBox bottomBox = bottomPlane();
         HBox topBox = topPlane();
@@ -71,6 +71,7 @@ public class DungeonWindow extends Scene {
         root.setBottom(bottomBox);
         root.setTop(topBox);
         root.setCenter(center);
+        root.setStyle("-fx-background-color: #F5DEB3");
         displayDoor();
         hide();
     }
@@ -101,8 +102,7 @@ public class DungeonWindow extends Scene {
         centerWindow.setRight(eastStack);
         centerWindow.setTop(northStack);
         centerWindow.setBottom(southStack);
-        myFloor.setFitWidth(1000);
-        myFloor.setFitHeight(500);
+
         centerWindow.setCenter(myFloor);
 
         return centerWindow;
@@ -168,6 +168,8 @@ public class DungeonWindow extends Scene {
                 case LEFT:
                     handleMove("W");
                     break;
+                case ESCAPE:
+                    myGameController.pauseMenu(myDungeon,myHero);
             }
         });
     }
