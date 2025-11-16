@@ -10,4 +10,13 @@ public class CharacterImageLoader {
         };
     }
 
+    public static String getMonster(String theImageName) {
+       return switch (theImageName) {
+            case "Gremlin" -> "/images/monsters/Gremlin.png";
+            case "Skeleton" -> "/images/monsters/Skeleton.png";
+            case "Ogre" -> "/images/monsters/Ogre(1).png";
+            case "superogre" -> "/images/monsters/SuperOgre.png";
+            default -> null;
+        };
+    }
 }

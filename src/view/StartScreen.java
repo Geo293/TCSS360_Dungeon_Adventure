@@ -19,12 +19,13 @@ public class StartScreen extends Scene {
      * This field is the start button that allows the user
      * to go to the character select screen.
      */
-    Button myButton;
+    private Button myNewGameButton;
     /**
      * This is an object of the gamecontroller class which
      * is what controls what classes are being presented at a time.
      */
-    GameController myController;
+    private GameController myController;
+    private Button myLoadGame;
 
     /**
      * This method is the controctor and sets the fields and the sets what
@@ -37,12 +38,15 @@ public class StartScreen extends Scene {
         VBox root = (VBox) getRoot();
         root.setAlignment(javafx.geometry.Pos.CENTER);
         myController = theController;
-        myButton = new Button("Start the game");
-        myButton.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-        myButton.setOnAction(e -> fadeToCharacterSelect());
+        myNewGameButton = new Button("Start New Game");
+        myLoadGame = new Button("Load game");
+        myNewGameButton.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
+        myNewGameButton.setOnAction(e -> fadeToCharacterSelect());
+        myLoadGame.setOnAction(e-> myController.loadGame());
+        myLoadGame.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
         Label title = new Label("Dungeon Adventure");
         title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
-        root.getChildren().addAll(title, myButton);
+        root.getChildren().addAll(title, myNewGameButton, myLoadGame);
         root.setStyle("-fx-background-color: #F5DEB3");
         fadeIn();
     }
