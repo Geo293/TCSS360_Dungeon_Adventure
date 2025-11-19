@@ -5,18 +5,19 @@ package model;
  * will have including how many attacks they get, whether they block
  * an attack.
  *
- *@author Geovani Vasquez
- *@version Oct, 24 2025
+ * @author Geovani Vasquez
+ * @author Justin Yee
+ * @version Oct, 24 2025
  */
 public abstract class Hero extends DungeonCharacter {
     private static final int TOTAL_PILLARS = 4;
-
-    private int healingPotions;
-    private int visionPotions;
-    private final boolean[] pillarsFound;
-    private final double chanceToBlock;
     private static final int MIN_HEAL_AMOUNT = 5;
     private static final int MAX_HEAL_AMOUNT = 15;
+
+    private int myHealingPotions;
+    private int myVisionPotions;
+    private final boolean[] myPillarsFound;
+    private final double myChanceToBlock;
 
     /**
      * The constructor for the Hero class.
@@ -30,10 +31,10 @@ public abstract class Hero extends DungeonCharacter {
      */
     protected Hero(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance, double theBlockChance) {
         super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
-        this.healingPotions = 0;
-        this.visionPotions = 0;
-        this.pillarsFound = new boolean[TOTAL_PILLARS]; // A, E, I, P
-        this.chanceToBlock = theBlockChance;
+        this.myHealingPotions = 0;
+        this.myVisionPotions = 0;
+        this.myPillarsFound = new boolean[TOTAL_PILLARS]; // A, E, I, P
+        this.myChanceToBlock = theBlockChance;
     }
 
     /**
@@ -42,7 +43,7 @@ public abstract class Hero extends DungeonCharacter {
      */
     @Override
     public void subtractHitPoints(int damage) {
-        if (myRand.nextDouble() < chanceToBlock) {
+        if (myRand.nextDouble() < myChanceToBlock) {
             System.out.println(myName + " blocked the attack!");
         } else {
             super.subtractHitPoints(damage);
@@ -53,10 +54,10 @@ public abstract class Hero extends DungeonCharacter {
      * Use a healing potion and regen some health.
      */
     public void useHealingPotion() {
-        if (healingPotions > 0) {
+        if (myHealingPotions > 0) {
             int healAmount = myRand.nextInt(MAX_HEAL_AMOUNT - MIN_HEAL_AMOUNT + 1) + MIN_HEAL_AMOUNT;
             super.setMyHitPoints(myHitPoints + healAmount);
-            healingPotions--;
+            myHealingPotions--;
             System.out.println(myName + " used a healing potion and restored " + healAmount + " HP!");
         } else {
             System.out.println("No healing potions available!");
@@ -65,11 +66,11 @@ public abstract class Hero extends DungeonCharacter {
 
     /**
      * use a vision potion.
-     * @param dungeon   the dungeon so we can see other rooms.
+     * @param theDungeon   the dungeon so we can see other rooms.
      */
-    public void useVisionPotion(Dungeon dungeon) {
-        if (visionPotions > 0) {
-            visionPotions--;
+    public void useVisionPotion(Dungeon theDungeon) {
+        if (myVisionPotions > 0) {
+            myVisionPotions--;
             System.out.println(myName + " used a vision potion!");
             //TODO: How the hell does a vision potion work
         } else {
@@ -81,33 +82,33 @@ public abstract class Hero extends DungeonCharacter {
      * Picks up an item from the current room
      * Handles healing potions, vision potions, and pillars
      *
-     * @param room  the room to pick up items from
+     * @param theRoom  the room to pick up items from
      */
-    public void pickUpItem(Room room) {
+    public void pickUpItem(Room theRoom) {
         boolean pickedUpSomething = false;
 
         // Pick up healing potion
-        if (room.hasHealingPotion()) {
-            healingPotions++;
-            room.removeHealingPotion();
+        if (theRoom.hasHealingPotion()) {
+            myHealingPotions++;
+            theRoom.removeHealingPotion();
             System.out.println(myName + " picked up a healing potion!");
             pickedUpSomething = true;
         }
 
         // Pick up vision potion
-        if (room.hasVisionPotion()) {
-            visionPotions++;
-            room.removeVisionPotion();
+        if (theRoom.hasVisionPotion()) {
+            myVisionPotions++;
+            theRoom.removeVisionPotion();
             System.out.println(myName + " picked up a vision potion!");
             pickedUpSomething = true;
         }
 
         // Collect pillar
-        if (room.getPillar() != null) {
-            String pillar = room.getPillar();
+        if (theRoom.getPillar() != null) {
+            String pillar = theRoom.getPillar();
             int index = getPillarIndex(pillar);
-            if (index != -1 && !pillarsFound[index]) {
-                pillarsFound[index] = true;
+            if (index != -1 && !myPillarsFound[index]) {
+                myPillarsFound[index] = true;
                 System.out.println(myName + " collected the Pillar of " + getPillarName(pillar) + "!");
                 pickedUpSomething = true;
             }
@@ -121,11 +122,11 @@ public abstract class Hero extends DungeonCharacter {
     /**
      * Helper method to get pillar index
      *
-     * @param pillar    the pillar letter
+     * @param thePillar    the pillar letter
      * @return          the index, or -1 if invalid
      */
-    private int getPillarIndex(String pillar) {
-        return switch (pillar.toUpperCase()) {
+    private int getPillarIndex(String thePillar) {
+        return switch (thePillar.toUpperCase()) {
             case "A" -> 0; // Abstraction
             case "E" -> 1; // Encapsulation
             case "I" -> 2; // Inheritance
@@ -138,11 +139,11 @@ public abstract class Hero extends DungeonCharacter {
     /**
      * Helper method to get full pillar name
      *
-     * @param pillar    the pillar letter
+     * @param thePillar    the pillar letter
      * @return          the full name
      */
-    private String getPillarName(String pillar) {
-        return switch (pillar.toUpperCase()) {
+    private String getPillarName(String thePillar) {
+        return switch (thePillar.toUpperCase()) {
             case "A" -> "Abstraction";
             case "E" -> "Encapsulation";
             case "I" -> "Inheritance";
@@ -157,7 +158,7 @@ public abstract class Hero extends DungeonCharacter {
      * @return  true if all pillars collected, false otherwise
      */
     public boolean hasAllPillars() {
-        for (boolean found : pillarsFound) {
+        for (boolean found : myPillarsFound) {
             if (!found) {
                 return false;
             }
@@ -168,24 +169,24 @@ public abstract class Hero extends DungeonCharacter {
     /**
      * Abstract method for special skill - implemented by subclasses
      *
-     * @param opponent  the opponent to use skill on
+     * @param theOpponent  the opponent to use skill on
      */
-    public abstract void specialSkill(DungeonCharacter opponent);
+    public abstract void specialSkill(DungeonCharacter theOpponent);
 
-    public int getHealingPotions() {
-        return healingPotions;
+    public int getMyHealingPotions() {
+        return myHealingPotions;
     }
 
-    public int getVisionPotions() {
-        return visionPotions;
+    public int getMyVisionPotions() {
+        return myVisionPotions;
     }
 
-    public double getChanceToBlock() {
-        return chanceToBlock;
+    public double getMyChanceToBlock() {
+        return myChanceToBlock;
     }
 
-    public boolean[] getPillarsFound() {
-        return pillarsFound;
+    public boolean[] getMyPillarsFound() {
+        return myPillarsFound;
     }
 }
 
