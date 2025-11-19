@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Organized inventory that separates consumables from key items.
+ *
+ * @author Carson Poirier
  */
 public class Inventory implements Serializable {
     @Serial
