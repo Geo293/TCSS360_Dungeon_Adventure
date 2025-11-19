@@ -19,7 +19,7 @@ public class Room {
     private static final double PIT_SPAWN_CHANCE = 0.10;
 
     /**What character you want to represent the walls.*/
-    private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
+    private static final char WALL_CHARACTER = '█'; // default is '*' but '█' is easy to read
 
     /**If you want to have the doors ("-|") shown in the toString or not.*/
     private static final boolean SHOW_DOORS = true;
@@ -290,6 +290,27 @@ public class Room {
     }
 
     /**
+     * Removes the healing potion from this room (after hero picks it up)
+     */
+    public void removeHealingPotion() {
+        this.healingPotion = false;
+    }
+
+    /**
+     * Removes the vision potion from this room (after hero picks it up)
+     */
+    public void removeVisionPotion() {
+        this.visionPotion = false;
+    }
+
+    /**
+     * Removes the monster from this room (after it's defeated)
+     */
+    public void removeMonster() {
+        this.monster = null;
+    }
+
+    /**
      * the toString to display a room correctly
      *
      * @return a string of the room
@@ -334,7 +355,7 @@ public class Room {
         if (entrance) return 'i';
         if (exit) return 'O';
         if (pit) return 'X'; // Pit takes priority - no other items with pit
-        if (hasMultipleItems()) return 'U';
+        if (hasMultipleItems()) return 'I';
         if (healingPotion) return 'H';
         if (visionPotion) return 'V';
         if (pillar != null) return pillar.charAt(0); // A, E, I, or P

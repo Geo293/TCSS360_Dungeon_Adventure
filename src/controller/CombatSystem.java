@@ -1,35 +1,57 @@
 package controller;
 
-import model.DungeonCharacter;
+import javafx.scene.control.TextArea;
+import model.Hero;
+import model.Monster;
 
+/**
+ * Controller class for managing combat logic between Hero and Monster.
+ * Supports multi-attack rounds, blocking, healing, and logging.
+ * @author Carson Poirier
+ * @version 11/8/25
+ */
 public class CombatSystem {
 
     /**
-     * Executes a full round of combat between two dungeon characters.
-     * For now, uses basic attack method from DungeonCharacter.
+     * Executes a single round of combat: hero attacks, then monster retaliates.
+     *
+     * @param theHero       The hero character.
+     * @param theMonster    The monster character.
+     * @param theCombatLog  TextArea to append combat messages.
      */
-    public static void battle(DungeonCharacter char1, DungeonCharacter char2) {
-        System.out.println("\nCombat Begins: " + char1.getName() + " vs " + char2.getName());
-
-        while (char1.isAlive() && char2.isAlive()) {
-            System.out.println("\n" + char1.getName() + "'s Turn:");
-            char1.attack(char2);
-
-            if (char2.isAlive()) {
-                System.out.println("\n" + char2.getName() + "'s Turn:");
-                char2.attack(char1);
-            }
-
-            System.out.println("\nStatus:");
-            System.out.println(char1);
-            System.out.println(char2);
+    public static void battleRound(Hero theHero, Monster theMonster, TextArea theCombatLog) {
+        theHero.attack(theMonster);
+        if (theMonster.isAlive()) {
+            theCombatLog.appendText(theMonster.getMyName() + " attacks.\n");
+            monsterAttack(theMonster, theHero, theCombatLog);
         }
+    }
 
-        System.out.println("\nCombat Over!");
-        if (char1.isAlive()) {
-            System.out.println(char1.getName() + " is victorious!");
-        } else {
-            System.out.println(char2.getName() + " has defeated " + char1.getName() + "!");
+    /**
+     * Handles monster attacking hero, including block chance and healing.
+     *
+     * @param theMonster    The attacking monster.
+     * @param theHero       The defending hero.
+     * @param theCombatLog  TextArea to append combat messages.
+     */
+    private static void monsterAttack(Monster theMonster, Hero theHero, TextArea theCombatLog) {
+        int numAttacks = Math.max(1, theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
+
+        for (int i = 0; i < numAttacks; i++) {
+           // if (theHero.blockAttack()) {
+             //   theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
+               // continue;
+           // }
+
+          //  if (theMonster.canHit()) {
+           //     int damage = theMonster.calculateDamage();
+             //   theHero.subtractHitPoints(damage);
+               // theCombatLog.appendText(theMonster.getMyName() + " hits for " + damage + " damage.\n");
+           // } else {
+             //   theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
+            //}
+
+            theMonster.tryHeal();
         }
     }
 }
