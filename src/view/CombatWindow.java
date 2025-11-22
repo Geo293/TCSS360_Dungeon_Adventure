@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import model.Hero;
 import model.Monster;
 import util.CharacterImageLoader;
@@ -28,6 +27,7 @@ public class CombatWindow extends Scene {
     private final Button specialButton;
     private GameController myController;
     private ImageView myMonsterImage;
+    private ImageView myHeroImage;
 
     /**
      * Constructs the CombatWindow scene.
@@ -35,7 +35,7 @@ public class CombatWindow extends Scene {
      * @param hero    The player's hero character.
      * @param monster The monster to battle.
      */
-    public CombatWindow(Hero hero, Monster monster , GameController theController) {
+    public CombatWindow(Hero hero, Monster monster , GameController theController,String theCharacterName) {
         super(new VBox(), 600, 400);
         this.hero = hero;
         this.monster = monster;
@@ -59,13 +59,15 @@ public class CombatWindow extends Scene {
         attackButton.setOnAction(e -> handleAttack());
         specialButton.setOnAction(e -> handleSpecial());
         String monsterName = monster.getMyName();
+        HBox buttonBox = new HBox(10, attackButton, specialButton);
+        buttonBox.setAlignment(Pos.CENTER);
         myMonsterImage = new ImageView(new Image(CharacterImageLoader.getMonster(monsterName)));
         myMonsterImage.setFitWidth(200);
         myMonsterImage.setFitHeight(200);
-        HBox buttonBox = new HBox(10, attackButton, specialButton);
-        buttonBox.setAlignment(Pos.CENTER);
-
-        root.getChildren().addAll(heroStats, monsterStats,myMonsterImage, buttonBox, combatLog);
+        myHeroImage =  new ImageView(new Image(CharacterImageLoader.getImageChar(theCharacterName)));
+        myHeroImage.setFitWidth(200);
+        myHeroImage.setFitHeight(200);
+        root.getChildren().addAll(myHeroImage, heroStats, monsterStats,myMonsterImage, buttonBox, combatLog);
     }
 
     /**
@@ -83,7 +85,7 @@ public class CombatWindow extends Scene {
      */
     private void handleSpecial() {
         combatLog.appendText(hero.getMyName() + " uses special skill.\n");
-       //hero.useSpecialSkill(monster);
+       hero.specialSkill(monster);
         updateStats();
         checkCombatEnd();
     }
@@ -104,11 +106,12 @@ public class CombatWindow extends Scene {
             combatLog.appendText(monster.getMyName() + " has been defeated.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
-            myController.backToDungeon();
+            myController.backToDungeon(hero);
         } else if (!hero.isAlive()) {
             combatLog.appendText(hero.getMyName() + " has fallen.\n");
             attackButton.setDisable(true);
             specialButton.setDisable(true);
+            myController.heroDied();
 
         }
     }

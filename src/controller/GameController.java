@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import model.*;
 import view.*;
@@ -28,6 +29,8 @@ public class GameController {
     private Dungeon myDungeon;
     private Hero myHero;
     private GameState myGameState;
+    private DeathScreen myDeathScreen;
+    private String myCharacterType;
 
     public GameController(Stage theStage) {
         myStage = theStage;
@@ -52,6 +55,7 @@ public class GameController {
 
     public void startNewGame(String theCharacterType, String theCharacterName) {
         myDungeon = new Dungeon();
+        myCharacterType = theCharacterName;
         switch (theCharacterType) {
             case "Warrior":
                 myHero = new Warrior(theCharacterName);
@@ -69,7 +73,7 @@ public class GameController {
     }
 
     public void startFight(Hero theHero, Monster theMonster) {
-        myCombatWindow = new CombatWindow(theHero, theMonster, this);
+        myCombatWindow = new CombatWindow(theHero, theMonster, this,myCharacterType);
         myStage.setScene(myCombatWindow);
     }
     public void pauseMenu(Dungeon theDungeon, Hero theHero){
@@ -85,7 +89,9 @@ public class GameController {
         myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero());
         myStage.setScene(myGameWindow);
     }
-    public void backToDungeon() {
+    public void backToDungeon(Hero theHero) {
+        myHero = theHero;
+        myGameWindow.refresh();
         myStage.setScene(myGameWindow);
     }
 
@@ -101,6 +107,14 @@ public class GameController {
                 startFight(myHero, myCurrentRoom.getMonster());
                 myCurrentRoom.removeMonster();
             }
+        }
+
+        public void exitGame(){
+            Platform.exit();
+        }
+        public void heroDied(){
+            myDeathScreen = new DeathScreen(this);
+            myStage.setScene(myDeathScreen);
         }
 }
 

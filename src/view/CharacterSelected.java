@@ -63,6 +63,8 @@ public class CharacterSelected extends Scene {
      */
     private final Button myStartButton;
 
+    private String myCharacterType;
+
     /**
      * This is the main method that sets the instance fields
      * and set the design of the character select screen.
@@ -176,7 +178,7 @@ public class CharacterSelected extends Scene {
                 return;
             }
 
-            myController.startNewGame(myChosenCharacter, heroName);
+            myController.startNewGame(myChosenCharacter, myCharacterType );
         });
         gameStart.getChildren().addAll(myStartButton);
         return gameStart;
@@ -238,6 +240,7 @@ public class CharacterSelected extends Scene {
                         "Special: surprise attack";
                 break;
         }
+        myCharacterType = theName;
 
         myStatsDisplay.setText(stats);
 

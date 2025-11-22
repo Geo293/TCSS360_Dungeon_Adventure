@@ -15,8 +15,11 @@ public class CharacterImageLoader {
             case "Gremlin" -> "/images/monsters/Gremlin.png";
             case "Skeleton" -> "/images/monsters/Skeleton.png";
             case "Ogre" -> "/images/monsters/Ogre(1).png";
-            case "superogre" -> "/images/monsters/SuperOgre.png";
-            default -> null;
+            case "SuperOgre" -> "/images/monsters/SuperOgre.png";
+            default -> {
+                System.err.println("WARNING: Unknown monster name: '" + theImageName + "'");
+                yield null;
+            }
         };
     }
 }
