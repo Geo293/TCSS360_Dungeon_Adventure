@@ -30,6 +30,7 @@ public class GameController {
     private Hero myHero;
     private GameState myGameState;
     private DeathScreen myDeathScreen;
+    private WinScreen myWinScreen;
     private String myCharacterType;
 
     public GameController(Stage theStage) {
@@ -107,6 +108,11 @@ public class GameController {
                 startFight(myHero, myCurrentRoom.getMonster());
                 myCurrentRoom.removeMonster();
             }
+            if (myCurrentRoom.isExit()) {
+                if (myHero.hasAllPillars()) {
+                    gameWon();
+                }
+            }
         }
 
         public void exitGame(){
@@ -115,6 +121,10 @@ public class GameController {
         public void heroDied(){
             myDeathScreen = new DeathScreen(this);
             myStage.setScene(myDeathScreen);
+        }
+        public void gameWon(){
+            myWinScreen = new WinScreen(this);
+            myStage.setScene(myWinScreen);
         }
 }
 
