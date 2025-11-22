@@ -127,9 +127,14 @@ public class GameController {
             myWinScreen = new WinScreen(this);
             myStage.setScene(myWinScreen);
         }
-        public void invetoryScreen(Hero theHero){
-            myHeroItemsPane = new HeroItemsPane(this,theHero);
+        public void invetoryScreen(Hero theHero, Dungeon theDungeon){
+            myHeroItemsPane = new HeroItemsPane(this,theHero, theDungeon);
             myStage.setScene(myHeroItemsPane);
+        }
+        public void usesVPotion(Dungeon theDungeon  ){
+            myDungeon = theDungeon;
+            myGameWindow.updateDisplayRadius(1);
+            myStage.setScene(myGameWindow);
         }
 }
 

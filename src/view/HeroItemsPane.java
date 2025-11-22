@@ -1,10 +1,13 @@
 package view;
 
 import controller.GameController;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import model.Dungeon;
 import model.Hero;
 
 /**
@@ -15,19 +18,24 @@ public class HeroItemsPane extends Scene {
 
     private final Hero hero;
     private final Text potionsText;
-    private final Text pillarsText;
     private GameController myController;
+    private Dungeon myDungeon;
+    private Button myVPotion;
+    private Button myHPotion;
 
-    public HeroItemsPane(GameController theController, Hero hero) {
+    public HeroItemsPane(GameController theController, Hero theHero, Dungeon theDungeon) {
         super(new VBox());
         VBox root = (VBox) getRoot();
-        this.hero = hero;
+        root.setAlignment(Pos.CENTER);
+        this.hero = theHero;
+        myDungeon = theDungeon;
         myController = theController;
         Label title = new Label("Your Items:");
         potionsText = new Text();
-        pillarsText = new Text();
+        myVPotion = new Button("use vision potion");
+        myHPotion = new Button("use health potion");
         setUpKeyListeners();
-        root.getChildren().addAll(title, potionsText, pillarsText);
+        root.getChildren().addAll(title, potionsText,myVPotion,myHPotion);
 
         refresh();
     }
@@ -39,24 +47,30 @@ public class HeroItemsPane extends Scene {
         potionsText.setText("Healing Potions: " + hero.getMyHealingPotions() +
                 "\nVision Potions: " + hero.getMyVisionPotions());
 
-        boolean[] pillars = hero.getMyPillarsFound();
-        StringBuilder pillarStatus = new StringBuilder("Pillars Found:\n");
-        String[] names = {"Abstraction", "Encapsulation", "Inheritance", "Polymorphism"};
-
-        for (int i = 0; i < pillars.length; i++) {
-            pillarStatus.append(names[i]).append(": ")
-                    .append(pillars[i] ? "✓" : "✗").append("\n");
-        }
-
-        pillarsText.setText(pillarStatus.toString());
     }
     public void setUpKeyListeners(){
         this.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case M:
                     myController.backToDungeon(hero);
+                    break;
+                case ESCAPE:
+                    myController.backToDungeon(hero);
+                    break;
             }
         });
+        if(hero.getMyHealingPotions() > 0) {
+            myVPotion.setOnAction(event -> {
+                hero.useVisionPotion(myDungeon);
+                myController.usesVPotion(myDungeon);
+                refresh();
+            });
+        if(hero.getMyHealingPotions() > 0) {
+            myHPotion.setOnAction(event -> {hero.useHealingPotion();
+            refresh();
+            });
+        }
+        }
     }
 
 }
