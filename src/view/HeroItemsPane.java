@@ -1,5 +1,7 @@
 package view;
 
+import controller.GameController;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -9,20 +11,23 @@ import model.Hero;
  * GUI component that displays the current items the hero has.
  * Reads directly from Hero's fields (potions and pillars).
  */
-public class HeroItemsPane extends VBox {
+public class HeroItemsPane extends Scene {
 
     private final Hero hero;
     private final Text potionsText;
     private final Text pillarsText;
+    private GameController myController;
 
-    public HeroItemsPane(Hero hero) {
+    public HeroItemsPane(GameController theController, Hero hero) {
+        super(new VBox());
+        VBox root = (VBox) getRoot();
         this.hero = hero;
-
+        myController = theController;
         Label title = new Label("Your Items:");
         potionsText = new Text();
         pillarsText = new Text();
-
-        this.getChildren().addAll(title, potionsText, pillarsText);
+        setUpKeyListeners();
+        root.getChildren().addAll(title, potionsText, pillarsText);
 
         refresh();
     }
@@ -31,10 +36,10 @@ public class HeroItemsPane extends VBox {
      * Refreshes the display to match the hero's current items.
      */
     public void refresh() {
-        potionsText.setText("Healing Potions: " + hero.getHealingPotions() +
-                "\nVision Potions: " + hero.getVisionPotions());
+        potionsText.setText("Healing Potions: " + hero.getMyHealingPotions() +
+                "\nVision Potions: " + hero.getMyVisionPotions());
 
-        boolean[] pillars = hero.getPillarsFound();
+        boolean[] pillars = hero.getMyPillarsFound();
         StringBuilder pillarStatus = new StringBuilder("Pillars Found:\n");
         String[] names = {"Abstraction", "Encapsulation", "Inheritance", "Polymorphism"};
 
@@ -45,4 +50,13 @@ public class HeroItemsPane extends VBox {
 
         pillarsText.setText(pillarStatus.toString());
     }
+    public void setUpKeyListeners(){
+        this.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case M:
+                    myController.backToDungeon(hero);
+            }
+        });
+    }
+
 }

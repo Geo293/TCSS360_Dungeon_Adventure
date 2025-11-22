@@ -174,6 +174,8 @@ public class DungeonWindow extends Scene {
                     break;
                 case ESCAPE:
                     myGameController.pauseMenu(myDungeon,myHero);
+                case M:
+                    myGameController. invetoryScreen(myHero);
             }
         });
     }

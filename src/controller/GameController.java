@@ -31,6 +31,7 @@ public class GameController {
     private GameState myGameState;
     private DeathScreen myDeathScreen;
     private WinScreen myWinScreen;
+    private HeroItemsPane myHeroItemsPane;
     private String myCharacterType;
 
     public GameController(Stage theStage) {
@@ -125,6 +126,10 @@ public class GameController {
         public void gameWon(){
             myWinScreen = new WinScreen(this);
             myStage.setScene(myWinScreen);
+        }
+        public void invetoryScreen(Hero theHero){
+            myHeroItemsPane = new HeroItemsPane(this,theHero);
+            myStage.setScene(myHeroItemsPane);
         }
 }
 
