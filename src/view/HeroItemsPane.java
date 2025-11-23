@@ -65,7 +65,7 @@ public final class HeroItemsPane extends Scene {
 
         setUpKeyListeners();
         setUpButtonActions();
-
+        root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(title, myPotionsText,
                 myVisionPotionButton, myHealingPotionButton);
 

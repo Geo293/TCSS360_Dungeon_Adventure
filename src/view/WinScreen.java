@@ -45,6 +45,7 @@ public class WinScreen extends Scene {
         Label title = new Label("You Win!!");
         title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
         VBox box = choices();
+        root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(title, box);
 
 

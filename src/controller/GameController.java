@@ -67,6 +67,8 @@ public class GameController {
      */
     private String myCharacterType;
 
+    private GameGuide myGameGuide;
+
     /**
      *This is the constructor that assigns the stage to fileds
      * @param theStage the main screen
@@ -216,6 +218,10 @@ public class GameController {
             myDungeon = theDungeon;
             myGameWindow.updateDisplayRadius(1);
             myStage.setScene(myGameWindow);
+        }
+        public void gameGuide(Hero theHero){
+            myGameGuide = new GameGuide(this, theHero);
+            myStage.setScene(myGameGuide);
         }
 }
 

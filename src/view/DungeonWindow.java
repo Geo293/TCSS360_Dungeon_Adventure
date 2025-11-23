@@ -3,7 +3,6 @@ package view;
 import controller.GameController;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
@@ -21,7 +20,7 @@ public class DungeonWindow extends Scene {
     private static final Image WALLN = new Image("/images/Area/NorthW.png");
     private final Label myGameAction = new Label( "    W/↑ North\n" +
             "A/← West  East →/D\n" +
-            "    S/↓ South");
+            "    S/↓ South    Press G for Guide" );
     private Label myDungeonDisplay;
     private Hero myHero;
     private Dungeon myDungeon;
@@ -185,6 +184,8 @@ public class DungeonWindow extends Scene {
                 case M:
                     myGameController. invetoryScreen( myHero, myDungeon);
                     break;
+                case G:
+                    myGameController.gameGuide(myHero);
             }
         });
     }

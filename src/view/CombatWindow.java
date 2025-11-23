@@ -100,7 +100,7 @@ public final class CombatWindow extends Scene {
         myHeroImage = new ImageView(new Image(CharacterImageLoader.getImageChar(theCharacterName)));
         myHeroImage.setFitWidth(200);
         myHeroImage.setFitHeight(200);
-
+        root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(myHeroImage, myHeroStats, myMonsterStats,
                 myMonsterImage, buttonBox, myCombatLog);
     }
