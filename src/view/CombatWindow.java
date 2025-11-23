@@ -20,6 +20,7 @@ import util.CharacterImageLoader;
  * Displays stats, logs actions, and provides buttons for attack and special skill.
  *
  * @author Carson Poirier
+ * @author Geovnai Vasquez
  * @version 11/22/25
  */
 public final class CombatWindow extends Scene {

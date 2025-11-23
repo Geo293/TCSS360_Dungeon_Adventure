@@ -9,11 +9,32 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import java.awt.*;
 
+/**
+ * This cless displays a win screen after the user collects all the pillars
+ * and brings it to the exit
+ *
+ * @author Geovani Vasquez
+ * @version 11/22/2025
+ */
 public class WinScreen extends Scene {
+    /**
+     * This is the controller object used throughout the game.
+     */
     private GameController myController;
+    /**
+     * This is the button that takes you to the main menu
+     */
     private Button myMenuButton;
+    /**
+     * This is the button that closes the application
+     */
     private Button myExitButton;
 
+    /**
+     * This is the constructor that sets the variables and
+     * displays  the screen
+     * @param theController the controller object
+     */
     public WinScreen(GameController theController) {
         super(new VBox());
         VBox root = (VBox) getRoot();
@@ -28,6 +49,11 @@ public class WinScreen extends Scene {
 
 
     }
+
+    /**
+     * This sets up the choices that are presented to the user
+     * @return returns the vbox that has all the buttons.
+     */
     private VBox choices() {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);

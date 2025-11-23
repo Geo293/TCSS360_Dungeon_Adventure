@@ -19,28 +19,28 @@ public class DungeonWindow extends Scene {
     private static final Image DOOR = new Image("/images/Area/Door.png");
     private static final Image WALLW = new Image("/images/Area/WestW.png");
     private static final Image WALLN = new Image("/images/Area/NorthW.png");
-    private Label myGameAction = new Label( "    W/↑ North\n" +
+    private final Label myGameAction = new Label( "    W/↑ North\n" +
             "A/← West  East →/D\n" +
             "    S/↓ South");
     private Label myDungeonDisplay;
     private Hero myHero;
     private Dungeon myDungeon;
     private GameController myGameController;
-    private ImageView myPillarA;
-    private ImageView myPillarE;
-    private ImageView myPillarI;
-    private ImageView myPillarP;
-    private ImageView myWestW;
-    private ImageView myEastW;
-    private ImageView mySouthW;
-    private ImageView myNorthW;
-    private ImageView myDoorW;
-    private ImageView myDoorE;
-    private ImageView myDoorN;
-    private ImageView myDoorS;
-    private ImageView myFloor;
+    private final ImageView myPillarA;
+    private final ImageView myPillarE;
+    private final ImageView myPillarI;
+    private final ImageView myPillarP;
+    private final ImageView myWestW;
+    private final ImageView myEastW;
+    private final ImageView mySouthW;
+    private final ImageView myNorthW;
+    private final ImageView myDoorW;
+    private final ImageView myDoorE;
+    private final ImageView myDoorN;
+    private final ImageView myDoorS;
+    private final ImageView myFloor;
     private Room myCurrentRoom;
-    private Label myHeroStats;
+    private final Label myHeroStats;
 
 
 

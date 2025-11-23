@@ -11,10 +11,33 @@ import javafx.scene.layout.VBox;
 
 import java.awt.*;
 
+/**
+ * This class sets up a death screen after the user dies in combat. This
+ * screen will allow the user to start a new game after they die or quit
+ * the game.
+ * @author Geovani Vasquez
+ * @version 11/22/2025
+ */
 public class DeathScreen extends Scene {
+    /**
+     * This is the controller that allows the system to switch between screens
+     */
     private GameController myController;
+    /**
+     * This is the button the allows the user to exit
+     */
     private Button myExit;
+    /**
+     * this is the button the sends the user back to the
+     * character select screen
+     */
     private Button myBackToCharatcer;
+
+    /**
+     * This is teh constructor that sets up all the field variables
+     * and then sets up the VBox to displays the buttons
+     * @param theController
+     */
     public DeathScreen(GameController theController) {
         super(new VBox());
         VBox root = (VBox) getRoot();
@@ -30,6 +53,12 @@ public class DeathScreen extends Scene {
 
     }
 
+    /**
+     * this displays the choices that the user is allowed to
+     * preform such as starting a new game or leaving the game.
+     * by preforming an action on the controller class
+     * @return the vbox of all the buttons
+     */
     public VBox choices() {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
