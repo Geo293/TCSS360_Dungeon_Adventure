@@ -7,19 +7,22 @@ import model.Monster;
 /**
  * Controller class for managing combat logic between Hero and Monster.
  * Supports multi-attack rounds, blocking, healing, and logging.
+ *
  * @author Carson Poirier
- * @version 11/8/25
+ * @version 11/18/25
  */
 public class CombatSystem {
 
     /**
      * Executes a single round of combat: hero attacks, then monster retaliates.
      *
-     * @param theHero       The hero character.
-     * @param theMonster    The monster character.
-     * @param theCombatLog  TextArea to append combat messages.
+     * @param theHero      the hero character
+     * @param theMonster   the monster character
+     * @param theCombatLog the combat log to append messages
      */
-    public static void battleRound(Hero theHero, Monster theMonster, TextArea theCombatLog) {
+    public static void battleRound(final Hero theHero,
+                                   final Monster theMonster,
+                                   final TextArea theCombatLog) {
         theHero.attack(theMonster);
         if (theMonster.isAlive()) {
             theCombatLog.appendText(theMonster.getMyName() + " attacks.\n");
@@ -30,28 +33,34 @@ public class CombatSystem {
     /**
      * Handles monster attacking hero, including block chance and healing.
      *
-     * @param theMonster    The attacking monster.
-     * @param theHero       The defending hero.
-     * @param theCombatLog  TextArea to append combat messages.
+     * @param theMonster   the attacking monster
+     * @param theHero      the defending hero
+     * @param theCombatLog the combat log to append messages
      */
-    private static void monsterAttack(Monster theMonster, Hero theHero, TextArea theCombatLog) {
-        int numAttacks = Math.max(1, theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
+    private static void monsterAttack(final Monster theMonster,
+                                      final Hero theHero,
+                                      final TextArea theCombatLog) {
+        final int numAttacks = Math.max(1,
+                theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
 
         for (int i = 0; i < numAttacks; i++) {
-           // if (theHero.blockAttack()) {
-             //   theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
-               // continue;
-           // }
-
-          //  if (theMonster.canHit()) {
-           //     int damage = theMonster.calculateDamage();
-             //   theHero.subtractHitPoints(damage);
-               // theCombatLog.appendText(theMonster.getMyName() + " hits for " + damage + " damage.\n");
-           // } else {
-             //   theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
-            //}
+            // Uncomment when block/hit logic is ready:
+            // if (theHero.blockAttack()) {
+            //     theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
+            //     continue;
+            // }
+            //
+            // if (theMonster.canHit()) {
+            //     final int damage = theMonster.calculateDamage();
+            //     theHero.subtractHitPoints(damage);
+            //     theCombatLog.appendText(theMonster.getMyName()
+            //             + " hits for " + damage + " damage.\n");
+            // } else {
+            //     theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
+            // }
 
             theMonster.tryHeal();
         }
     }
 }
+
