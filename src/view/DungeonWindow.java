@@ -3,6 +3,7 @@ package view;
 import controller.GameController;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
@@ -39,6 +40,8 @@ public class DungeonWindow extends Scene {
     private ImageView myDoorS;
     private ImageView myFloor;
     private Room myCurrentRoom;
+    private Label myHeroStats;
+
 
 
     public DungeonWindow(GameController theController, Dungeon theDungeon, Hero theHero) {
@@ -48,6 +51,7 @@ public class DungeonWindow extends Scene {
         myCurrentRoom = myDungeon.getCurrentRoom();
         myHero = theHero;
         myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),0));
+        myHeroStats = new Label();
         myPillarA = new ImageView();
         myPillarE = new ImageView();
         myPillarI = new ImageView();
@@ -62,7 +66,7 @@ public class DungeonWindow extends Scene {
         myDoorS = new ImageView(DOOR);
         myFloor = new ImageView(new Image("/images/Area/NewFloor.png"));
 
-        HBox bottomBox = bottomPlane();
+        HBox bottomBox = bottomPlane(myDungeon, 0);
         HBox topBox = topPlane();
         BorderPane center = centerWindow();
         setUpKeyListeners();
@@ -75,19 +79,26 @@ public class DungeonWindow extends Scene {
         displayDoor();
         hide();
     }
-    public HBox bottomPlane(){
-        HBox bottomPlane = new HBox();
+    public HBox bottomPlane(Dungeon theDungeon, int theRad){
+        myDungeonDisplay.setText(theDungeon.getVisableArea(theDungeon.getMyHeroX(),theDungeon.getMyHeroY(),theRad));
+        HBox bottomPlane = new HBox(20);
         bottomPlane.setAlignment(javafx.geometry.Pos.CENTER);
         myDungeonDisplay.setStyle("-fx-font-size: 20px;");
         myGameAction.setStyle("-fx-font-size: 20px;");
-        bottomPlane.getChildren().addAll(myDungeonDisplay, myGameAction);
+        bottomPlane.getChildren().addAll(myDungeonDisplay , myGameAction);
         return bottomPlane;
 
+    }
+    public void updateDisplayRadius(int theRadius){
+        myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),theRadius));
+        int fontSize = theRadius > 0 ? 12 : 20;
+        myDungeonDisplay.setStyle("-fx-font-size: " + fontSize + "px; -fx-font-family: 'Courier New', monospace;");
     }
     public HBox topPlane(){
         HBox topPlane = new HBox();
         topPlane.setAlignment(javafx.geometry.Pos.CENTER);
-        topPlane.getChildren().addAll(myPillarA, myPillarE, myPillarI, myPillarP);
+        myHeroStats.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        topPlane.getChildren().addAll(myHeroStats,myPillarA, myPillarE, myPillarI, myPillarP);
         return topPlane;
 
 
@@ -170,6 +181,10 @@ public class DungeonWindow extends Scene {
                     break;
                 case ESCAPE:
                     myGameController.pauseMenu(myDungeon,myHero);
+                    break;
+                case M:
+                    myGameController. invetoryScreen( myHero, myDungeon);
+                    break;
             }
         });
     }
@@ -212,7 +227,16 @@ public class DungeonWindow extends Scene {
 
         }
     }
-
+    public void refresh(){
+        updateDisplay();
+        updateHeroStats();
+        displayDoor();
+        checkForPillars();
+    }
+    public void updateHeroStats(){
+        myHeroStats.setText(String.format("HP :%d",
+                myHero.getMyHitPoints()));
+    }
     public void hide(){
         myPillarA.setVisible(false);
         myPillarA.setFitWidth(60);

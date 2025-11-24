@@ -56,15 +56,15 @@ public class Warrior extends Hero {
     /**
      * Crushing Blow: 75-175 damage, 40% chance to succeed
      *
-     * @param opponent the opponent to use skill on
+     * @param theOpponent the opponent to use skill on
      */
     @Override
-    public void specialSkill(DungeonCharacter opponent) {
+    public void specialSkill(DungeonCharacter theOpponent) {
         System.out.println(myName + " attempts a crushing blow");
 
         if (myRand.nextDouble() <= CRUSH_CHANCE) {
             int damage = myRand.nextInt(CRUSH_MAX - CRUSH_MIN + 1) + CRUSH_MIN;
-            opponent.subtractHitPoints(damage);
+            theOpponent.subtractHitPoints(damage);
             System.out.println(myName + " hits for " + damage + " damage");
         } else {
             System.out.println("Crushing blow failed");

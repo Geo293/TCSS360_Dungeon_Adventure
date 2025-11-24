@@ -52,10 +52,10 @@ public class Thief extends Hero {
     /**
      * Abstract method for special skill - implemented by subclasses
      *
-     * @param opponent the opponent to use skill on
+     * @param theOpponent the opponent to use skill on
      */
     @Override
-    public void specialSkill(DungeonCharacter opponent) {
+    public void specialSkill(DungeonCharacter theOpponent) {
         double roll = myRand.nextDouble();
 
         System.out.println(myName + " surprise attack");
@@ -68,22 +68,22 @@ public class Thief extends Hero {
 
             if (myRand.nextDouble() <= myChanceToHit) {
                 int damage = myRand.nextInt(myMaxDamage - myMinDamage + 1) + myMinDamage;
-                opponent.subtractHitPoints(damage);
+                theOpponent.subtractHitPoints(damage);
                 System.out.println("First attack hits for " + damage + " damage");
             } else {
                 System.out.println("First attack missed!");
             }
 
-            if (opponent.isAlive() && myRand.nextDouble() <= myChanceToHit) {
+            if (theOpponent.isAlive() && myRand.nextDouble() <= myChanceToHit) {
                 int damage = myRand.nextInt(myMaxDamage - myMinDamage + 1) + myMinDamage;
-                opponent.subtractHitPoints(damage);
+                theOpponent.subtractHitPoints(damage);
                 System.out.println("Second attack hits for " + damage + " damage!");
-            } else if (opponent.isAlive()) {
+            } else if (theOpponent.isAlive()) {
                 System.out.println("Second attack missed");
             }
         } else {
             System.out.println(myName + " gets a normal attack.");
-            attack(opponent);
+            attack(theOpponent);
         }
     }
 }

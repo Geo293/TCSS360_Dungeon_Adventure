@@ -60,10 +60,10 @@ public class Priestess extends Hero {
     /**
      * Abstract method for special skill - implemented by subclasses
      *
-     * @param opponent the opponent to use skill on
+     * @param theOpponent the opponent to use skill on
      */
     @Override
-    public void specialSkill(DungeonCharacter opponent) {
+    public void specialSkill(DungeonCharacter theOpponent) {
             System.out.println(getMyName() + "casts heal");
         int heal = myRand.nextInt(HEAL_MAX-HEAL_MIN + 1) + HEAL_MIN;
         int currentHP = getMyHitPoints();
