@@ -68,6 +68,7 @@ public class GameController {
     private String myCharacterType;
 
     private GameGuide myGameGuide;
+    private SaveLoadManager mySaveLoadManager;
 
     /**
      *This is the constructor that assigns the stage to fileds
@@ -158,6 +159,8 @@ public class GameController {
      */
     public void saveQuit(Hero theHero, Dungeon theDungeon) {
         myGameState = new GameState(theHero, theDungeon);
+        mySaveLoadManager =  new SaveLoadManager();
+        mySaveLoadManager.saveGame(myGameState);
         goBackToStart();
     }
 
@@ -166,6 +169,7 @@ public class GameController {
      * they left off
      */
     public void loadGame() {
+        myGameState = mySaveLoadManager.loadGame();
         myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero());
         myStage.setScene(myGameWindow);
     }

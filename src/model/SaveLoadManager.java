@@ -1,8 +1,6 @@
 package model;
 import java.io.*;
 
-import model.GameState;
-
 /**
  * Allows the game to be saved/loaded even after the game is closed. The
  * GameState is written to a file and the file can be read to load the game back
