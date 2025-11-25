@@ -58,12 +58,19 @@ public class PauseMenu extends Scene {
             mySaveQuit.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
             myContinue = new Button("Continue");
             myContinue.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-            mySaveQuit.setOnAction(e -> myController.saveQuit(myHero, myDungeon));
-            myContinue.setOnAction(e -> myController.backToDungeon(myHero));
+            setUpKeyListners();
             Label title = new Label("Game Pause");
             title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
             root.getChildren().addAll(title,myContinue, mySaveQuit);
             root.setStyle("-fx-background-color: #F5DEB3");
 
+    }
+
+    /**
+     * Sets actions when the buttons are pressed 
+     */
+    public void setUpKeyListners(){
+        mySaveQuit.setOnAction(e -> myController.saveQuit(myHero, myDungeon));
+        myContinue.setOnAction(e -> myController.backToDungeon(myHero));
     }
 }
