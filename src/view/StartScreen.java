@@ -27,6 +27,7 @@ public class StartScreen extends Scene {
     private GameController myController;
     private Button myLoadGame;
     private Button myExitGame;
+    private Label myTitle;
 
     /**
      * This method is the controctor and sets the fields and the sets what
@@ -42,18 +43,32 @@ public class StartScreen extends Scene {
         myNewGameButton = new Button("Start New Game");
         myLoadGame = new Button("Load game");
         myExitGame = new Button("Exit");
-        myNewGameButton.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-        myNewGameButton.setOnAction(e -> fadeToCharacterSelect());
-        myLoadGame.setOnAction(e-> myController.loadGame());
-        myLoadGame.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-        myExitGame.setOnAction(e-> myController.exitGame());
-        myExitGame.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-
-        Label title = new Label("Dungeon Adventure");
-        title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
-        root.getChildren().addAll(title, myNewGameButton, myLoadGame, myExitGame);
+        myTitle = new Label("Dungeon Adventure");
+        setArt();
+        setUpButtons();
+        root.getChildren().addAll(myTitle, myNewGameButton, myLoadGame, myExitGame);
         root.setStyle("-fx-background-color: #F5DEB3");
         fadeIn();
+    }
+
+    /**
+     * This method sets up how the buttons will look and how the title will look.
+     */
+    public void setArt(){
+        myNewGameButton.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
+        myNewGameButton.setOnAction(e -> fadeToCharacterSelect());
+        myLoadGame.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
+        myExitGame.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
+        myTitle.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
+
+    }
+
+    /**
+     * This method sets up what the buttons will do when pressed.
+     */
+    public void setUpButtons(){
+        myLoadGame.setOnAction(e-> myController.loadGame());
+        myExitGame.setOnAction(e-> myController.exitGame());
     }
 
     /**

@@ -15,6 +15,7 @@ import model.Hero;
  * Reads directly from Hero's fields (potions and pillars) and allows usage of potions.
  *
  * @author Carson Poirier
+ * @author Geovani Vasquez
  * @version 11/22/25
  */
 public final class HeroItemsPane extends Scene {
@@ -64,7 +65,7 @@ public final class HeroItemsPane extends Scene {
 
         setUpKeyListeners();
         setUpButtonActions();
-
+        root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(title, myPotionsText,
                 myVisionPotionButton, myHealingPotionButton);
 

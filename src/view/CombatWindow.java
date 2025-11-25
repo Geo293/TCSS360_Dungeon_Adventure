@@ -20,6 +20,7 @@ import util.CharacterImageLoader;
  * Displays stats, logs actions, and provides buttons for attack and special skill.
  *
  * @author Carson Poirier
+ * @author Geovnai Vasquez
  * @version 11/22/25
  */
 public final class CombatWindow extends Scene {
@@ -99,7 +100,7 @@ public final class CombatWindow extends Scene {
         myHeroImage = new ImageView(new Image(CharacterImageLoader.getImageChar(theCharacterName)));
         myHeroImage.setFitWidth(200);
         myHeroImage.setFitHeight(200);
-
+        root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(myHeroImage, myHeroStats, myMonsterStats,
                 myMonsterImage, buttonBox, myCombatLog);
     }
