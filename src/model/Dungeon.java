@@ -19,10 +19,17 @@ public class Dungeon {
     private static final int DEFAULT_HEIGHT = 10;
     private static final String[] PILLAR_TYPES = {"A", "E", "I", "P"}; // Abstraction, Encapsulation, Inheritance, Polymorphism
     private static final double EXTRA_DOOR_CHANCE = 0.25; // 25% chance to add extra doors
-    private static final double MONSTER_SPAWN_CHANCE = 0.2; // 20% base chance for monster
+
+
+    // Monster spawn chance constants - easily configurable
+    private static final double BASE_MONSTER_SPAWN_CHANCE = 0.3; // 30% base chance
+    private static final double PILLAR_MONSTER_SPAWN_CHANCE = 0.75; // 75% chance for pillar rooms
+    private static final double EXIT_DISTANCE_BONUS = 0.4; // Up to 40% bonus near exit
+    private static final double MIN_SPAWN_CHANCE = 0.1; // Minimum 10% chance
+    private static final double MAX_SPAWN_CHANCE = 0.75; // Maximum 75% chance
+
 
     // Instance variables
-
     private final Room[][] myMaze;
     private final int myWidth;
     private final int myHeight;
@@ -64,9 +71,9 @@ public class Dungeon {
 
         generateMaze();
         addExtraDoors();
-        generateRoomContents();
         placeExit();
         placeEntrance();
+        generateRoomContents();
         placePillars();
         placeMonsters();
     }
@@ -338,9 +345,9 @@ public class Dungeon {
 
                 if (x < maxX) {
 
-                    line1.append(lines[0].substring(0, lines[0].length() - 1));
-                    line2.append(lines[1].substring(0, lines[1].length() - 1));
-                    line3.append(lines[2].substring(0, lines[2].length() - 1));
+                    line1.append(lines[0], 0, lines[0].length() - 1);
+                    line2.append(lines[1], 0, lines[1].length() - 1);
+                    line3.append(lines[2], 0, lines[2].length() - 1);
                 } else {
 
                     line1.append(lines[0]);
@@ -363,7 +370,7 @@ public class Dungeon {
      * Places monsters throughout the dungeon with higher probability near pillars and exit.
      */
     private void placeMonsters() {
-        //Pre-load all monsters once at the start
+        // Pre-load all monsters once at the start
         MonsterFactory.loadMonsters();
 
         for (int x = 0; x < myWidth; x++) {
@@ -373,13 +380,14 @@ public class Dungeon {
                     continue;
                 }
 
-                // Skip exit room (though you might want monsters near exit)
+                // Skip exit room
                 if (x == myExitX && y == myExitY) {
                     continue;
                 }
 
-                if (myRandom.nextDouble() < MONSTER_SPAWN_CHANCE) {
-                    // Now getRandomMonster() uses the pre-loaded list
+                double spawnChance = calculateMonsterSpawnChance(x, y);
+
+                if (myRandom.nextDouble() < spawnChance) {
                     Monster monster = MonsterFactory.getRandomMonster();
                     if (monster != null) {
                         myMaze[x][y].setMonster(monster);
@@ -389,6 +397,36 @@ public class Dungeon {
         }
     }
 
+
+    /**
+     * Calculates the probability of spawning a monster in a given room.
+     * Higher chances near exit and in pillar rooms.
+     *
+     * @param theX x-coordinate of the room
+     * @param theY y-coordinate of the room
+     * @return probability between MIN_SPAWN_CHANCE and MAX_SPAWN_CHANCE
+     */
+    private double calculateMonsterSpawnChance(int theX, int theY) {
+        double myMaxDistanceFromExit = Math.sqrt(Math.pow(myWidth - 1, 2) + Math.pow(myHeight - 1, 2));
+
+        // Guarantee high chance for pillar rooms
+        if (myMaze[theX][theY].getPillar() != null) {
+            return PILLAR_MONSTER_SPAWN_CHANCE;
+        }
+
+        // Calculate distance from exit
+        double distanceFromExit = Math.sqrt(Math.pow(theX - myExitX, 2) + Math.pow(theY - myExitY, 2));
+
+        // Normalize distance (0 = at exit, 1 = farthest from exit)
+        double normalizedDistance = distanceFromExit / myMaxDistanceFromExit;
+
+        // Calculate spawn chance: higher near exit, lower further away
+        // BASE + (EXIT_BONUS * (1 - normalizedDistance))
+        double chance = BASE_MONSTER_SPAWN_CHANCE + (EXIT_DISTANCE_BONUS * (1 - normalizedDistance));
+
+        // Ensure chance stays within configured bounds
+        return Math.max(MIN_SPAWN_CHANCE, Math.min(MAX_SPAWN_CHANCE, chance));
+    }
 
 
     /**
