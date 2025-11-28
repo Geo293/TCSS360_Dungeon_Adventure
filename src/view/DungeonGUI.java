@@ -48,15 +48,8 @@ public class DungeonGUI extends Application {
         Image icon = new Image(getClass().getResourceAsStream("/images/Icon/GameIcon.png"));
         myPrimaryStage.getIcons().add(icon);
         myPrimaryStage.setTitle("Dungeon_Adventure");
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double width = Math.min(1000, screenBounds.getWidth() * 0.8);
-        double height = Math.min(1000, screenBounds.getHeight() * 0.8);
-        myPrimaryStage.setWidth(width);
-        myPrimaryStage.setHeight(height);
-        myPrimaryStage.centerOnScreen();
-        myPrimaryStage.setResizable(true);
-        myPrimaryStage.setMinWidth(600);
-        myPrimaryStage.setMinHeight(400);
+        myPrimaryStage.setWidth(1200);
+        myPrimaryStage.setHeight(900);
     }
 
 }
