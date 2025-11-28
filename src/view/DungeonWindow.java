@@ -126,6 +126,8 @@ public class DungeonWindow extends Scene {
     public StackPane middle(){
         StackPane middle = new StackPane();
         myFloor.setPreserveRatio(false);
+        myFloor.fitWidthProperty().bind(middle.widthProperty());
+        myFloor.fitHeightProperty().bind(middle.heightProperty());
         myChest.setFitWidth(80);
         myChest.setFitHeight(120);
         myHeroImage.setFitWidth(80);
