@@ -11,7 +11,7 @@ import javafx.scene.layout.StackPane;
 import model.Dungeon;
 import model.Hero;
 import model.Room;
-
+import util.CharacterImageLoader;
 
 
 public class DungeonWindow extends Scene {
@@ -38,18 +38,22 @@ public class DungeonWindow extends Scene {
     private final ImageView myDoorN;
     private final ImageView myDoorS;
     private final ImageView myFloor;
+    private final ImageView myHeroImage;
+    private final ImageView myChest;
     private Room myCurrentRoom;
     private final Label myHeroStats;
 
 
 
-    public DungeonWindow(GameController theController, Dungeon theDungeon, Hero theHero) {
+    public DungeonWindow(GameController theController, Dungeon theDungeon, Hero theHero, String theCharacterName) {
         super(new BorderPane());
         myDungeon = theDungeon;
         myGameController = theController;
         myCurrentRoom = myDungeon.getCurrentRoom();
         myHero = theHero;
+        myHeroImage = new ImageView(new Image(CharacterImageLoader.getImageChar(theCharacterName)));
         myDungeonDisplay =  new Label(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),0));
+        myChest = new ImageView(new Image("/images/Items/chest.png"));
         myHeroStats = new Label();
         myPillarA = new ImageView();
         myPillarE = new ImageView();
@@ -107,15 +111,28 @@ public class DungeonWindow extends Scene {
         StackPane eastStack = east();
         StackPane northStack = north();
         StackPane southStack = south();
+        StackPane middleStack = middle();
         BorderPane centerWindow = new BorderPane();
         centerWindow.setLeft(westStack);
         centerWindow.setRight(eastStack);
         centerWindow.setTop(northStack);
         centerWindow.setBottom(southStack);
 
-        centerWindow.setCenter(myFloor);
+        centerWindow.setCenter(middleStack);
 
         return centerWindow;
+
+    }
+    public StackPane middle(){
+        StackPane middle = new StackPane();
+        myFloor.setPreserveRatio(false);
+        myChest.setFitWidth(80);
+        myChest.setFitHeight(120);
+        myHeroImage.setFitWidth(80);
+        myHeroImage.setFitHeight(120);
+        myHeroImage.setTranslateX(-50);
+        middle.getChildren().addAll(myFloor,myChest,myHeroImage);
+        return middle;
 
     }
     public StackPane west(){
@@ -194,8 +211,8 @@ public class DungeonWindow extends Scene {
         if(myDungeon.moveHero(theMove)){
             myCurrentRoom = myDungeon.getCurrentRoom();
             updateDisplay();
-            myGameController.processRoomEvents();
             displayDoor();
+            myGameController.processRoomEvents();
             checkForPillars();
         }
     }
@@ -273,6 +290,12 @@ public class DungeonWindow extends Scene {
             myDoorS.setVisible(true);
         } else {
             myDoorS.setVisible(false);
+        }
+        if(myCurrentRoom.hasVisionPotion() || myCurrentRoom.hasHealingPotion()
+            || myCurrentRoom.hasMultipleItems()){
+            myChest.setVisible(true);
+        } else {
+            myChest.setVisible(false);
         }
     }
 

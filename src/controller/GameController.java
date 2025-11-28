@@ -125,7 +125,7 @@ public class GameController {
                 myHero = new Thief(theCharacterName);
                 break;
         }
-        myGameWindow = new DungeonWindow(this, myDungeon, myHero);
+        myGameWindow = new DungeonWindow(this, myDungeon, myHero,myCharacterType);
         myStage.setScene(myGameWindow);
 
     }
@@ -158,7 +158,7 @@ public class GameController {
      * @param theDungeon the current dungeon
      */
     public void saveQuit(Hero theHero, Dungeon theDungeon) {
-        myGameState = new GameState(theHero, theDungeon);
+        myGameState = new GameState(theHero, theDungeon, myCharacterType);
         mySaveLoadManager =  new SaveLoadManager();
         mySaveLoadManager.saveGame(myGameState);
         goBackToStart();
@@ -170,7 +170,7 @@ public class GameController {
      */
     public void loadGame() {
         myGameState = mySaveLoadManager.loadGame();
-        myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero());
+        myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero(), myGameState.getCharacterName());
         myStage.setScene(myGameWindow);
     }
 
@@ -200,6 +200,9 @@ public class GameController {
                 if (myHero.hasAllPillars()) {
                     gameWon();
                 }
+            }
+            if(!myHero.isAlive()) {
+                heroDied();
             }
         }
 
