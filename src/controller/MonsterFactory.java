@@ -40,9 +40,7 @@ public class MonsterFactory {
 
             while (rs.next()) {
                 Monster monster = createMonsterFromRow(rs);
-                if (monster != null) {
-                    monsters.add(monster);
-                }
+                monsters.add(monster);
             }
 
         } catch (SQLException e) {
