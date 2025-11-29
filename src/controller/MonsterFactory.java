@@ -16,6 +16,7 @@ import java.util.Random;
  */
 public class MonsterFactory {
     private static final String DB_URL = "jdbc:sqlite:monsters.db";
+
     static {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -36,7 +37,7 @@ public class MonsterFactory {
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM monsters")) {
+             ResultSet resultSet = stmt.executeQuery("SELECT * FROM monsters")) {
 
             while (resultSet.next()) {
                 Monster monster = createMonsterFromRow(resultSet);
@@ -122,6 +123,7 @@ public class MonsterFactory {
             default -> throw new IllegalArgumentException("Unknown monster type: " + name);
         };
     }
+}
 
 
 
