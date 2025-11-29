@@ -49,11 +49,17 @@ public final class MonsterFactory {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM monsters")) {
 
-            while (resultSet.next()) {
-                final Monster monster = createMonsterFromRow(resultSet);
-                if (monster != null) {
-                    monsters.add(monster);
+
+            while (rs.next()) {
+                Monster monster = createMonsterFromRow(rs);
+                monsters.add(monster);
+
+            
+                
+              
+                    
                 }
+
             }
 
         } catch (final SQLException theException) {
@@ -64,15 +70,26 @@ public final class MonsterFactory {
     }
 
     /**
-     * Returns a randomly selected Monster from the database.
+     * Returns a randomly selected non-boss Monster from the database.
      *
      * @return a single Monster instance, or null if none found
      */
     public static Monster getRandomMonster() {
-        final List<Monster> monsters = loadMonsters();
+
+        List<Monster> monsters = loadMonsters();
+
+        // Filter out boss monsters like SuperOgre
+        monsters.removeIf(monster -> monster instanceof SuperOgre);
+
         if (monsters.isEmpty()) {
             return null;
         }
+
+
+        
+          
+     
+
         return monsters.get(new Random().nextInt(monsters.size()));
     }
 
