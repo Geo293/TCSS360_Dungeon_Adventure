@@ -50,15 +50,9 @@ public final class MonsterFactory {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM monsters")) {
 
 
-            while (rs.next()) {
-                Monster monster = createMonsterFromRow(rs);
+            while (resultSet.next()) {
+                Monster monster = createMonsterFromRow(resultSet);
                 monsters.add(monster);
-
-            
-                
-              
-                    
-                }
 
             }
 
@@ -68,6 +62,7 @@ public final class MonsterFactory {
 
         return monsters;
     }
+
 
     /**
      * Returns a randomly selected non-boss Monster from the database.
@@ -125,4 +120,6 @@ public final class MonsterFactory {
         };
     }
 }
+
+
 
