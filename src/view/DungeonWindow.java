@@ -67,7 +67,7 @@ public class DungeonWindow extends Scene {
         myDoorE = new ImageView(DOOR);
         myDoorN = new ImageView(DOOR);
         myDoorS = new ImageView(DOOR);
-        myFloor = new ImageView(new Image("/images/Area/FloorPls.png"));
+        myFloor = new ImageView(new Image("/images/Area/FloorRight.png"));
 
         HBox bottomBox = bottomPlane(myDungeon, 0);
         HBox topBox = topPlane();
