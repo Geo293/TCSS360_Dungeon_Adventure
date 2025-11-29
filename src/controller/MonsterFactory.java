@@ -51,6 +51,20 @@ public class MonsterFactory {
     }
 
     /**
+     * Returns a boss monster (currently only SuperOgre).
+     *
+     * @return a SuperOgre instance
+     */
+    public static Monster getBossMonster() {
+        List<Monster> monsters = loadMonsters();
+        return monsters.stream()
+                .filter(monster -> monster instanceof SuperOgre)
+                .findFirst()
+                .orElse(null);
+    }
+
+
+    /**
      * Returns a randomly selected non-boss Monster from the database.
      *
      * @return A single Monster instance, or null if none found.
