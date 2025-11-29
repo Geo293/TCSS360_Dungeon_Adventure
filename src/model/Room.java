@@ -19,7 +19,7 @@ public class Room {
     private static final double PIT_SPAWN_CHANCE = 0.10;
 
     /**What character you want to represent the walls.*/
-    private static final char WALL_CHARACTER = '█'; // default is '*' but '█' is easy to read
+    private static final char WALL_CHARACTER = '*'; // default is '*' but '█' is easy to read
 
     /**If you want to have the doors ("-|") shown in the toString or not.*/
     private static final boolean SHOW_DOORS = true;
