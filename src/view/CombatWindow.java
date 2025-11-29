@@ -66,6 +66,10 @@ public final class CombatWindow extends Scene {
     public CombatWindow(final Hero theHero, final Monster theMonster,
                         final GameController theController, final String theCharacterName) {
         super(new VBox(), 600, 400);
+        if (theHero == null || theMonster == null || theController == null
+                || theCharacterName == null || theCharacterName.trim().isEmpty()) {
+            throw new IllegalArgumentException("The parameters cannot be empty");
+        }
         myHero = theHero;
         myMonster = theMonster;
         myController = theController;
