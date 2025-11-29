@@ -33,6 +33,9 @@ public class GameGuide extends Scene {
      */
     public GameGuide(GameController theController, Hero theHero) {
         super(new VBox());
+        if (theHero == null || theController == null) {
+            throw new IllegalArgumentException("theHero and theController are null!");
+        }
         VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         myController = theController;

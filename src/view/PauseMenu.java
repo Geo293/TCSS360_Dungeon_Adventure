@@ -49,6 +49,9 @@ public class PauseMenu extends Scene {
      */
     public PauseMenu(GameController theController, Dungeon theDungeon, Hero theHero) {
             super(new VBox());
+            if(theController == null || theDungeon == null || theHero == null) {
+                throw new IllegalArgumentException("Arguments cannot be null");
+            }
             VBox root = (VBox) getRoot();
             root.setAlignment(Pos.CENTER);
             myController = theController;

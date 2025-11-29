@@ -38,9 +38,10 @@ public class MonsterFactory {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM monsters")) {
 
-            while (rs.next()) {
-                Monster monster = createMonsterFromRow(rs);
+            while (resultSet.next()) {
+                Monster monster = createMonsterFromRow(resultSet);
                 monsters.add(monster);
+
             }
 
         } catch (SQLException e) {
@@ -49,6 +50,7 @@ public class MonsterFactory {
 
         return monsters;
     }
+
 
     /**
      * Returns a boss monster (currently only SuperOgre).
@@ -122,4 +124,4 @@ public class MonsterFactory {
     }
 
 
-}
+

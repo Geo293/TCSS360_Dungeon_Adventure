@@ -13,40 +13,132 @@ import model.Hero;
 import model.Room;
 import util.CharacterImageLoader;
 
-
+/**
+ * This method displays the game and the dungeon and lets the user
+ * interact with the game and allows them progress with the dungeon.
+ *
+ * @author Geovani Vasquez
+ * @version 11/28/2025
+ */
 public class DungeonWindow extends Scene {
+    /**
+     * This is the door image
+     */
     private static final Image DOOR = new Image("/images/Area/Door.png");
+    /**
+     * This is the west wall and east wall that is displayed on the map
+     */
     private static final Image WALLW = new Image("/images/Area/WestW.png");
+    /**
+     * This is the north and south wall image that is being displayed on the map.
+     */
     private static final Image WALLN = new Image("/images/Area/NorthW.png");
+    /**
+     * This is the instructions for how to play the game and what to press.
+     */
     private final Label myGameAction = new Label( "    W/↑ North\n" +
             "A/← West  East →/D\n" +
             "    S/↓ South    Press G for Guide" );
+    /**
+     * This is the mini map that is displayed on the bottom
+     */
     private Label myDungeonDisplay;
+    /**
+     * This is the current hero that the user made
+     */
     private Hero myHero;
+    /**
+     * This is the current dungeon the hero is going through
+     */
     private Dungeon myDungeon;
+    /**
+     * This is the game controller that switches the scenes
+     */
     private GameController myGameController;
+    /**
+     * This is the pillar image
+     */
     private final ImageView myPillarA;
+    /**
+     * This is the pillar image
+     */
     private final ImageView myPillarE;
+    /**
+     * This is the pillar image
+     */
     private final ImageView myPillarI;
+    /**
+     * This is the pillar image
+     */
     private final ImageView myPillarP;
+    /**
+     * This is the west wall
+     */
     private final ImageView myWestW;
+    /**
+     * This is the east wall
+     */
     private final ImageView myEastW;
+    /**
+     * This is the south wall
+     */
     private final ImageView mySouthW;
+    /**
+     * This is the NorthW
+     */
     private final ImageView myNorthW;
+    /**
+     * This is the west door
+     */
     private final ImageView myDoorW;
+    /**
+     * This is the east door
+     */
     private final ImageView myDoorE;
+    /**
+     * This is the north door
+     */
     private final ImageView myDoorN;
+    /**
+     * This is the south door
+     */
     private final ImageView myDoorS;
+    /**
+     * This is the floor of the dungeon
+     */
     private final ImageView myFloor;
+    /**
+     * This is the hero being displayed on the screen
+     */
     private final ImageView myHeroImage;
+    /**
+     * This is the chest that is displays when there are items
+     */
     private final ImageView myChest;
+    /**
+     * This is the current room
+     */
     private Room myCurrentRoom;
+    /**
+     * this is the heros health
+     */
     private final Label myHeroStats;
 
 
-
+    /**
+     * This is the constructor that sets all the variables and then displays the
+     * dungeon on the screen
+     * @param theController this is the controller that switches the scenes
+     * @param theDungeon this is the current dungeon being played
+     * @param theHero this is the current hero that the user chose
+     * @param theCharacterName this is the type of character that the user chose
+     */
     public DungeonWindow(GameController theController, Dungeon theDungeon, Hero theHero, String theCharacterName) {
         super(new BorderPane());
+        if(theController == null || theDungeon == null || theHero == null
+                || theCharacterName == null || theCharacterName.trim().isEmpty()) {
+            throw new IllegalArgumentException("the parameters cannot be null or empty");
+        }
         myDungeon = theDungeon;
         myGameController = theController;
         myCurrentRoom = myDungeon.getCurrentRoom();
@@ -82,6 +174,15 @@ public class DungeonWindow extends Scene {
         displayDoor();
         hide();
     }
+
+    /**
+     * This displays the bottom of the screen which has the mini map and
+     * the instructions on how to play
+     *
+     * @param theDungeon the current dungeon
+     * @param theRad the radius of the mini map
+     * @return returns a hdbox with all the contents of the bottom screen
+     */
     public HBox bottomPlane(Dungeon theDungeon, int theRad){
         myDungeonDisplay.setText(theDungeon.getVisableArea(theDungeon.getMyHeroX(),theDungeon.getMyHeroY(),theRad));
         HBox bottomPlane = new HBox(20);
@@ -92,11 +193,22 @@ public class DungeonWindow extends Scene {
         return bottomPlane;
 
     }
+
+    /**
+     * This updates the size of the mini map so the user can see it on the screen
+     * @param theRadius he radius of the minimap
+     */
     public void updateDisplayRadius(int theRadius){
         myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),theRadius));
         int fontSize = theRadius > 0 ? 12 : 20;
         myDungeonDisplay.setStyle("-fx-font-size: " + fontSize + "px; -fx-font-family: 'Courier New', monospace;");
     }
+
+    /**
+     * This is what is displayed at the top of the screen which includes the
+     * pillars and the health of the hero
+     * @return a HBox with all the contents of the top of  the screen
+     */
     public HBox topPlane(){
         HBox topPlane = new HBox();
         topPlane.setAlignment(javafx.geometry.Pos.CENTER);
@@ -106,6 +218,12 @@ public class DungeonWindow extends Scene {
 
 
     }
+
+    /**
+     * This is the current room being displayed in the game
+     * it contains the walls, doors, and the floor
+     * @return a BorderPane that has all the contents of the dungeon
+     */
     public BorderPane centerWindow(){
         StackPane westStack = west();
         StackPane eastStack = east();
@@ -123,6 +241,12 @@ public class DungeonWindow extends Scene {
         return centerWindow;
 
     }
+
+    /**
+     * This displays the floor and the hero and if there are items then
+     * a chest is displayed
+     * @return returns the center of the dungeon as a StackPane
+     */
     public StackPane middle(){
         StackPane middle = new StackPane();
         myFloor.setPreserveRatio(false);
@@ -137,6 +261,12 @@ public class DungeonWindow extends Scene {
         return middle;
 
     }
+
+    /**
+     * This is the west wall and displays a wall and if there
+     * is a door then displays an open door
+     * @return the west part of the dungeon
+     */
     public StackPane west(){
         StackPane westStack = new StackPane();
         myWestW.setPreserveRatio(false);
@@ -147,6 +277,12 @@ public class DungeonWindow extends Scene {
         westStack.getChildren().addAll(myWestW, myDoorW);
         return westStack;
     }
+
+    /**
+     * This is  the east  wall and displays a wall and if there
+     * is a door then displays an open door
+     * @return the east part of the dungeon
+     */
     public StackPane east(){
         StackPane eastStack = new StackPane();
         myEastW.setPreserveRatio(false);
@@ -157,6 +293,12 @@ public class DungeonWindow extends Scene {
         eastStack.getChildren().addAll(myEastW, myDoorE);
         return eastStack;
     }
+
+    /**
+     * This is the north and displays a wall and if there
+     * is a door then displays an open door
+     * @return the north part of the dungeon
+     */
    public StackPane north(){
         StackPane northStack = new StackPane();
         myNorthW.setPreserveRatio(false);
@@ -167,6 +309,12 @@ public class DungeonWindow extends Scene {
         northStack.getChildren().addAll(myNorthW, myDoorN);
         return northStack;
     }
+
+    /**
+     * This is the south and displays a wall and if there
+     * is a door then displays an open door
+     * @return the south part of the dungeon
+     */
     public StackPane south(){
         StackPane southStack = new StackPane();
         mySouthW.setPreserveRatio(false);
@@ -178,6 +326,11 @@ public class DungeonWindow extends Scene {
         return southStack;
     }
 
+    /**
+     * This method preforms actions when certain buttons are pressed
+     * such as wasd which moves the character or g which opens the guide
+     * and escape which opens the pause menu
+     */
     public void setUpKeyListeners(){
         this.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -209,6 +362,11 @@ public class DungeonWindow extends Scene {
         });
     }
 
+    /**
+     * This handles what happens when a button is pressed and send it to the controller
+     * to preform the action.
+     * @param theMove is what direction the user is going
+     */
     public void handleMove(String theMove){
         if(myDungeon.moveHero(theMove)){
             myCurrentRoom = myDungeon.getCurrentRoom();
@@ -218,10 +376,18 @@ public class DungeonWindow extends Scene {
             checkForPillars();
         }
     }
+
+    /**
+     * This updates the mini map
+     */
     public void updateDisplay(){
         myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(), myDungeon.getMyHeroY(), 0));
     }
 
+    /**
+     * This checks for the pillars that have been picked up then displays them on the
+     * top of the screen for the user to keep track of
+     */
     public void checkForPillars() {
         String pillar = myCurrentRoom.getPillar();
         if (pillar != null) {
@@ -247,16 +413,30 @@ public class DungeonWindow extends Scene {
 
         }
     }
+
+    /**
+     * this refresh the screen whenever the user moves
+     */
     public void refresh(){
         updateDisplay();
         updateHeroStats();
         displayDoor();
         checkForPillars();
     }
+
+    /**
+     * updates the heros health everytime the hero healths and or
+     * takes damage
+     */
     public void updateHeroStats(){
         myHeroStats.setText(String.format("HP :%d",
                 myHero.getMyHitPoints()));
     }
+
+    /**
+     * This method hides all the pillars when the user doesn't have any pillars at the
+     * start of the game
+     */
     public void hide(){
         myPillarA.setVisible(false);
         myPillarA.setFitWidth(60);
@@ -272,6 +452,10 @@ public class DungeonWindow extends Scene {
         myPillarP.setFitHeight(60);
     }
 
+    /**
+     * This displays the doors and chest if there are any in the
+     * current room
+     */
     public void displayDoor(){
         if(myCurrentRoom.hasWestDoor()){
             myDoorW.setVisible(true);

@@ -72,6 +72,9 @@ public class CharacterSelected extends Scene {
      */
     public CharacterSelected(GameController theController) {
         super(new VBox());
+        if (theController == null) {
+            throw new IllegalArgumentException("Null controller");
+        }
         VBox root = (VBox)this.getRoot();
         root.setAlignment(javafx.geometry.Pos.CENTER);
         root.setSpacing(20);
@@ -177,9 +180,12 @@ public class CharacterSelected extends Scene {
                 myStatsDisplay.setText("Please enter a name!");
                 return;
             }
-
+            if(myChosenCharacter == null){
+                throw new IllegalArgumentException("selected a hero first");
+            }
             myController.startNewGame(myChosenCharacter, myCharacterType );
         });
+
         gameStart.getChildren().addAll(myStartButton);
         return gameStart;
     }

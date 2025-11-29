@@ -40,6 +40,9 @@ public class DeathScreen extends Scene {
      */
     public DeathScreen(GameController theController) {
         super(new VBox());
+        if (theController == null) {
+            throw new IllegalArgumentException("Controller cannot be null");
+        }
         VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         myController = theController;

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -9,7 +10,9 @@ import java.util.Random;
  * @author Carson Poirier
  * @version 11/1/25
  */
-public abstract class DungeonCharacter {
+public abstract class DungeonCharacter implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /** The name of the character. */
     protected String myName;

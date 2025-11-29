@@ -3,6 +3,7 @@ package model;
 import controller.MonsterFactory;
 import java.util.Random;
 import java.util.Stack;
+import java.io.Serializable;
 
 /**
  * This class creates a randomly generated maze for the player to
@@ -13,7 +14,7 @@ import java.util.Stack;
  * @author Justin Yee
  * @version Oct, 24 2025
  */
-public class Dungeon {
+public class Dungeon implements Serializable{
     // Constants
     private static final int DEFAULT_WIDTH = 10;
     private static final int DEFAULT_HEIGHT = 10;
@@ -185,6 +186,7 @@ public class Dungeon {
                     myMaze[pillarX][pillarY].getPillar() != null);
 
             myMaze[pillarX][pillarY].setPillar(pillar);
+            //myMaze[pillarX][pillarY].setMonster(MonsterFactory.getSuperOgre);
         }
     }
 

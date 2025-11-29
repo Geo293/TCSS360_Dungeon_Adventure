@@ -75,6 +75,9 @@ public class GameController {
      * @param theStage the main screen
      */
     public GameController(Stage theStage) {
+        if (theStage == null) {
+            throw new IllegalArgumentException("Stage cannot be null");
+        }
         myStage = theStage;
         myStartScreen = new StartScreen(this);
         myCharacterSelected = new CharacterSelected(this);
@@ -112,6 +115,10 @@ public class GameController {
      * @param theCharacterName this is the name the user inputed
      */
     public void startNewGame(String theCharacterType, String theCharacterName) {
+        if (theCharacterType == null || theCharacterType.trim().isEmpty() ||
+                theCharacterName == null || theCharacterName.trim().isEmpty()) {
+            throw new IllegalArgumentException("the character type and name cannot be null or empty");
+        }
         myDungeon = new Dungeon();
         myCharacterType = theCharacterName;
         switch (theCharacterType) {
@@ -137,6 +144,9 @@ public class GameController {
      * @param theMonster this is the current monster
      */
     public void startFight(Hero theHero, Monster theMonster) {
+        if(theMonster == null || theHero == null) {
+            throw new IllegalArgumentException("the monster and hero cannot be null");
+        }
         myCombatWindow = new CombatWindow(theHero, theMonster, this,myCharacterType);
         myStage.setScene(myCombatWindow);
     }
@@ -148,6 +158,9 @@ public class GameController {
      * @param theHero this is the current hero
      */
     public void pauseMenu(Dungeon theDungeon, Hero theHero){
+        if(theDungeon == null || theHero == null) {
+            throw new IllegalArgumentException("the dungeon and hero cannot be null");
+        }
         myPauseMenu = new PauseMenu(this, theDungeon, theHero);
         myStage.setScene(myPauseMenu);
     }
@@ -158,6 +171,9 @@ public class GameController {
      * @param theDungeon the current dungeon
      */
     public void saveQuit(Hero theHero, Dungeon theDungeon) {
+        if(theHero == null || theDungeon == null) {
+            throw new IllegalArgumentException("the dungeon and hero cannot be null");
+        }
         myGameState = new GameState(theHero, theDungeon, myCharacterType);
         mySaveLoadManager =  new SaveLoadManager();
         mySaveLoadManager.saveGame(myGameState);
@@ -179,18 +195,26 @@ public class GameController {
      * @param theHero
      */
     public void backToDungeon(Hero theHero) {
+        if(theHero == null) {
+            throw new IllegalArgumentException("the hero cannot be null");
+        }
         myHero = theHero;
         myGameWindow.refresh();
         myStage.setScene(myGameWindow);
     }
 
+    /**
+     * This allows the hero to preform actions very time they
+     * enter a new room and then returns it to the main game.
+     */
     public void processRoomEvents() {
             Room myCurrentRoom = myDungeon.getCurrentRoom();
 
             myHero.pickUpItem(myCurrentRoom);
             if (myCurrentRoom.hasPit()) {
                 int damage = (int) (Math.random() * 20) + 1;
-                myHero.subtractHitPoints(damage);
+                myHero.takePitDamage(damage);
+                myGameWindow.updateHeroStats();
             }
             if (myCurrentRoom.getMonster() != null) {
                 startFight(myHero, myCurrentRoom.getMonster());
@@ -206,27 +230,65 @@ public class GameController {
             }
         }
 
-        public void exitGame(){
+    /**
+     * This exits and closes the program when the games ends.
+     */
+    public void exitGame(){
             Platform.exit();
         }
-        public void heroDied(){
+
+    /**
+     * when the hero dies this switches to the death screen
+     */
+    public void heroDied(){
             myDeathScreen = new DeathScreen(this);
             myStage.setScene(myDeathScreen);
         }
-        public void gameWon(){
+
+    /**
+     * When the game is won this method switches to the win screen
+     */
+    public void gameWon(){
             myWinScreen = new WinScreen(this);
             myStage.setScene(myWinScreen);
         }
-        public void invetoryScreen(Hero theHero, Dungeon theDungeon){
+
+    /**
+     * This method switches to the inventory screen and sends in the
+     * current hero and the current dungeon
+     * @param theHero the current hero
+     * @param theDungeon the current dungeon
+     */
+    public void invetoryScreen(Hero theHero, Dungeon theDungeon){
+        if(theHero == null || theDungeon == null) {
+            throw new IllegalArgumentException("the hero and hero cannot be null");
+        }
             myHeroItemsPane = new HeroItemsPane(this,theHero, theDungeon);
             myStage.setScene(myHeroItemsPane);
         }
-        public void usesVPotion(Dungeon theDungeon  ){
+
+    /**
+     * This sets up the mini map to expand on use of a vision potion
+     * @param theDungeon the current dungeon
+     */
+    public void usesVPotion(Dungeon theDungeon  ){
+        if(theDungeon == null) {
+            throw new IllegalArgumentException("the dungeon cannot be null");
+        }
             myDungeon = theDungeon;
             myGameWindow.updateDisplayRadius(1);
             myStage.setScene(myGameWindow);
         }
-        public void gameGuide(Hero theHero){
+
+    /**
+     * This method switches to the guide that tells the user what all
+     * the symbols on the mini map mean
+     * @param theHero the hero class just to it can easily switch to the dungeon window
+     */
+    public void gameGuide(Hero theHero){
+        if(theHero == null) {
+            throw new IllegalArgumentException("the hero cannot be null");
+        }
             myGameGuide = new GameGuide(this, theHero);
             myStage.setScene(myGameGuide);
         }
