@@ -37,6 +37,9 @@ public class StartScreen extends Scene {
      */
     public StartScreen(GameController theController) {
         super(new VBox());
+        if (theController == null) {
+            throw new IllegalArgumentException("Controller cannot be null");
+        }
         VBox root = (VBox) getRoot();
         root.setAlignment(javafx.geometry.Pos.CENTER);
         myController = theController;
