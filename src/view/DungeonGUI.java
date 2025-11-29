@@ -49,7 +49,8 @@ public class DungeonGUI extends Application {
         myPrimaryStage.getIcons().add(icon);
         myPrimaryStage.setTitle("Dungeon_Adventure");
         myPrimaryStage.setWidth(1200);
-        myPrimaryStage.setHeight(900);
+        myPrimaryStage.setHeight(860);
+        myPrimaryStage.setMaximized(true);
     }
 
 }
