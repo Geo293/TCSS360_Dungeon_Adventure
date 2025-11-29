@@ -11,31 +11,63 @@ import model.Dungeon;
 import model.Hero;
 
 /**
- * GUI component that displays the current items the hero has.
- * Reads directly from Hero's fields (potions and pillars).
+ * JavaFX scene component that displays the current items the hero has.
+ * Reads directly from Hero's fields (potions and pillars) and allows usage of potions.
+ *
+ * @author Carson Poirier
+ * @author Geovani Vasquez
+ * @version 11/22/25
  */
-public class HeroItemsPane extends Scene {
+public final class HeroItemsPane extends Scene {
 
-    private final Hero hero;
-    private final Text potionsText;
-    private GameController myController;
-    private Dungeon myDungeon;
-    private Button myVPotion;
-    private Button myHPotion;
+    /** The hero whose items are displayed. */
+    private final Hero myHero;
 
-    public HeroItemsPane(GameController theController, Hero theHero, Dungeon theDungeon) {
+    /** Text area showing potion counts. */
+    private final Text myPotionsText;
+
+    /** Reference to the game controller. */
+    private final GameController myController;
+
+    /** Reference to the dungeon (needed for vision potion). */
+    private final Dungeon myDungeon;
+
+    /** Button for using a vision potion. */
+    private final Button myVisionPotionButton;
+
+    /** Button for using a healing potion. */
+    private final Button myHealingPotionButton;
+
+    /**
+     * Constructs the HeroItemsPane scene.
+     *
+     * @param theController the game controller
+     * @param theHero       the hero whose items are displayed
+     * @param theDungeon    the dungeon (needed for vision potion usage)
+     */
+    public HeroItemsPane(final GameController theController,
+                         final Hero theHero,
+                         final Dungeon theDungeon) {
         super(new VBox());
-        VBox root = (VBox) getRoot();
+        final VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
-        this.hero = theHero;
+        root.setSpacing(10);
+
+        myHero = theHero;
         myDungeon = theDungeon;
         myController = theController;
-        Label title = new Label("Your Items:");
-        potionsText = new Text();
-        myVPotion = new Button("use vision potion");
-        myHPotion = new Button("use health potion");
+
+        final Label title = new Label("Your Items:");
+        myPotionsText = new Text();
+
+        myVisionPotionButton = new Button("Use Vision Potion");
+        myHealingPotionButton = new Button("Use Healing Potion");
+
         setUpKeyListeners();
-        root.getChildren().addAll(title, potionsText,myVPotion,myHPotion);
+        setUpButtonActions();
+        root.setStyle("-fx-background-color: #F5DEB3");
+        root.getChildren().addAll(title, myPotionsText,
+                myVisionPotionButton, myHealingPotionButton);
 
         refresh();
     }
@@ -44,33 +76,40 @@ public class HeroItemsPane extends Scene {
      * Refreshes the display to match the hero's current items.
      */
     public void refresh() {
-        potionsText.setText("Healing Potions: " + hero.getMyHealingPotions() +
-                "\nVision Potions: " + hero.getMyVisionPotions());
-
+        myPotionsText.setText("Healing Potions: " + myHero.getMyHealingPotions()
+                + "\nVision Potions: " + myHero.getMyVisionPotions());
     }
-    public void setUpKeyListeners(){
-        this.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case M:
-                    myController.backToDungeon(hero);
-                    break;
-                case ESCAPE:
-                    myController.backToDungeon(hero);
-                    break;
+
+    /**
+     * Sets up keyboard shortcuts for returning to the dungeon.
+     */
+    private void setUpKeyListeners() {
+        this.setOnKeyPressed(theEvent -> {
+            switch (theEvent.getCode()) {
+                case M, ESCAPE -> myController.backToDungeon(myHero);
+                default -> { }
             }
         });
-        if(hero.getMyHealingPotions() > 0) {
-            myVPotion.setOnAction(event -> {
-                hero.useVisionPotion(myDungeon);
-                myController.usesVPotion(myDungeon);
-                refresh();
-            });
-        if(hero.getMyHealingPotions() > 0) {
-            myHPotion.setOnAction(event -> {hero.useHealingPotion();
-            refresh();
-            });
-        }
-        }
     }
 
+    /**
+     * Sets up button actions for potion usage.
+     */
+    private void setUpButtonActions() {
+        myVisionPotionButton.setOnAction(theEvent -> {
+            if (myHero.getMyVisionPotions() > 0) {
+                myHero.useVisionPotion(myDungeon);
+                myController.usesVPotion(myDungeon);
+                refresh();
+            }
+        });
+
+        myHealingPotionButton.setOnAction(theEvent -> {
+            if (myHero.getMyHealingPotions() > 0) {
+                myHero.useHealingPotion();
+                refresh();
+            }
+        });
+    }
 }
+

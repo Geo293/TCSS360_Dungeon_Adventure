@@ -39,15 +39,22 @@ public abstract class Hero extends DungeonCharacter {
 
     /**
      * Hero takes damage (chance to block).
-     * @param damage how much damage we take.
+     * @param theDamage how much damage we take.
      */
-    @Override
-    public void subtractHitPoints(int damage) {
+    public void subtractHitPoints(int theDamage) {
         if (myRand.nextDouble() < myChanceToBlock) {
             System.out.println(myName + " blocked the attack!");
         } else {
-            super.subtractHitPoints(damage);
+            super.subtractHitPoints(theDamage);
         }
+    }
+
+    /**
+     * Hero takes damage (cant block pit)
+     * @param theDamage the amount of dmg we take
+     */
+    public void takePitDamage(int theDamage){
+        super.subtractHitPoints(theDamage);
     }
 
     /**
