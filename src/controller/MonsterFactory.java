@@ -39,10 +39,10 @@ public class MonsterFactory {
              Statement stmt = conn.createStatement();
              ResultSet resultSet = stmt.executeQuery("SELECT * FROM monsters")) {
 
-            while (rs.next()) {
-                String name = rs.getString("name");
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
                 if (!name.equalsIgnoreCase("SuperOgre")) {
-                    Monster monster = createMonsterFromRow(rs);
+                    Monster monster = createMonsterFromRow(resultSet);
                     monsters.add(monster);
                 }
             }
