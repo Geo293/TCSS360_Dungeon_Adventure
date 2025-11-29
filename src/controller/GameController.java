@@ -190,7 +190,8 @@ public class GameController {
             myHero.pickUpItem(myCurrentRoom);
             if (myCurrentRoom.hasPit()) {
                 int damage = (int) (Math.random() * 20) + 1;
-                myHero.subtractHitPoints(damage);
+                myHero.takePitDamage(damage);
+                myGameWindow.updateHeroStats();
             }
             if (myCurrentRoom.getMonster() != null) {
                 startFight(myHero, myCurrentRoom.getMonster());
