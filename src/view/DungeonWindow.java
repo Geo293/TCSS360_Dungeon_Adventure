@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -147,7 +148,7 @@ public class DungeonWindow extends Scene {
         myWestW.setPreserveRatio(false);
         myWestW.fitWidthProperty().bind(westStack.widthProperty());
         myWestW.fitHeightProperty().bind(westStack.heightProperty());
-        myDoorW.setFitWidth(200);
+        myDoorW.setFitWidth(120);
         myDoorW.setFitHeight(200);
         westStack.getChildren().addAll(myWestW, myDoorW);
         return westStack;
@@ -157,7 +158,7 @@ public class DungeonWindow extends Scene {
         myEastW.setPreserveRatio(false);
         myEastW.fitWidthProperty().bind(eastStack.widthProperty());
         myEastW.fitHeightProperty().bind(eastStack.heightProperty());
-        myDoorE.setFitWidth(200);
+        myDoorE.setFitWidth(120);
         myDoorE.setFitHeight(200);
         eastStack.getChildren().addAll(myEastW, myDoorE);
         return eastStack;
@@ -168,7 +169,7 @@ public class DungeonWindow extends Scene {
         myNorthW.fitWidthProperty().bind(northStack.widthProperty());
         myNorthW.fitHeightProperty().bind(northStack.heightProperty());
         myDoorN.setFitWidth(200);
-        myDoorN.setFitHeight(150);
+        myDoorN.setFitHeight(120);
         northStack.getChildren().addAll(myNorthW, myDoorN);
         return northStack;
     }
@@ -178,7 +179,7 @@ public class DungeonWindow extends Scene {
         mySouthW.fitWidthProperty().bind(southStack.widthProperty());
         mySouthW.fitHeightProperty().bind(southStack.heightProperty());
         myDoorS.setFitWidth(200);
-        myDoorS.setFitHeight(150);
+        myDoorS.setFitHeight(120);
         southStack.getChildren().addAll(mySouthW, myDoorS);
         return southStack;
     }

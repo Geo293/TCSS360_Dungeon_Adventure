@@ -48,9 +48,9 @@ public class DungeonGUI extends Application {
         Image icon = new Image(getClass().getResourceAsStream("/images/Icon/GameIcon.png"));
         myPrimaryStage.getIcons().add(icon);
         myPrimaryStage.setTitle("Dungeon_Adventure");
-        myPrimaryStage.setWidth(1200);
-        myPrimaryStage.setHeight(860);
-        myPrimaryStage.setMaximized(true);
+        myPrimaryStage.setWidth(1080);
+        myPrimaryStage.setHeight(720);
+        myPrimaryStage.setMaximized(false);
     }
 
 }
