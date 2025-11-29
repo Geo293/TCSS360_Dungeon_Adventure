@@ -53,13 +53,20 @@ public class MonsterFactory {
     }
 
     /**
-     * Returns a randomly selected Monster from the database.
+     * Returns a randomly selected non-boss Monster from the database.
      *
      * @return A single Monster instance, or null if none found.
      */
     public static Monster getRandomMonster() {
         List<Monster> monsters = loadMonsters();
-        if (monsters.isEmpty()) return null;
+
+        // Filter out boss monsters like SuperOgre
+        monsters.removeIf(monster -> monster instanceof SuperOgre);
+
+        if (monsters.isEmpty()) {
+            return null;
+        }
+
         return monsters.get(new Random().nextInt(monsters.size()));
     }
 
