@@ -15,9 +15,14 @@ import util.CharacterImageLoader;
 
 
 public class DungeonWindow extends Scene {
-    private static final Image DOOR = new Image("/images/Area/Door.png");
-    private static final Image WALLW = new Image("/images/Area/WestW.png");
+    private static final Image NORTHD = new Image("/images/Area/NorthD.png");
+    private static final Image EASTD = new Image("/images/Area/EastD.png");
+    private static final Image SOUTHD = new Image("/images/Area/SouthD.png");
+    private static final Image WESTD = new Image("/images/Area/WestD.png");
     private static final Image WALLN = new Image("/images/Area/NorthW.png");
+    private static final Image WALLE = new Image("/images/Area/EastW.png");
+    private static final Image WALLS = new Image("/images/Area/SouthW.png");
+    private static final Image WALLW = new Image("/images/Area/WestW.png");
     private final Label myGameAction = new Label( "    W/↑ North\n" +
             "A/← West  East →/D\n" +
             "    S/↓ South    Press G for Guide" );
@@ -60,14 +65,14 @@ public class DungeonWindow extends Scene {
         myPillarI = new ImageView();
         myPillarP = new ImageView();
         myWestW = new ImageView(WALLW);
-        myEastW = new ImageView(WALLW);
-        mySouthW = new ImageView(WALLN);
+        myEastW = new ImageView(WALLE);
+        mySouthW = new ImageView(WALLS);
         myNorthW = new ImageView(WALLN);
-        myDoorW = new ImageView(DOOR);
-        myDoorE = new ImageView(DOOR);
-        myDoorN = new ImageView(DOOR);
-        myDoorS = new ImageView(DOOR);
-        myFloor = new ImageView(new Image("/images/Area/FloorRight.png"));
+        myDoorW = new ImageView(WESTD);
+        myDoorE = new ImageView(EASTD);
+        myDoorN = new ImageView(NORTHD);
+        myDoorS = new ImageView(SOUTHD);
+        myFloor = new ImageView(new Image("/images/Area/basement_floor.png"));
 
         HBox bottomBox = bottomPlane(myDungeon, 0);
         HBox topBox = topPlane();
@@ -142,8 +147,8 @@ public class DungeonWindow extends Scene {
         myWestW.setPreserveRatio(false);
         myWestW.fitWidthProperty().bind(westStack.widthProperty());
         myWestW.fitHeightProperty().bind(westStack.heightProperty());
-        myDoorW.setFitWidth(80);
-        myDoorW.setFitHeight(120);
+        myDoorW.setFitWidth(200);
+        myDoorW.setFitHeight(200);
         westStack.getChildren().addAll(myWestW, myDoorW);
         return westStack;
     }
@@ -152,8 +157,8 @@ public class DungeonWindow extends Scene {
         myEastW.setPreserveRatio(false);
         myEastW.fitWidthProperty().bind(eastStack.widthProperty());
         myEastW.fitHeightProperty().bind(eastStack.heightProperty());
-        myDoorE.setFitWidth(80);
-        myDoorE.setFitHeight(120);
+        myDoorE.setFitWidth(200);
+        myDoorE.setFitHeight(200);
         eastStack.getChildren().addAll(myEastW, myDoorE);
         return eastStack;
     }
@@ -162,8 +167,8 @@ public class DungeonWindow extends Scene {
         myNorthW.setPreserveRatio(false);
         myNorthW.fitWidthProperty().bind(northStack.widthProperty());
         myNorthW.fitHeightProperty().bind(northStack.heightProperty());
-        myDoorN.setFitWidth(80);
-        myDoorN.setFitHeight(120);
+        myDoorN.setFitWidth(200);
+        myDoorN.setFitHeight(150);
         northStack.getChildren().addAll(myNorthW, myDoorN);
         return northStack;
     }
@@ -172,8 +177,8 @@ public class DungeonWindow extends Scene {
         mySouthW.setPreserveRatio(false);
         mySouthW.fitWidthProperty().bind(southStack.widthProperty());
         mySouthW.fitHeightProperty().bind(southStack.heightProperty());
-        myDoorS.setFitWidth(80);
-        myDoorS.setFitHeight(120);
+        myDoorS.setFitWidth(200);
+        myDoorS.setFitHeight(150);
         southStack.getChildren().addAll(mySouthW, myDoorS);
         return southStack;
     }
