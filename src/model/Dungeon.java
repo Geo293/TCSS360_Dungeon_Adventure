@@ -186,7 +186,7 @@ public class Dungeon implements Serializable{
                     myMaze[pillarX][pillarY].getPillar() != null);
 
             myMaze[pillarX][pillarY].setPillar(pillar);
-            //myMaze[pillarX][pillarY].setMonster(MonsterFactory.getSuperOgre);
+            myMaze[pillarX][pillarY].setMonster(MonsterFactory.getBossMonster());
         }
     }
 
@@ -290,36 +290,12 @@ public class Dungeon implements Serializable{
     }
 
     //Other getters
-    public int getMyWidth() {
-        return myWidth;
-    }
-
-    public int getMyHeight() {
-        return myHeight;
-    }
-
     public int getMyHeroX() {
         return myHeroX;
     }
 
     public int getMyHeroY() {
         return myHeroY;
-    }
-
-    public int getMyEntranceX() {
-        return myEntranceX;
-    }
-
-    public int getMyEntranceY() {
-        return myEntranceY;
-    }
-
-    public int getMyExitX() {
-        return myExitX;
-    }
-
-    public int getMyExitY() {
-        return myExitY;
     }
 
     public String getVisableArea(int theCenterX, int theCenterY, int theRadius){
