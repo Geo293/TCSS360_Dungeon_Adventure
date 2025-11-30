@@ -112,6 +112,9 @@ public final class MonsterFactory {
      * @throws SQLException if column access fails.
      */
     private static Monster createRegularMonsterFromRow(ResultSet rs) throws SQLException {
+        if(rs == null){
+            throw new IllegalArgumentException("Monster row is null");
+        }
         String nameLower = rs.getString("name").toLowerCase();
         int hitPoints = rs.getInt("hit_points");
         int attackSpeed = rs.getInt("attack_speed");

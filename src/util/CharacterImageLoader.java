@@ -2,6 +2,9 @@ package util;
 
 public class CharacterImageLoader {
     public static String getImageChar(String theImageName) {
+        if (theImageName == null || theImageName.equals("")) {
+            throw new IllegalArgumentException("Image name cannot be empty");
+        }
         return switch (theImageName) {
             case "Warrior" -> "/images/characters/Warrior.png";
             case "Priestess" -> "/images/characters/Priestess.png";
@@ -11,6 +14,9 @@ public class CharacterImageLoader {
     }
 
     public static String getMonster(String theImageName) {
+        if (theImageName == null || theImageName.equals("")) {
+            throw new IllegalArgumentException("Image name cannot be empty");
+        }
        return switch (theImageName) {
             case "Gremlin" -> "/images/monsters/Gremlin.png";
             case "Skeleton" -> "/images/monsters/Skeleton.png";

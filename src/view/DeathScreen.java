@@ -6,10 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 
 
-import java.awt.*;
 
 /**
  * This class sets up a death screen after the user dies in combat. This
@@ -22,21 +20,21 @@ public class DeathScreen extends Scene {
     /**
      * This is the controller that allows the system to switch between screens
      */
-    private GameController myController;
+    private final GameController myController;
     /**
      * This is the button the allows the user to exit
      */
-    private Button myExit;
+    private final Button myExit;
     /**
      * this is the button the sends the user back to the
      * character select screen
      */
-    private Button myBackToCharatcer;
+    private final Button myBackToCharatcer;
 
     /**
      * This is teh constructor that sets up all the field variables
      * and then sets up the VBox to displays the buttons
-     * @param theController
+     * @param theController this is the controller object that controls the scenes
      */
     public DeathScreen(GameController theController) {
         super(new VBox());

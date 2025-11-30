@@ -52,6 +52,9 @@ public class Dungeon implements Serializable{
      * @param theHeight the height of the dungeon
      */
     public Dungeon(int theWidth, int theHeight) {
+        if (theWidth <= 0 || theHeight <= 0 ) {
+            throw new IllegalArgumentException("The width and height must be greater than 0");
+        }
         myWidth = theWidth;
         myHeight = theHeight;
         myMaze = new Room[theWidth][theHeight];
@@ -252,6 +255,9 @@ public class Dungeon implements Serializable{
      * Moves the hero in the specified direction
      */
     public boolean moveHero(String theDirection) {
+        if (theDirection == null) {
+            throw new IllegalArgumentException("The direction cannot be null");
+        }
         int newX = myHeroX;
         int newY = myHeroY;
 
@@ -299,6 +305,9 @@ public class Dungeon implements Serializable{
     }
 
     public String getVisableArea(int theCenterX, int theCenterY, int theRadius){
+        if (theRadius < 0 || theCenterY < 0 || theCenterX < 0 ) {
+            throw new IllegalArgumentException("The radius cannot be negative");
+        }
         StringBuilder sb = new StringBuilder();
         int minX = Math.max(0, theCenterX - theRadius);
         int maxX = Math.min(myWidth - 1, theCenterX + theRadius);

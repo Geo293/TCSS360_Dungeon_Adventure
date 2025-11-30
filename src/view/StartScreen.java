@@ -5,7 +5,6 @@ import javafx.animation.FadeTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -19,15 +18,15 @@ public class StartScreen extends Scene {
      * This field is the start button that allows the user
      * to go to the character select screen.
      */
-    private Button myNewGameButton;
+    private final Button myNewGameButton;
     /**
      * This is an object of the gamecontroller class which
      * is what controls what classes are being presented at a time.
      */
-    private GameController myController;
-    private Button myLoadGame;
-    private Button myExitGame;
-    private Label myTitle;
+    private final GameController myController;
+    private final Button myLoadGame;
+    private final Button myExitGame;
+    private final Label myTitle;
 
     /**
      * This method is the controctor and sets the fields and the sets what

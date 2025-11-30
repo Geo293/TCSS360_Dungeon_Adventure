@@ -2,11 +2,8 @@ package view; // only include this if your file is inside a "view" package
 
 import controller.GameController;
 import javafx.application.Application;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import javafx.stage.Screen;
-import javafx.geometry.Rectangle2D;
 
 
 

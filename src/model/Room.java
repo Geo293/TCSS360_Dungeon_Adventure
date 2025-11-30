@@ -102,11 +102,11 @@ public class Room implements Serializable {
     /**
      * This method is used to set the room to an entrance.
      *
-     * @param isEntrance    if you want to set it as an entrance or not
+     * @param theEntrance    if you want to set it as an entrance or not
      */
-    public void setEntrance(boolean isEntrance){
-        this.entrance = isEntrance;
-        if (isEntrance) {
+    public void setEntrance(boolean theEntrance){
+        this.entrance = theEntrance;
+        if (theEntrance) {
             clearRoom();
             this.exit = false;
         }
@@ -142,6 +142,9 @@ public class Room implements Serializable {
      * @param pillarType    what pillar you want to set
      */
     public void setPillar(String pillarType) {
+        if (pillarType == null || "".equals(pillarType)) {
+            throw new IllegalArgumentException("pillarType cannot be null or empty");
+        }
         clearRoom();
         this.pillar = pillarType;
     }
@@ -152,6 +155,9 @@ public class Room implements Serializable {
      * @param monster   the monster you want in the room.
      */
     public void setMonster(Monster monster) {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster cannot be null");
+        }
         clearRoom();
         this.monster = monster;
     }

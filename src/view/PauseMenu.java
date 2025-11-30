@@ -19,26 +19,26 @@ public class PauseMenu extends Scene {
      * This is the controller that allows the user to preform game actions
      * and allows the user to switch between scenes.
      */
-    private GameController myController;
+    private final GameController myController;
     /**
      * This is the dungeon object and has all the main
      * logic for the dungeon as a whole.
      */
-    private Dungeon myDungeon;
+    private final Dungeon myDungeon;
     /**
      * This is the player object and has all the logic for the heros.
      */
-    private Hero myHero;
+    private final Hero myHero;
     /**
      * This is the button that when pressed allows the user
      * to save their game then go back to main menu.
      */
-     private Button mySaveQuit;
+     private final Button mySaveQuit;
     /**
      * This is the button that allows the user to return to the game
      * they are currently on.
      */
-    private Button myContinue;
+    private final Button myContinue;
 
     /**
      * This is the method that sets up local variables and displays the buttons

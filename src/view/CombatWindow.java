@@ -1,5 +1,6 @@
 package view;
 
+
 import controller.CombatSystem;
 import controller.GameController;
 import javafx.geometry.Pos;
@@ -46,6 +47,8 @@ public final class CombatWindow extends Scene {
     /** Button for performing a special skill. */
     private final Button mySpecialButton;
 
+    private final Button myHealButton;
+
     /** Controller for managing game flow. */
     private final GameController myController;
 
@@ -54,6 +57,8 @@ public final class CombatWindow extends Scene {
 
     /** Image view for displaying the hero. */
     private final ImageView myHeroImage;
+
+    private int myStam;
 
     /**
      * Constructs the CombatWindow scene.
@@ -73,6 +78,7 @@ public final class CombatWindow extends Scene {
         myHero = theHero;
         myMonster = theMonster;
         myController = theController;
+        myStam = 0;
 
         final VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
@@ -89,12 +95,12 @@ public final class CombatWindow extends Scene {
 
         myAttackButton = new Button("Attack");
         mySpecialButton = new Button("Use Special Skill");
-
-        myAttackButton.setOnAction(theEvent -> handleAttack());
-        mySpecialButton.setOnAction(theEvent -> handleSpecial());
+        mySpecialButton.setVisible(false);
+        myHealButton = new Button("Heal Potion");
+        setUpKeyListeners();
 
         final String monsterName = myMonster.getMyName();
-        final HBox buttonBox = new HBox(10, myAttackButton, mySpecialButton);
+        final HBox buttonBox = new HBox(10, myAttackButton, mySpecialButton,myHealButton);
         buttonBox.setAlignment(Pos.CENTER);
 
         myMonsterImage = new ImageView(new Image(CharacterImageLoader.getMonster(monsterName)));
@@ -153,4 +159,32 @@ public final class CombatWindow extends Scene {
             myController.heroDied();
         }
     }
+
+    /**
+     * This displays the special button after a certain amount of attacks
+     *
+     */
+    public void updateSpcialButton(){
+        mySpecialButton.setVisible(myStam > 3);
+    }
+
+    /**
+     * This sets up what happens after the user presses a button
+     */
+    public void setUpKeyListeners(){
+
+        myAttackButton.setOnAction(e -> {handleAttack();
+            myStam++; updateSpcialButton();});
+        mySpecialButton.setOnAction(e -> {handleSpecial();
+            myStam = 0; updateSpcialButton();});
+        myHealButton.setOnAction(e ->{
+            if (myHero.getMyHealingPotions() > 0) {
+                myHero.useHealingPotion();
+            }
+        });
+
+
+    }
+
+
 }

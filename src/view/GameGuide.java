@@ -8,22 +8,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import model.Hero;
 
-
+/**
+ * This method shows the user what everything on the mini map
+ * means
+ */
 public class GameGuide extends Scene {
     /**
      * This is what will be displayed as the guide
      */
-    private static final Label myGuide = new Label("M = multiple items\n " +
-               "X = Pit \n" + "i = Entrance \n" + " O = exit \n" + "V = Vision Potion\n" +
-            "H = Healing Potion \n" + " A, E, I, P = Pillars");
+    private static final Label myGuide = new Label("""
+            M = multiple items
+             \
+            X = Pit\s
+            i = Entrance\s
+             O = exit\s
+            V = Vision Potion
+            H = Healing Potion\s
+             A, E, I, P = Pillars""");
     /**
      * This is the hero object
      */
-    private Hero myHero;
+    private final Hero myHero;
     /**
      * This is the game controller object
      */
-    private GameController myController;
+    private final GameController myController;
 
     /**
      * This is the constructor that is used to display everything

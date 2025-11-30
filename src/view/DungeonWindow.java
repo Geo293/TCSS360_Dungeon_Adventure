@@ -36,25 +36,26 @@ public class DungeonWindow extends Scene {
     /**
      * This is the instructions for how to play the game and what to press.
      */
-    private final Label myGameAction = new Label( "    W/↑ North\n" +
-            "A/← West  East →/D\n" +
-            "    S/↓ South    Press G for Guide" );
+    private final Label myGameAction = new Label("""
+                W/↑ North
+            A/← West  East →/D
+                S/↓ South    Press G for Guide""");
     /**
      * This is the mini map that is displayed on the bottom
      */
-    private Label myDungeonDisplay;
+    private final Label myDungeonDisplay;
     /**
      * This is the current hero that the user made
      */
-    private Hero myHero;
+    private final Hero myHero;
     /**
      * This is the current dungeon the hero is going through
      */
-    private Dungeon myDungeon;
+    private final Dungeon myDungeon;
     /**
      * This is the game controller that switches the scenes
      */
-    private GameController myGameController;
+    private final GameController myGameController;
     /**
      * This is the pillar image
      */
@@ -457,32 +458,12 @@ public class DungeonWindow extends Scene {
      * current room
      */
     public void displayDoor(){
-        if(myCurrentRoom.hasWestDoor()){
-            myDoorW.setVisible(true);
-        } else{
-            myDoorW.setVisible(false);
-        }
-        if(myCurrentRoom.hasEastDoor()){
-            myDoorE.setVisible(true);
-        } else {
-            myDoorE.setVisible(false);
-        }
-        if(myCurrentRoom.hasNorthDoor()){
-            myDoorN.setVisible(true);
-        } else {
-            myDoorN.setVisible(false);
-        }
-        if(myCurrentRoom.hasSouthDoor()){
-            myDoorS.setVisible(true);
-        } else {
-            myDoorS.setVisible(false);
-        }
-        if(myCurrentRoom.hasVisionPotion() || myCurrentRoom.hasHealingPotion()
-            || myCurrentRoom.hasMultipleItems()){
-            myChest.setVisible(true);
-        } else {
-            myChest.setVisible(false);
-        }
+        myDoorW.setVisible(myCurrentRoom.hasWestDoor());
+        myDoorE.setVisible(myCurrentRoom.hasEastDoor());
+        myDoorN.setVisible(myCurrentRoom.hasNorthDoor());
+        myDoorS.setVisible(myCurrentRoom.hasSouthDoor());
+        myChest.setVisible(myCurrentRoom.hasVisionPotion() || myCurrentRoom.hasHealingPotion()
+                || myCurrentRoom.hasMultipleItems());
     }
 
 

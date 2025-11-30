@@ -41,6 +41,9 @@ public abstract class Monster extends DungeonCharacter {
         myChanceToHeal = theChanceToHeal;
         myMinHeal = theMinHeal;
         myMaxHeal = theMaxHeal;
+        myChanceToHit = theChanceToHit;
+        myMaxDamage = theMaxDamage;
+        myMinDamage = theMinDamage;
     }
 
     /**
@@ -55,5 +58,12 @@ public abstract class Monster extends DungeonCharacter {
             myHitPoints += healAmount;
             System.out.println(myName + " heals for " + healAmount + " HP.");
         }
+    }
+
+    public double getChanceToHit() { return myChanceToHit; }
+
+    public int getDamage(){
+        int randomDanage = (int) (myMinDamage + (Math.random() * (myMaxDamage - myMinDamage)));
+        return randomDanage;
     }
 }

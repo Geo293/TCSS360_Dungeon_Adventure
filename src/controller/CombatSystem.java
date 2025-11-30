@@ -4,6 +4,8 @@ import javafx.scene.control.TextArea;
 import model.Hero;
 import model.Monster;
 
+import java.util.Random;
+
 /**
  * Controller class for managing combat logic between Hero and Monster.
  * Supports multi-attack rounds, blocking, healing, and logging.
@@ -42,22 +44,26 @@ public class CombatSystem {
                                       final TextArea theCombatLog) {
         final int numAttacks = Math.max(1,
                 theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
+        Random theRandom = new Random();
+        Double randomHero = theRandom.nextDouble();
+        Double randomMonster= theRandom.nextDouble();
+
 
         for (int i = 0; i < numAttacks; i++) {
-            // Uncomment when block/hit logic is ready:
-            // if (theHero.blockAttack()) {
-            //     theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
-            //     continue;
-            // }
-            //
-            // if (theMonster.canHit()) {
-            //     final int damage = theMonster.calculateDamage();
-            //     theHero.subtractHitPoints(damage);
-            //     theCombatLog.appendText(theMonster.getMyName()
-            //             + " hits for " + damage + " damage.\n");
-            // } else {
-            //     theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
-            // }
+            randomHero = theRandom.nextDouble();
+            randomMonster = theRandom.nextDouble();
+             if (theHero.getMyChanceToBlock() < randomHero) {
+                 theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
+                 continue;
+             }
+             else if (theMonster.getChanceToHit() < randomMonster) {
+                 final int damage = theMonster.getDamage();
+                 theHero.subtractHitPoints(damage);
+                 theCombatLog.appendText(theMonster.getMyName()
+                         + " hits for " + damage + " damage.\n");
+             } else {
+                 theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
+             }
 
             theMonster.tryHeal();
         }
