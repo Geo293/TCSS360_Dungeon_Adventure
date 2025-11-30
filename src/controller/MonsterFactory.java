@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Factory class responsible for loading monster data from the SQLite database
+ * FFactory class responsible for loading monster data from the SQLite database
  * and instantiating appropriate Monster subclass objects.
  * Splits regular monsters and boss monsters into separate loaders so bosses
  * never appear in random encounters.
