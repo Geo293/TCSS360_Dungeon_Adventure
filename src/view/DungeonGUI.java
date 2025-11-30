@@ -13,6 +13,9 @@ import javafx.scene.image.Image;
  * @version Oct 24, 2025
  */
 public class DungeonGUI extends Application {
+    /**
+     * This is the main screen
+     */
     private Stage myPrimaryStage;
 
     /**

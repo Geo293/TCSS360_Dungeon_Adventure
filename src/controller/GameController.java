@@ -17,15 +17,15 @@ public class GameController {
     /**
      * This is the start screen
      */
-    private StartScreen myStartScreen;
+    private final StartScreen myStartScreen;
     /**
      * this is the character select screen
      */
-    private CharacterSelected myCharacterSelected;
+    private final CharacterSelected myCharacterSelected;
     /**
      * This is the stage object that is displaying the screen
      */
-    private Stage myStage;
+    private final Stage myStage;
     /**
      * This is the gameplay window screen object
      */
@@ -66,8 +66,13 @@ public class GameController {
      * This is the type of character the user chose
      */
     private String myCharacterType;
-
+    /**
+     * Save the gameState
+     */
     private GameGuide myGameGuide;
+    /**
+     * This saves the game to console
+     */
     private SaveLoadManager mySaveLoadManager;
 
     /**
