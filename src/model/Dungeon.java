@@ -342,7 +342,7 @@ public class Dungeon implements Serializable{
      */
     private void placeMonsters() {
         //Pre-load all monsters once at the start
-        MonsterFactory.loadMonsters();
+        MonsterFactory.loadRegularMonsters();
 
         for (int x = 0; x < myWidth; x++) {
             for (int y = 0; y < myHeight; y++) {
