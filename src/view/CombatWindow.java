@@ -19,50 +19,22 @@ import util.CharacterImageLoader;
  * JavaFX scene for handling turn-based combat between a Hero and a Monster.
  * Displays stats, logs actions, and provides buttons for attack and special skill.
  *
- * @author Carson Poirier
- * @author Geovnai Vasquez
- * @version 11/22/25
+ * @author Carson
+ * @version 11/30/25
  */
 public final class CombatWindow extends Scene {
 
-    /** The hero participating in combat. */
     private final Hero myHero;
-
-    /** The monster participating in combat. */
     private final Monster myMonster;
-
-    /** Text area for logging combat actions. */
     private final TextArea myCombatLog;
-
-    /** Label displaying hero stats. */
     private final Label myHeroStats;
-
-    /** Label displaying monster stats. */
     private final Label myMonsterStats;
-
-    /** Button for performing a regular attack. */
     private final Button myAttackButton;
-
-    /** Button for performing a special skill. */
     private final Button mySpecialButton;
-
-    /** Controller for managing game flow. */
     private final GameController myController;
-
-    /** Image view for displaying the monster. */
     private final ImageView myMonsterImage;
-
-    /** Image view for displaying the hero. */
     private final ImageView myHeroImage;
 
-    /**
-     * Constructs the CombatWindow scene.
-     *
-     * @param theHero          the player's hero character
-     * @param theMonster       the monster to battle
-     * @param theController    the game controller
-     * @param theCharacterName the name of the hero character image
-     */
     public CombatWindow(final Hero theHero, final Monster theMonster,
                         final GameController theController, final String theCharacterName) {
         super(new VBox(), 600, 400);
@@ -104,6 +76,7 @@ public final class CombatWindow extends Scene {
         myHeroImage = new ImageView(new Image(CharacterImageLoader.getImageChar(theCharacterName)));
         myHeroImage.setFitWidth(200);
         myHeroImage.setFitHeight(200);
+
         root.setStyle("-fx-background-color: #F5DEB3");
         root.getChildren().addAll(myHeroImage, myHeroStats, myMonsterStats,
                 myMonsterImage, buttonBox, myCombatLog);
@@ -113,8 +86,19 @@ public final class CombatWindow extends Scene {
      * Handles a regular attack turn.
      */
     private void handleAttack() {
-        myCombatLog.appendText(myHero.getMyName() + " attacks.\n");
+        // Calculate hero damage and log it
+        if (myHero.canHit()) {
+            int damage = myHero.calculateDamage();
+            myMonster.subtractHitPoints(damage);
+            myCombatLog.appendText(myHero.getMyName() + " hits "
+                    + myMonster.getMyName() + " for " + damage + " damage.\n");
+        } else {
+            myCombatLog.appendText(myHero.getMyName() + " missed.\n");
+        }
+
+        // Monster retaliates via CombatSystem
         CombatSystem.battleRound(myHero, myMonster, myCombatLog);
+
         updateStats();
         checkCombatEnd();
     }
@@ -129,17 +113,11 @@ public final class CombatWindow extends Scene {
         checkCombatEnd();
     }
 
-    /**
-     * Updates the displayed stats for both hero and monster.
-     */
     private void updateStats() {
         myHeroStats.setText("Hero: " + myHero.getMyName() + " | HP: " + myHero.getMyHitPoints());
         myMonsterStats.setText("Monster: " + myMonster.getMyName() + " | HP: " + myMonster.getMyHitPoints());
     }
 
-    /**
-     * Checks if combat has ended and disables buttons if so.
-     */
     private void checkCombatEnd() {
         if (!myMonster.isAlive()) {
             myCombatLog.appendText(myMonster.getMyName() + " has been defeated.\n");

@@ -44,23 +44,24 @@ public class CombatSystem {
                 theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
 
         for (int i = 0; i < numAttacks; i++) {
-            // Uncomment when block/hit logic is ready:
-            // if (theHero.blockAttack()) {
-            //     theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
-            //     continue;
-            // }
-            //
-            // if (theMonster.canHit()) {
-            //     final int damage = theMonster.calculateDamage();
-            //     theHero.subtractHitPoints(damage);
-            //     theCombatLog.appendText(theMonster.getMyName()
-            //             + " hits for " + damage + " damage.\n");
-            // } else {
-            //     theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
-            // }
+
+            if (theHero.getMyChanceToBlock()) {
+                theCombatLog.appendText(theHero.getMyName() + " blocked the attack.\n");
+                continue;
+            }
+
+            if (theMonster.canHit()) {
+                final int damage = theMonster.calculateDamage();
+                theHero.subtractHitPoints(damage);
+                theCombatLog.appendText(theMonster.getMyName()
+                        + " hits for " + damage + " damage.\n");
+            } else {
+                theCombatLog.appendText(theMonster.getMyName() + " missed.\n");
+            }
 
             theMonster.tryHeal();
         }
     }
 }
+
 
