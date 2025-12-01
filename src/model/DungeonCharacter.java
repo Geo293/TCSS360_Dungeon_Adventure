@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -9,7 +10,9 @@ import java.util.Random;
  * @author Carson Poirier
  * @version 11/1/25
  */
-public abstract class DungeonCharacter {
+public abstract class DungeonCharacter implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /** The name of the character. */
     protected String myName;
@@ -46,6 +49,10 @@ public abstract class DungeonCharacter {
     protected DungeonCharacter(final String theName, final int theHitPoints,
                                final int theMinDamage, final int theMaxDamage,
                                final int theAttackSpeed, final double theChanceToHit) {
+        if (theName == null || theHitPoints < 0 || theMinDamage < 0
+                || theMaxDamage < 0 || theAttackSpeed < 0 || theChanceToHit < 0) {
+            throw new IllegalArgumentException("DungeonCharacter is invalid");
+        }
         myName = theName;
         myHitPoints = theHitPoints;
         myMinDamage = theMinDamage;
@@ -107,6 +114,9 @@ public abstract class DungeonCharacter {
      * @param theOpponent the opponent being attacked
      */
     public void attack(final DungeonCharacter theOpponent) {
+        if (theOpponent == null) {
+            throw new IllegalArgumentException("The opponent is null");
+        }
         final int numAttacks = Math.max(1, myAttackSpeed / theOpponent.myAttackSpeed);
 
         for (int i = 0; i < numAttacks; i++) {

@@ -1,128 +1,166 @@
 package controller;
 
-import model.Gremlin;
-import model.Monster;
-import model.Ogre;
-import model.Skeleton;
-import model.SuperOgre;
+import model.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Factory class responsible for loading monster data from the SQLite database
+ * FFactory class responsible for loading monster data from the SQLite database
  * and instantiating appropriate Monster subclass objects.
- * Follows the MVC pattern: this class acts as the controller for monster creation.
+ * Splits regular monsters and boss monsters into separate loaders so bosses
+ * never appear in random encounters.
  *
  * @author Carson Poirier
- * @version 11/8/25
+ * @version 11/29/25
  */
 public final class MonsterFactory {
-
-    /** Database URL for the monsters table. */
     private static final String DB_URL = "jdbc:sqlite:monsters.db";
 
     static {
         try {
             Class.forName("org.sqlite.JDBC");
-        } catch (final ClassNotFoundException theException) {
+        } catch (ClassNotFoundException e) {
             System.err.println("SQLite JDBC driver not found!");
-            theException.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     /**
-     * Loads all monsters from the database and returns them as a list of Monster objects.
+     * Loads all regular (non-boss) monsters from the database.
      *
-     * @return list of Monster instances based on database rows
+     * @return List of regular Monster instances.
      */
-    public static List<Monster> loadMonsters() {
-        final List<Monster> monsters = new ArrayList<>();
+    public static List<Monster> loadRegularMonsters() {
+        List<Monster> monsters = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(DB_URL);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM monsters")) {
-
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM monsters")) {
 
             while (rs.next()) {
-                Monster monster = createMonsterFromRow(rs);
-                monsters.add(monster);
-
-            
-                
-              
-                    
+                Monster m = createRegularMonsterFromRow(rs);
+                if (m != null) {
+                    monsters.add(m);
                 }
-
             }
 
-        } catch (final SQLException theException) {
-            System.err.println("Error loading monsters: " + theException.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error loading regular monsters: " + e.getMessage());
         }
 
         return monsters;
     }
 
     /**
-     * Returns a randomly selected non-boss Monster from the database.
+     * Loads all boss monsters from the database.
      *
-     * @return a single Monster instance, or null if none found
+     * @return List of boss Monster instances.
+     */
+    public static List<Monster> loadBossMonsters() {
+        List<Monster> bosses = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM monsters")) {
+
+            while (rs.next()) {
+                Monster boss = createBossMonsterFromRow(rs);
+                if (boss != null) {
+                    bosses.add(boss);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error loading boss monsters: " + e.getMessage());
+        }
+
+        return bosses;
+    }
+
+    /**
+     * Returns a randomly selected regular Monster.
+     *
+     * @return A single Monster instance, or null if none found.
      */
     public static Monster getRandomMonster() {
-
-        List<Monster> monsters = loadMonsters();
-
-        // Filter out boss monsters like SuperOgre
-        monsters.removeIf(monster -> monster instanceof SuperOgre);
-
+        List<Monster> monsters = loadRegularMonsters();
         if (monsters.isEmpty()) {
             return null;
         }
-
-
-        
-          
-     
-
         return monsters.get(new Random().nextInt(monsters.size()));
     }
 
     /**
-     * Creates a Monster subclass instance from a database row.
+     * Returns the boss monster (currently only SuperOgre).
      *
-     * @param theResultSet result set positioned at a valid monster row
-     * @return Monster instance matching the name field
-     * @throws SQLException if column access fails
+     * @return a SuperOgre instance, or null if not found.
      */
-    private static Monster createMonsterFromRow(final ResultSet theResultSet) throws SQLException {
-        final String name = theResultSet.getString("name");
-        final int hitPoints = theResultSet.getInt("hit_points");
-        final int attackSpeed = theResultSet.getInt("attack_speed");
-        final double chanceToHit = theResultSet.getDouble("chance_to_hit");
-        final int minDamage = theResultSet.getInt("min_damage");
-        final int maxDamage = theResultSet.getInt("max_damage");
-        final double chanceToHeal = theResultSet.getDouble("chance_to_heal");
-        final int minHeal = theResultSet.getInt("min_heal");
-        final int maxHeal = theResultSet.getInt("max_heal");
-        final String nameLower = name.toLowerCase();
+    public static Monster getBossMonster() {
+        List<Monster> bosses = loadBossMonsters();
+        return bosses.isEmpty() ? null : bosses.get(0);
+    }
+
+    /**
+     * Creates a regular Monster subclass instance from a database row.
+     * Ignores boss monsters.
+     *
+     * @param rs ResultSet positioned at a valid monster row.
+     * @return Monster instance, or null if row is a boss.
+     * @throws SQLException if column access fails.
+     */
+    private static Monster createRegularMonsterFromRow(ResultSet rs) throws SQLException {
+        if(rs == null){
+            throw new IllegalArgumentException("Monster row is null");
+        }
+        String nameLower = rs.getString("name").toLowerCase();
+        int hitPoints = rs.getInt("hit_points");
+        int attackSpeed = rs.getInt("attack_speed");
+        double chanceToHit = rs.getDouble("chance_to_hit");
+        int minDamage = rs.getInt("min_damage");
+        int maxDamage = rs.getInt("max_damage");
+        double chanceToHeal = rs.getDouble("chance_to_heal");
+        int minHeal = rs.getInt("min_heal");
+        int maxHeal = rs.getInt("max_heal");
 
         return switch (nameLower) {
-            case "ogre" -> new Ogre(name, hitPoints, minDamage, maxDamage,
+            case "ogre" -> new Ogre(rs.getString("name"), hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit, chanceToHeal, minHeal, maxHeal);
-            case "skeleton" -> new Skeleton(name, hitPoints, minDamage, maxDamage,
+            case "skeleton" -> new Skeleton(rs.getString("name"), hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit, chanceToHeal, minHeal, maxHeal);
-            case "gremlin" -> new Gremlin(name, hitPoints, minDamage, maxDamage,
+            case "gremlin" -> new Gremlin(rs.getString("name"), hitPoints, minDamage, maxDamage,
                     attackSpeed, chanceToHit, chanceToHeal, minHeal, maxHeal);
-            case "superogre" -> new SuperOgre(name, hitPoints, minDamage, maxDamage,
-                    attackSpeed, chanceToHit, chanceToHeal, minHeal, maxHeal);
-            default -> throw new IllegalArgumentException("Unknown monster type: " + name);
+            default -> null; // skip bosses here
         };
     }
+
+    /**
+     * Creates a boss Monster subclass instance from a database row.
+     *
+     * @param rs ResultSet positioned at a valid monster row.
+     * @return Boss Monster instance, or null if not a boss.
+     * @throws SQLException if column access fails.
+     */
+    private static Monster createBossMonsterFromRow(ResultSet rs) throws SQLException {
+        String nameLower = rs.getString("name").toLowerCase();
+        if (!nameLower.equals("superogre")) {
+            return null;
+        }
+
+        int hitPoints = rs.getInt("hit_points");
+        int attackSpeed = rs.getInt("attack_speed");
+        double chanceToHit = rs.getDouble("chance_to_hit");
+        int minDamage = rs.getInt("min_damage");
+        int maxDamage = rs.getInt("max_damage");
+        double chanceToHeal = rs.getDouble("chance_to_heal");
+        int minHeal = rs.getInt("min_heal");
+        int maxHeal = rs.getInt("max_heal");
+
+        return new SuperOgre(rs.getString("name"), hitPoints, minDamage, maxDamage,
+                attackSpeed, chanceToHit, chanceToHeal, minHeal, maxHeal);
+    }
 }
+
 

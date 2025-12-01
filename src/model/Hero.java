@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 /**
  * This class will have all the basic logic that every playable character
  * will have including how many attacks they get, whether they block
@@ -9,7 +10,7 @@ package model;
  * @author Justin Yee
  * @version Oct, 24 2025
  */
-public abstract class Hero extends DungeonCharacter {
+public abstract class Hero extends DungeonCharacter implements Serializable{
     private static final int TOTAL_PILLARS = 4;
     private static final int MIN_HEAL_AMOUNT = 5;
     private static final int MAX_HEAL_AMOUNT = 15;

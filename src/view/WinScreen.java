@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import java.awt.*;
 
 /**
  * This cless displays a win screen after the user collects all the pillars
@@ -20,15 +18,15 @@ public class WinScreen extends Scene {
     /**
      * This is the controller object used throughout the game.
      */
-    private GameController myController;
+    private final GameController myController;
     /**
      * This is the button that takes you to the main menu
      */
-    private Button myMenuButton;
+    private final Button myMenuButton;
     /**
      * This is the button that closes the application
      */
-    private Button myExitButton;
+    private final Button myExitButton;
 
     /**
      * This is the constructor that sets the variables and
@@ -37,6 +35,9 @@ public class WinScreen extends Scene {
      */
     public WinScreen(GameController theController) {
         super(new VBox());
+        if (theController == null) {
+            throw new IllegalArgumentException("Controller cannot be null");
+        }
         VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         myController = theController;

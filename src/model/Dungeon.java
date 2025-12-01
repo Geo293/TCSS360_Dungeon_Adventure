@@ -3,6 +3,7 @@ package model;
 import controller.MonsterFactory;
 import java.util.Random;
 import java.util.Stack;
+import java.io.Serializable;
 
 /**
  * This class creates a randomly generated maze for the player to
@@ -13,7 +14,7 @@ import java.util.Stack;
  * @author Justin Yee
  * @version Oct, 24 2025
  */
-public class Dungeon {
+public class Dungeon implements Serializable{
     // Constants
     private static final int DEFAULT_WIDTH = 10;
     private static final int DEFAULT_HEIGHT = 10;
@@ -51,6 +52,9 @@ public class Dungeon {
      * @param theHeight the height of the dungeon
      */
     public Dungeon(int theWidth, int theHeight) {
+        if (theWidth <= 0 || theHeight <= 0 ) {
+            throw new IllegalArgumentException("The width and height must be greater than 0");
+        }
         myWidth = theWidth;
         myHeight = theHeight;
         myMaze = new Room[theWidth][theHeight];
@@ -185,6 +189,7 @@ public class Dungeon {
                     myMaze[pillarX][pillarY].getPillar() != null);
 
             myMaze[pillarX][pillarY].setPillar(pillar);
+            myMaze[pillarX][pillarY].setMonster(MonsterFactory.getBossMonster());
         }
     }
 
@@ -250,6 +255,9 @@ public class Dungeon {
      * Moves the hero in the specified direction
      */
     public boolean moveHero(String theDirection) {
+        if (theDirection == null) {
+            throw new IllegalArgumentException("The direction cannot be null");
+        }
         int newX = myHeroX;
         int newY = myHeroY;
 
@@ -288,14 +296,6 @@ public class Dungeon {
     }
 
     //Other getters
-    public int getMyWidth() {
-        return myWidth;
-    }
-
-    public int getMyHeight() {
-        return myHeight;
-    }
-
     public int getMyHeroX() {
         return myHeroX;
     }
@@ -304,23 +304,10 @@ public class Dungeon {
         return myHeroY;
     }
 
-    public int getMyEntranceX() {
-        return myEntranceX;
-    }
-
-    public int getMyEntranceY() {
-        return myEntranceY;
-    }
-
-    public int getMyExitX() {
-        return myExitX;
-    }
-
-    public int getMyExitY() {
-        return myExitY;
-    }
-
     public String getVisableArea(int theCenterX, int theCenterY, int theRadius){
+        if (theRadius < 0 || theCenterY < 0 || theCenterX < 0 ) {
+            throw new IllegalArgumentException("The radius cannot be negative");
+        }
         StringBuilder sb = new StringBuilder();
         int minX = Math.max(0, theCenterX - theRadius);
         int maxX = Math.min(myWidth - 1, theCenterX + theRadius);
@@ -364,7 +351,7 @@ public class Dungeon {
      */
     private void placeMonsters() {
         //Pre-load all monsters once at the start
-        MonsterFactory.loadMonsters();
+        MonsterFactory.loadRegularMonsters();
 
         for (int x = 0; x < myWidth; x++) {
             for (int y = 0; y < myHeight; y++) {

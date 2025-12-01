@@ -33,6 +33,9 @@ public final class GameState implements Serializable {
      * @param theCharacterName the type of character to save
      */
     public GameState(final Hero theHero, final Dungeon theDungeon, final String theCharacterName) {
+        if (theHero == null || theDungeon == null || theCharacterName == null) {
+            throw new IllegalArgumentException("GameState must have non-null parameters");
+        }
         myHero = theHero;
         myDungeon = theDungeon;
         myCharacterName = theCharacterName;

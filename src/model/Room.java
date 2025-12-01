@@ -1,5 +1,5 @@
 package model;
-
+import java.io.Serializable;
 /**
  * This class creates a room design that will randomly place objects
  * throughout the room for the player to interact with.
@@ -7,8 +7,9 @@ package model;
  * @author Geovani Vasquez
  * @version Oct, 24 2025
  */
-public class Room {
+public class Room implements Serializable {
     //Constants
+    private static final long serialVersionUID = 1L;
     /**Spawn chance for the Healing Potion.*/
     private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;
 
@@ -101,11 +102,11 @@ public class Room {
     /**
      * This method is used to set the room to an entrance.
      *
-     * @param isEntrance    if you want to set it as an entrance or not
+     * @param theEntrance    if you want to set it as an entrance or not
      */
-    public void setEntrance(boolean isEntrance){
-        this.entrance = isEntrance;
-        if (isEntrance) {
+    public void setEntrance(boolean theEntrance){
+        this.entrance = theEntrance;
+        if (theEntrance) {
             clearRoom();
             this.exit = false;
         }
@@ -141,6 +142,9 @@ public class Room {
      * @param pillarType    what pillar you want to set
      */
     public void setPillar(String pillarType) {
+        if (pillarType == null || "".equals(pillarType)) {
+            throw new IllegalArgumentException("pillarType cannot be null or empty");
+        }
         clearRoom();
         this.pillar = pillarType;
     }
@@ -151,6 +155,9 @@ public class Room {
      * @param monster   the monster you want in the room.
      */
     public void setMonster(Monster monster) {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster cannot be null");
+        }
         clearRoom();
         this.monster = monster;
     }

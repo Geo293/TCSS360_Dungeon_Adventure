@@ -49,6 +49,9 @@ public final class HeroItemsPane extends Scene {
                          final Hero theHero,
                          final Dungeon theDungeon) {
         super(new VBox());
+        if(theController == null || theHero == null || theDungeon == null) {
+            throw new IllegalArgumentException("theController and theDungeon and theHero cannot be null");
+        }
         final VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10);
