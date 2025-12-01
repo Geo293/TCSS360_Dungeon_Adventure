@@ -145,7 +145,6 @@ public class Room implements Serializable {
         if (pillarType == null || "".equals(pillarType)) {
             throw new IllegalArgumentException("pillarType cannot be null or empty");
         }
-        clearRoom();
         this.pillar = pillarType;
     }
 
@@ -158,7 +157,6 @@ public class Room implements Serializable {
         if (monster == null) {
             throw new IllegalArgumentException("monster cannot be null");
         }
-        clearRoom();
         this.monster = monster;
     }
 
