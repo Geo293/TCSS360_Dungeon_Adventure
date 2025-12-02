@@ -39,7 +39,7 @@ public class DungeonWindow extends Scene {
     private final Label myGameAction = new Label("""
                 W/↑ North
             A/← West  East →/D
-                S/↓ South    Press G for Guide""");
+                S/↓ South    Press G for Guide and press M for inventory""");
     /**
      * This is the mini map that is displayed on the bottom
      */
@@ -117,13 +117,18 @@ public class DungeonWindow extends Scene {
      */
     private final ImageView myChest;
     /**
-     * This is the current room
-     */
-    private Room myCurrentRoom;
-    /**
      * this is the heros health
      */
     private final Label myHeroStats;
+    /**
+     * This is the pitfall the hero can fall into
+     */
+    private final ImageView myPitFall;
+    /**
+     * This is the current room
+     */
+    private Room myCurrentRoom;
+
 
 
     /**
@@ -161,6 +166,7 @@ public class DungeonWindow extends Scene {
         myDoorN = new ImageView(DOOR);
         myDoorS = new ImageView(DOOR);
         myFloor = new ImageView(new Image("/images/Area/FloorRight.png"));
+        myPitFall = new ImageView(new Image("/images/Area/pitfall(1).png"));;
 
         HBox bottomBox = bottomPlane(myDungeon, 0);
         HBox topBox = topPlane();
@@ -172,7 +178,7 @@ public class DungeonWindow extends Scene {
         root.setTop(topBox);
         root.setCenter(center);
         root.setStyle("-fx-background-color: #F5DEB3");
-        displayDoor();
+        displayRoomContents();
         hide();
     }
 
@@ -253,12 +259,14 @@ public class DungeonWindow extends Scene {
         myFloor.setPreserveRatio(false);
         myFloor.fitWidthProperty().bind(middle.widthProperty());
         myFloor.fitHeightProperty().bind(middle.heightProperty());
+        myPitFall.fitWidthProperty().bind(middle.widthProperty());
+        myPitFall.fitHeightProperty().bind(middle.heightProperty());
         myChest.setFitWidth(80);
         myChest.setFitHeight(120);
         myHeroImage.setFitWidth(80);
         myHeroImage.setFitHeight(120);
         myHeroImage.setTranslateX(-50);
-        middle.getChildren().addAll(myFloor,myChest,myHeroImage);
+        middle.getChildren().addAll(myFloor,myChest,myHeroImage,myPitFall);
         return middle;
 
     }
@@ -372,7 +380,7 @@ public class DungeonWindow extends Scene {
         if(myDungeon.moveHero(theMove)){
             myCurrentRoom = myDungeon.getCurrentRoom();
             updateDisplay();
-            displayDoor();
+            displayRoomContents();
             myGameController.processRoomEvents();
             checkForPillars();
         }
@@ -390,7 +398,7 @@ public class DungeonWindow extends Scene {
      * top of the screen for the user to keep track of
      */
     public void checkForPillars() {
-        String pillar = myCurrentRoom.getPillar();
+        String pillar = myCurrentRoom.getMyPillar();
         if (pillar != null) {
 
             switch (pillar.toUpperCase()) {
@@ -421,7 +429,7 @@ public class DungeonWindow extends Scene {
     public void refresh(){
         updateDisplay();
         updateHeroStats();
-        displayDoor();
+        displayRoomContents();
         checkForPillars();
     }
 
@@ -454,17 +462,21 @@ public class DungeonWindow extends Scene {
     }
 
     /**
-     * This displays the doors and chest if there are any in the
+     * This displays the doors and chest if there are any in the room
+     * and sets the pitfall there if there are any in the
      * current room
      */
-    public void displayDoor(){
+    public void displayRoomContents(){
         myDoorW.setVisible(myCurrentRoom.hasWestDoor());
         myDoorE.setVisible(myCurrentRoom.hasEastDoor());
         myDoorN.setVisible(myCurrentRoom.hasNorthDoor());
         myDoorS.setVisible(myCurrentRoom.hasSouthDoor());
         myChest.setVisible(myCurrentRoom.hasVisionPotion() || myCurrentRoom.hasHealingPotion()
                 || myCurrentRoom.hasMultipleItems());
+        myPitFall.setVisible(myCurrentRoom.hasPit());
+        myHeroImage.setVisible(!myCurrentRoom.hasPit());
     }
+
 
 
 

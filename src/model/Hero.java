@@ -32,10 +32,10 @@ public abstract class Hero extends DungeonCharacter implements Serializable{
      */
     protected Hero(String theName, int theHitPoints, int theMinDamage, int theMaxDamage, int theAttackSpeed, double theChance, double theBlockChance) {
         super(theName, theHitPoints, theMinDamage, theMaxDamage, theAttackSpeed, theChance);
-        this.myHealingPotions = 0;
-        this.myVisionPotions = 0;
-        this.myPillarsFound = new boolean[TOTAL_PILLARS]; // A, E, I, P
-        this.myChanceToBlock = theBlockChance;
+        myHealingPotions = 0;
+        myVisionPotions = 0;
+        myPillarsFound = new boolean[TOTAL_PILLARS]; // A, E, I, P
+        myChanceToBlock = theBlockChance;
     }
 
     /**
@@ -80,7 +80,6 @@ public abstract class Hero extends DungeonCharacter implements Serializable{
         if (myVisionPotions > 0) {
             myVisionPotions--;
             System.out.println(myName + " used a vision potion!");
-            //TODO: How the hell does a vision potion work
         } else {
             System.out.println("No vision potions available!");
         }
@@ -112,8 +111,8 @@ public abstract class Hero extends DungeonCharacter implements Serializable{
         }
 
         // Collect pillar
-        if (theRoom.getPillar() != null) {
-            String pillar = theRoom.getPillar();
+        if (theRoom.getMyPillar() != null) {
+            String pillar = theRoom.getMyPillar();
             int index = getPillarIndex(pillar);
             if (index != -1 && !myPillarsFound[index]) {
                 myPillarsFound[index] = true;

@@ -9,7 +9,7 @@ public class DungeonTest {
         Dungeon dungeon = new Dungeon();
 
         System.out.println(room);
-        room.setPillar("P");
+        room.setMyPillar("P");
         System.out.println(room);
 
         System.out.println(dungeon);

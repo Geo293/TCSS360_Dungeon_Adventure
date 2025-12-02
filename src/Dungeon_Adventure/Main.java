@@ -18,7 +18,7 @@ public class Main {
 
         Room room = new Room();
         System.out.println(room);
-        room.setPillar("P");
+        room.setMyPillar("P");
         System.out.println(room);
     }
 }

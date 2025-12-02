@@ -104,17 +104,17 @@ public class Dungeon implements Serializable{
 
                 // Remove wall between current and neighbor
                 if (nx == x + 1) { // East
-                    myMaze[x][y].setEastDoor(true);
-                    myMaze[nx][ny].setWestDoor(true);
+                    myMaze[x][y].setMyEastDoor(true);
+                    myMaze[nx][ny].setMyWestDoor(true);
                 } else if (nx == x - 1) { // West
-                    myMaze[x][y].setWestDoor(true);
-                    myMaze[nx][ny].setEastDoor(true);
+                    myMaze[x][y].setMyWestDoor(true);
+                    myMaze[nx][ny].setMyEastDoor(true);
                 } else if (ny == y + 1) { // South
-                    myMaze[x][y].setSouthDoor(true);
-                    myMaze[nx][ny].setNorthDoor(true);
+                    myMaze[x][y].setMySouthDoor(true);
+                    myMaze[nx][ny].setMyNorthDoor(true);
                 } else if (ny == y - 1) { // North
-                    myMaze[x][y].setNorthDoor(true);
-                    myMaze[nx][ny].setSouthDoor(true);
+                    myMaze[x][y].setMyNorthDoor(true);
+                    myMaze[nx][ny].setMySouthDoor(true);
                 }
 
                 visited[nx][ny] = true;
@@ -161,7 +161,7 @@ public class Dungeon implements Serializable{
     private void placeEntrance() {
         myEntranceX = 0;
         myEntranceY = 0;
-        myMaze[myEntranceX][myEntranceY].setEntrance(true);
+        myMaze[myEntranceX][myEntranceY].setMyEntrance(true);
         myHeroX = myEntranceX;
         myHeroY = myEntranceY;
     }
@@ -172,7 +172,7 @@ public class Dungeon implements Serializable{
     private void placeExit() {
         myExitX = myWidth - 1;
         myExitY = myHeight - 1;
-        myMaze[myExitX][myExitY].setExit(true);
+        myMaze[myExitX][myExitY].setMyExit(true);
     }
 
     /**
@@ -186,10 +186,10 @@ public class Dungeon implements Serializable{
                 pillarY = myRandom.nextInt(myHeight);
             } while ((pillarX == myEntranceX && pillarY == myEntranceY) ||
                     (pillarX == myExitX && pillarY == myExitY) ||
-                    myMaze[pillarX][pillarY].getPillar() != null);
+                    myMaze[pillarX][pillarY].getMyPillar() != null);
 
-            myMaze[pillarX][pillarY].setPillar(pillar);
-            myMaze[pillarX][pillarY].setMonster(MonsterFactory.getBossMonster());
+            myMaze[pillarX][pillarY].setMyPillar(pillar);
+            myMaze[pillarX][pillarY].setMyMonster(MonsterFactory.getBossMonster());
         }
     }
 
@@ -199,7 +199,7 @@ public class Dungeon implements Serializable{
     private void generateRoomContents() {
         for (int x = 0; x < myWidth; x++) {
             for (int y = 0; y < myHeight; y++) {
-                if (!myMaze[x][y].isEntrance() && !myMaze[x][y].isExit()) {
+                if (!myMaze[x][y].isMyEntrance() && !myMaze[x][y].isMyExit()) {
                     myMaze[x][y].generateContents();
                 }
             }
@@ -224,26 +224,26 @@ public class Dungeon implements Serializable{
                 switch (direction) {
                     case 0: // north
                         if (y > 0 && !myMaze[x][y].hasNorthDoor()) { // not on top border and no door exists
-                            myMaze[x][y].setNorthDoor(true);
-                            myMaze[x][y-1].setSouthDoor(true);
+                            myMaze[x][y].setMyNorthDoor(true);
+                            myMaze[x][y-1].setMySouthDoor(true);
                         }
                         break;
                     case 1: // south
                         if (y < myHeight - 1 && !myMaze[x][y].hasSouthDoor()) { // not on bottom border and no door exists
-                            myMaze[x][y].setSouthDoor(true);
-                            myMaze[x][y+1].setNorthDoor(true);
+                            myMaze[x][y].setMySouthDoor(true);
+                            myMaze[x][y+1].setMyNorthDoor(true);
                         }
                         break;
                     case 2: // east
                         if (x < myWidth - 1 && !myMaze[x][y].hasEastDoor()) { // not on right border and no door exists
-                            myMaze[x][y].setEastDoor(true);
-                            myMaze[x+1][y].setWestDoor(true);
+                            myMaze[x][y].setMyEastDoor(true);
+                            myMaze[x+1][y].setMyWestDoor(true);
                         }
                         break;
                     case 3: // west
                         if (x > 0 && !myMaze[x][y].hasWestDoor()) { // not on left border and no door exists
-                            myMaze[x][y].setWestDoor(true);
-                            myMaze[x-1][y].setEastDoor(true);
+                            myMaze[x][y].setMyWestDoor(true);
+                            myMaze[x-1][y].setMyEastDoor(true);
                         }
                         break;
                 }
@@ -364,12 +364,15 @@ public class Dungeon implements Serializable{
                 if (x == myExitX && y == myExitY) {
                     continue;
                 }
+                if (myMaze[x][y].getMyPillar() != null) {
+                    continue;
+                }
 
                 if (myRandom.nextDouble() < MONSTER_SPAWN_CHANCE) {
                     // Now getRandomMonster() uses the pre-loaded list
                     Monster monster = MonsterFactory.getRandomMonster();
                     if (monster != null) {
-                        myMaze[x][y].setMonster(monster);
+                        myMaze[x][y].setMyMonster(monster);
                     }
                 }
             }

@@ -221,11 +221,11 @@ public class GameController {
                 myHero.takePitDamage(damage);
                 myGameWindow.updateHeroStats();
             }
-            if (myCurrentRoom.getMonster() != null) {
-                startFight(myHero, myCurrentRoom.getMonster());
+            if (myCurrentRoom.getMyMonster() != null) {
+                startFight(myHero, myCurrentRoom.getMyMonster());
                 myCurrentRoom.removeMonster();
             }
-            if (myCurrentRoom.isExit()) {
+            if (myCurrentRoom.isMyExit()) {
                 if (myHero.hasAllPillars()) {
                     gameWon();
                 }

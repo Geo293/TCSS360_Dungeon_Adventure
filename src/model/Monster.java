@@ -63,7 +63,6 @@ public abstract class Monster extends DungeonCharacter {
     public double getChanceToHit() { return myChanceToHit; }
 
     public int getDamage(){
-        int randomDanage = (int) (myMinDamage + (Math.random() * (myMaxDamage - myMinDamage)));
-        return randomDanage;
+        return (int) (myMinDamage + (Math.random() * (myMaxDamage - myMinDamage)));
     }
 }

@@ -27,75 +27,75 @@ public class Room implements Serializable {
 
 
     /**Is there a door to the North.*/
-    private boolean northDoor;
+    private boolean myNorthDoor;
 
     /**Is there a door to the South.*/
-    private boolean southDoor;
+    private boolean mySouthDoor;
 
     /**Is there a door to the East.*/
-    private boolean eastDoor;
+    private boolean myEastDoor;
 
     /**Is there a door to the West.*/
-    private boolean westDoor;
+    private boolean myWestDoor;
 
     /**Is there a healing potion in this room.*/
-    private boolean healingPotion;
+    private boolean myHealingPotion;
 
     /**Is there a vision potion in this room.*/
-    private boolean visionPotion;
+    private boolean myVisionPotion;
 
     /**Is there a pit in this room.*/
-    private boolean pit;
+    private boolean myPit;
 
     /**Is this room an entrance.*/
-    private boolean entrance;
+    private boolean myEntrance;
 
     /**Is this room an exit.*/
-    private boolean exit;
+    private boolean myExit;
 
     /**The pillars that the hero can collect.*/
-    private String pillar; // null if no pillar, or "A", "E", "I", "P"
+    private String myPillar; // null if no pillar, or "A", "E", "I", "P"
 
     /**The monster in this room (if there is one).*/
-    private Monster monster;
+    private Monster myMonster;
 
     /**
      * This is the constructor for the Room class.
      */
     public Room(){
         // Initializing the variables with default vals
-        this.northDoor = false;
-        this.southDoor = false;
-        this.eastDoor = false;
-        this.westDoor = false;
-        this.healingPotion = false;
-        this.visionPotion = false;
-        this.pit = false;
-        this.entrance = false;
-        this.exit = false;
-        this.pillar = null;
-        this.monster = null;
+        myNorthDoor = false;
+        mySouthDoor = false;
+        myEastDoor = false;
+        myWestDoor = false;
+        myHealingPotion = false;
+        myVisionPotion = false;
+        myPit = false;
+        myEntrance = false;
+        myExit = false;
+        myPillar = null;
+        myMonster = null;
     }
 
     /**
      * This method will generate what items the room has.
      */
     public void generateContents(){
-        if (entrance || exit) {
+        if (myEntrance || myExit) {
             return;
         }
         //if there is a pit then there will be no other items
         if (Math.random() < PIT_SPAWN_CHANCE) {
-            this.pit = true;
+            myPit = true;
             return;
         }
 
         if (Math.random() < HEALING_POTION_SPAWN_CHANCE) {
-            this.healingPotion = true;
+            myHealingPotion = true;
         }
 
         if (Math.random() < VISION_POTION_SPAWN_CHANCE) {
-            this.visionPotion = true;
+            myVisionPotion = true;
         }
     }
 
@@ -104,24 +104,24 @@ public class Room implements Serializable {
      *
      * @param theEntrance    if you want to set it as an entrance or not
      */
-    public void setEntrance(boolean theEntrance){
-        this.entrance = theEntrance;
+    public void setMyEntrance(boolean theEntrance){
+        myEntrance = theEntrance;
         if (theEntrance) {
             clearRoom();
-            this.exit = false;
+            myExit = false;
         }
     }
 
     /**
      * This method is used to set the room to an exit.
      *
-     * @param isExit    if you want to set it as an exit or not
+     * @param TheExit    if you want to set it as an exit or not
      */
-    public void setExit(boolean isExit){
-        this.exit = true;
-        if (isExit) {
+    public void setMyExit(boolean TheExit){
+        myExit = true;
+        if (TheExit) {
             clearRoom();
-            this.entrance = false;
+            myEntrance = false;
         }
     }
 
@@ -129,11 +129,11 @@ public class Room implements Serializable {
      * Helper method to clear all contents of a room.
      */
     public void clearRoom(){
-        healingPotion = false;
-        visionPotion = false;
-        pit = false;
-        pillar = null;
-        monster = null;
+        myHealingPotion = false;
+        myVisionPotion = false;
+        myPit = false;
+        myPillar = null;
+        myMonster = null;
     }
 
     /**
@@ -141,55 +141,55 @@ public class Room implements Serializable {
      *
      * @param pillarType    what pillar you want to set
      */
-    public void setPillar(String pillarType) {
+    public void setMyPillar(String pillarType) {
         if (pillarType == null || "".equals(pillarType)) {
             throw new IllegalArgumentException("pillarType cannot be null or empty");
         }
-        this.pillar = pillarType;
+        myPillar = pillarType;
     }
 
     /**
      * Set what monster is in the Room
      *
-     * @param monster   the monster you want in the room.
+     * @param theMonster   the monster you want in the room.
      */
-    public void setMonster(Monster monster) {
-        if (monster == null) {
+    public void setMyMonster(Monster theMonster) {
+        if (theMonster == null) {
             throw new IllegalArgumentException("monster cannot be null");
         }
-        this.monster = monster;
+        myMonster = theMonster;
     }
 
     /**
      * Let there be a door on the north side
-     * @param hasNorthDoor      yes or no
+     * @param theNorthDoor      yes or no
      */
-    public void setNorthDoor(boolean hasNorthDoor) {
-        this.northDoor = hasNorthDoor;
+    public void setMyNorthDoor(boolean theNorthDoor) {
+        myNorthDoor = theNorthDoor;
     }
 
     /**
      * Let there be a door on the south side
-     * @param hasSouthDoor      yes or no
+     * @param theSouthDoor      yes or no
      */
-    public void setSouthDoor(boolean hasSouthDoor) {
-        this.southDoor = hasSouthDoor;
+    public void setMySouthDoor(boolean theSouthDoor) {
+        mySouthDoor = theSouthDoor;
     }
 
     /**
      * Let there be a door on the east side
-     * @param hasEastDoor      yes or no
+     * @param theEastDoor      yes or no
      */
-    public void setEastDoor(boolean hasEastDoor) {
-        this.eastDoor = hasEastDoor;
+    public void setMyEastDoor(boolean theEastDoor) {
+        myEastDoor = theEastDoor;
     }
 
     /**
      * Let there be a door on the west side
-     * @param hasWestDoor      yes or no
+     * @param theWestDoor      yes or no
      */
-    public void setWestDoor(boolean hasWestDoor) {
-        this.westDoor = hasWestDoor;
+    public void setMyWestDoor(boolean theWestDoor) {
+        myWestDoor = theWestDoor;
     }
 
     /**
@@ -198,11 +198,11 @@ public class Room implements Serializable {
      */
     public boolean hasMultipleItems() {
         int count = 0;
-        if (healingPotion) count++;
-        if (visionPotion) count++;
-        if (pit) count++;
-        if (pillar != null) count++;
-        if (monster != null) count++;
+        if (myHealingPotion) count++;
+        if (myVisionPotion) count++;
+        if (myPit) count++;
+        if (myPillar != null) count++;
+        if (myMonster != null) count++;
         return count > 1;
     }
 
@@ -211,7 +211,7 @@ public class Room implements Serializable {
      * @return  true/false if there is a door
      */
     public boolean hasNorthDoor() {
-        return northDoor;
+        return myNorthDoor;
     }
 
     /**
@@ -219,7 +219,7 @@ public class Room implements Serializable {
      * @return  true/false if there is a door
      */
     public boolean hasEastDoor() {
-        return eastDoor;
+        return myEastDoor;
     }
 
     /**
@@ -227,7 +227,7 @@ public class Room implements Serializable {
      * @return  true/false if there is a door
      */
     public boolean hasSouthDoor() {
-        return southDoor;
+        return mySouthDoor;
     }
 
     /**
@@ -235,7 +235,7 @@ public class Room implements Serializable {
      * @return  true/false if there is a door
      */
     public boolean hasWestDoor() {
-        return westDoor;
+        return myWestDoor;
     }
 
     /**
@@ -243,7 +243,7 @@ public class Room implements Serializable {
      * @return  true/false
      */
     public boolean hasPit() {
-        return pit;
+        return myPit;
     }
 
     /**
@@ -251,7 +251,7 @@ public class Room implements Serializable {
      * @return  true/false
      */
     public boolean hasHealingPotion() {
-        return healingPotion;
+        return myHealingPotion;
     }
 
     /**
@@ -259,60 +259,60 @@ public class Room implements Serializable {
      * @return  true/false
      */
     public boolean hasVisionPotion() {
-        return visionPotion;
+        return myVisionPotion;
     }
 
     /**
      * Is this room an entrance.
      * @return  true/false
      */
-    public boolean isEntrance() {
-        return entrance;
+    public boolean isMyEntrance() {
+        return myEntrance;
     }
 
     /**
      * Is this room an exit.
      * @return  true/false
      */
-    public boolean isExit() {
-        return exit;
+    public boolean isMyExit() {
+        return myExit;
     }
 
     /**
      * What Pillar of OO is in this room of there is one.
      * @return  the Pillar or Null if there is none.
      */
-    public String getPillar() {
-        return pillar;
+    public String getMyPillar() {
+        return myPillar;
     }
 
     /**
      * What Monster is in this room of there is one.
      * @return  the Pillar or Null if there is none.
      */
-    public Monster getMonster() {
-        return monster;
+    public Monster getMyMonster() {
+        return myMonster;
     }
 
     /**
      * Removes the healing potion from this room (after hero picks it up)
      */
     public void removeHealingPotion() {
-        this.healingPotion = false;
+        myHealingPotion = false;
     }
 
     /**
      * Removes the vision potion from this room (after hero picks it up)
      */
     public void removeVisionPotion() {
-        this.visionPotion = false;
+        myVisionPotion = false;
     }
 
     /**
      * Removes the monster from this room (after it's defeated)
      */
     public void removeMonster() {
-        this.monster = null;
+        myMonster = null;
     }
 
     /**
@@ -328,17 +328,17 @@ public class Room implements Serializable {
 
         // Top row - north door or wall
         roomDisplay[0][0] = WALL_CHARACTER;
-        roomDisplay[0][1] = northDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[0][1] = myNorthDoor ? nsDoor : WALL_CHARACTER;
         roomDisplay[0][2] = WALL_CHARACTER;
 
         // Middle row - west door, center content, east door
-        roomDisplay[1][0] = westDoor ? ewDoor : WALL_CHARACTER;
+        roomDisplay[1][0] = myWestDoor ? ewDoor : WALL_CHARACTER;
         roomDisplay[1][1] = getRoomSymbol();
-        roomDisplay[1][2] = eastDoor ? ewDoor : WALL_CHARACTER;
+        roomDisplay[1][2] = myEastDoor ? ewDoor : WALL_CHARACTER;
 
         // Bottom row - south door or wall
         roomDisplay[2][0] = WALL_CHARACTER;
-        roomDisplay[2][1] = southDoor ? nsDoor : WALL_CHARACTER;
+        roomDisplay[2][1] = mySouthDoor ? nsDoor : WALL_CHARACTER;
         roomDisplay[2][2] = WALL_CHARACTER;
 
         // Build string
@@ -357,14 +357,14 @@ public class Room implements Serializable {
      * @return  A character depicting what is in the room.
      */
     private char getRoomSymbol() {
-        if (entrance) return 'i';
-        if (exit) return 'O';
-        if (pit) return 'X'; // Pit takes priority - no other items with pit
+        if (myEntrance) return 'i';
+        if (myExit) return 'O';
+        if (myPit) return 'X'; // Pit takes priority - no other items with pit
         if (hasMultipleItems()) return 'I';
-        if (healingPotion) return 'H';
-        if (visionPotion) return 'V';
-        if (pillar != null) return pillar.charAt(0); // A, E, I, or P
-        if (monster != null) return 'M'; // or different symbol for monster
+        if (myHealingPotion) return 'H';
+        if (myVisionPotion) return 'V';
+        if (myPillar != null) return myPillar.charAt(0); // A, E, I, or P
+        if (myMonster != null) return 'M'; // or different symbol for monster
         return ' '; // empty room
     }
 }
