@@ -360,11 +360,11 @@ public class Room implements Serializable {
         if (myEntrance) return 'i';
         if (myExit) return 'O';
         if (myPit) return 'X'; // Pit takes priority - no other items with pit
-        if (hasMultipleItems()) return 'I';
+        if (hasMultipleItems()) return 'M';
         if (myHealingPotion) return 'H';
         if (myVisionPotion) return 'V';
         if (myPillar != null) return myPillar.charAt(0); // A, E, I, or P
-        if (myMonster != null) return 'M'; // or different symbol for monster
+        if (myMonster != null) return 'T'; // or different symbol for monster
         return ' '; // empty room
     }
 }

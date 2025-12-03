@@ -9,10 +9,13 @@ import javafx.scene.image.Image;
 
 /**
  * Displays the dungeon
+ *
+ * press h during game play to display the entire dungeon in the terminal as a
+ * string
  * @author Geovani Vasquez
  * @version Oct 24, 2025
  */
-public class DungeonGUI extends Application {
+public class DungeonAdventure extends Application {
     /**
      * This is the main screen
      */

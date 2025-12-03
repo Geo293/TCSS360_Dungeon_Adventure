@@ -1,8 +1,6 @@
-package controller;
+package model;
 
 import javafx.scene.control.TextArea;
-import model.Hero;
-import model.Monster;
 
 import java.util.Random;
 

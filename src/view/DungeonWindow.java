@@ -367,6 +367,10 @@ public class DungeonWindow extends Scene {
                     break;
                 case G:
                     myGameController.gameGuide(myHero);
+                    break;
+                case H:
+                    System.out.println(myDungeon.toString());
+                    break;
             }
         });
     }

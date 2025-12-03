@@ -1,7 +1,7 @@
 package view;
 
 
-import controller.CombatSystem;
+import model.CombatSystem;
 import controller.GameController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
