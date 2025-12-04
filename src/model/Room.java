@@ -161,7 +161,7 @@ public class Room implements Serializable {
     }
 
     /**
-     * Let there be a door on the north side
+     * Let there be a door on the north side.
      * @param theNorthDoor      yes or no
      */
     public void setMyNorthDoor(boolean theNorthDoor) {
@@ -169,7 +169,7 @@ public class Room implements Serializable {
     }
 
     /**
-     * Let there be a door on the south side
+     * Let there be a door on the south side.
      * @param theSouthDoor      yes or no
      */
     public void setMySouthDoor(boolean theSouthDoor) {
@@ -177,7 +177,7 @@ public class Room implements Serializable {
     }
 
     /**
-     * Let there be a door on the east side
+     * Let there be a door on the east side.
      * @param theEastDoor      yes or no
      */
     public void setMyEastDoor(boolean theEastDoor) {
@@ -185,12 +185,38 @@ public class Room implements Serializable {
     }
 
     /**
-     * Let there be a door on the west side
+     * Let there be a door on the west side.
      * @param theWestDoor      yes or no
      */
     public void setMyWestDoor(boolean theWestDoor) {
         myWestDoor = theWestDoor;
     }
+
+    /**
+     * add healing potion to room.
+     * @param theHealing    yes or no
+     */
+    public void setMyHealingPotion(boolean theHealing) {
+        myHealingPotion = theHealing;
+    }
+
+    /**
+     * add vision potion to room.
+     * @param theVision     yes or no
+     */
+    public void setMyVisionPotion(boolean theVision) {
+        myVisionPotion = theVision;
+    }
+
+    /**
+     * set pit for room.
+     * @param thePit    yes or no
+     */
+    public void setMyPit (boolean thePit){
+        myPit = thePit;
+    }
+
+
 
     /**
      * Checks if there are multiple items in this room.
