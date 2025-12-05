@@ -70,13 +70,10 @@ public class GameController {
      * Save the gameState
      */
     private GameGuide myGameGuide;
-    /**
-     * This saves the game to console
-     */
-    private SaveLoadManager mySaveLoadManager;
+
 
     /**
-     *This is the constructor that assigns the stage to fileds
+     *This is the constructor that assigns the stage to fields
      * @param theStage the main screen
      */
     public GameController(Stage theStage) {
@@ -117,7 +114,7 @@ public class GameController {
      * This starts the game and send what character the user choices in the game
      * and starts a new game and makes a new dungeon
      * @param theCharacterType this is the string for the type of character the user choose
-     * @param theCharacterName this is the name the user inputed
+     * @param theCharacterName this is the name the user inputted
      */
     public void startNewGame(String theCharacterType, String theCharacterName) {
         if (theCharacterType == null || theCharacterType.trim().isEmpty() ||
@@ -180,8 +177,7 @@ public class GameController {
             throw new IllegalArgumentException("the dungeon and hero cannot be null");
         }
         myGameState = new GameState(theHero, theDungeon, myCharacterType);
-        mySaveLoadManager =  new SaveLoadManager();
-        mySaveLoadManager.saveGame(myGameState);
+        SaveLoadManager.saveGame(myGameState);
         goBackToStart();
     }
 
@@ -190,14 +186,15 @@ public class GameController {
      * they left off
      */
     public void loadGame() {
-        myGameState = mySaveLoadManager.loadGame();
+        myGameState = SaveLoadManager.loadGame();
         myGameWindow = new DungeonWindow(this,myGameState.getDungeon(), myGameState.getHero(), myGameState.getCharacterName());
         myStage.setScene(myGameWindow);
     }
 
     /**
-     * 
-     * @param theHero
+     * This takes the screen back to the dungeon from which ever scene the
+     * screen is currently on and updates the hero when needed
+     * @param theHero the current hero object
      */
     public void backToDungeon(Hero theHero) {
         if(theHero == null) {
@@ -236,7 +233,7 @@ public class GameController {
         }
 
     /**
-     * This exits and closes the program when the games ends.
+     * This exits and closes the program when the games end.
      */
     public void exitGame(){
             Platform.exit();

@@ -43,8 +43,8 @@ public class CombatSystem {
         final int numAttacks = Math.max(1,
                 theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed());
         Random theRandom = new Random();
-        Double randomHero = theRandom.nextDouble();
-        Double randomMonster= theRandom.nextDouble();
+        double randomHero;
+        double randomMonster;
 
 
         for (int i = 0; i < numAttacks; i++) {

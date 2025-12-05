@@ -26,7 +26,7 @@ public class PauseMenu extends Scene {
      */
     private final Dungeon myDungeon;
     /**
-     * This is the player object and has all the logic for the heros.
+     * This is the player object and has all the logic for the heroes.
      */
     private final Hero myHero;
     /**
@@ -44,7 +44,7 @@ public class PauseMenu extends Scene {
      * This is the method that sets up local variables and displays the buttons
      * on the screen so that they may preform actions.
      * @param theController the controller object used throughout the game
-     * @param theDungeon the dungeon object used throughoyt the game
+     * @param theDungeon the dungeon object used throughout the game
      * @param theHero the hero object used throughout the game
      */
     public PauseMenu(GameController theController, Dungeon theDungeon, Hero theHero) {
@@ -61,7 +61,7 @@ public class PauseMenu extends Scene {
             mySaveQuit.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
             myContinue = new Button("Continue");
             myContinue.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
-            setUpKeyListners();
+            setUpKeyListeners();
             Label title = new Label("Game Pause");
             title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
             root.getChildren().addAll(title,myContinue, mySaveQuit);
@@ -72,7 +72,7 @@ public class PauseMenu extends Scene {
     /**
      * Sets actions when the buttons are pressed 
      */
-    public void setUpKeyListners(){
+    public void setUpKeyListeners(){
         mySaveQuit.setOnAction(e -> myController.saveQuit(myHero, myDungeon));
         myContinue.setOnAction(e -> myController.backToDungeon(myHero));
     }

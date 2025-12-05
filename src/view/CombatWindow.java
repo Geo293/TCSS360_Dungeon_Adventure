@@ -57,7 +57,9 @@ public final class CombatWindow extends Scene {
 
     /** Image view for displaying the hero. */
     private final ImageView myHeroImage;
-
+    /**
+     * this is the stamina bar that indicates how many actions the user has done
+     */
     private int myStam;
 
     /**
@@ -164,7 +166,7 @@ public final class CombatWindow extends Scene {
      * This displays the special button after a certain amount of attacks
      *
      */
-    public void updateSpcialButton(){
+    public void updateSpecialButton(){
         mySpecialButton.setVisible(myStam > 3);
     }
 
@@ -174,9 +176,9 @@ public final class CombatWindow extends Scene {
     public void setUpKeyListeners(){
 
         myAttackButton.setOnAction(e -> {handleAttack();
-            myStam++; updateSpcialButton();});
+            myStam++; updateSpecialButton();});
         mySpecialButton.setOnAction(e -> {handleSpecial();
-            myStam = 0; updateSpcialButton();});
+            myStam = 0; updateSpecialButton();});
         myHealButton.setOnAction(e ->{
             if (myHero.getMyHealingPotions() > 0) {
                 myHero.useHealingPotion();

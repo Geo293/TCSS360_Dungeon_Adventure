@@ -1,4 +1,5 @@
 package model;
+import java.io.Serial;
 import java.io.Serializable;
 /**
  * This class creates a room design that will randomly place objects
@@ -9,6 +10,7 @@ import java.io.Serializable;
  */
 public class Room implements Serializable {
     //Constants
+    @Serial
     private static final long serialVersionUID = 1L;
     /**Spawn chance for the Healing Potion.*/
     private static final double HEALING_POTION_SPAWN_CHANCE = 0.15;

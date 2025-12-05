@@ -29,7 +29,7 @@ public class DeathScreen extends Scene {
      * this is the button the sends the user back to the
      * character select screen
      */
-    private final Button myBackToCharatcer;
+    private final Button myBackToCharacter;
 
     /**
      * This is teh constructor that sets up all the field variables
@@ -45,7 +45,7 @@ public class DeathScreen extends Scene {
         root.setAlignment(Pos.CENTER);
         myController = theController;
         myExit = new Button("Exit");
-        myBackToCharatcer = new Button("Back to Charater");
+        myBackToCharacter = new Button("Back to Character");
         Label title = new Label("You Died");
         title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #333333;");
         VBox box = choices();
@@ -65,13 +65,9 @@ public class DeathScreen extends Scene {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setSpacing(10);
-        myBackToCharatcer.setOnAction(e -> {
-            myController.startCharacter();
-        });
-        myExit.setOnAction(e ->{
-                myController.exitGame();
-        });
-        box.getChildren().addAll(myBackToCharatcer,myExit);
+        myBackToCharacter.setOnAction(e -> myController.startCharacter());
+        myExit.setOnAction(e -> myController.exitGame());
+        box.getChildren().addAll(myBackToCharacter,myExit);
         return box;
     }
 }

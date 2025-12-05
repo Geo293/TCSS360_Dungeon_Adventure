@@ -74,9 +74,8 @@ public abstract class Hero extends DungeonCharacter implements Serializable{
 
     /**
      * use a vision potion.
-     * @param theDungeon   the dungeon so we can see other rooms.
      */
-    public void useVisionPotion(Dungeon theDungeon) {
+    public void useVisionPotion() {
         if (myVisionPotions > 0) {
             myVisionPotions--;
             System.out.println(myName + " used a vision potion!");

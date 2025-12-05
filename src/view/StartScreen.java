@@ -20,7 +20,7 @@ public class StartScreen extends Scene {
      */
     private final Button myNewGameButton;
     /**
-     * This is an object of the gamecontroller class which
+     * This is an object of the game controller class which
      * is what controls what classes are being presented at a time.
      */
     private final GameController myController;
@@ -29,7 +29,7 @@ public class StartScreen extends Scene {
     private final Label myTitle;
 
     /**
-     * This method is the controctor and sets the fields and the sets what
+     * This method is the constructor and sets the fields and the sets what
      * appears on the window such as the title and start button also sets
      * the color of the background.
      * @param theController this is the controller class the sets what windows are being presented.

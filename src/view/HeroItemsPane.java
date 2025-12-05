@@ -101,7 +101,7 @@ public final class HeroItemsPane extends Scene {
     private void setUpButtonActions() {
         myVisionPotionButton.setOnAction(theEvent -> {
             if (myHero.getMyVisionPotions() > 0) {
-                myHero.useVisionPotion(myDungeon);
+                myHero.useVisionPotion();
                 myController.usesVPotion(myDungeon);
                 refresh();
             }

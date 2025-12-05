@@ -166,7 +166,7 @@ public class DungeonWindow extends Scene {
         myDoorN = new ImageView(DOOR);
         myDoorS = new ImageView(DOOR);
         myFloor = new ImageView(new Image("/images/Area/FloorRight.png"));
-        myPitFall = new ImageView(new Image("/images/Area/pitfall(1).png"));;
+        myPitFall = new ImageView(new Image("/images/Area/pitfall(1).png"));
 
         HBox bottomBox = bottomPlane(myDungeon, 0);
         HBox topBox = topPlane();
@@ -203,7 +203,7 @@ public class DungeonWindow extends Scene {
 
     /**
      * This updates the size of the mini map so the user can see it on the screen
-     * @param theRadius he radius of the minimap
+     * @param theRadius the radius of the minimap
      */
     public void updateDisplayRadius(int theRadius){
         myDungeonDisplay.setText(myDungeon.getVisableArea(myDungeon.getMyHeroX(),myDungeon.getMyHeroY(),theRadius));
@@ -277,14 +277,7 @@ public class DungeonWindow extends Scene {
      * @return the west part of the dungeon
      */
     public StackPane west(){
-        StackPane westStack = new StackPane();
-        myWestW.setPreserveRatio(false);
-        myWestW.fitWidthProperty().bind(westStack.widthProperty());
-        myWestW.fitHeightProperty().bind(westStack.heightProperty());
-        myDoorW.setFitWidth(80);
-        myDoorW.setFitHeight(120);
-        westStack.getChildren().addAll(myWestW, myDoorW);
-        return westStack;
+        return getStackPane(myWestW, myDoorW);
     }
 
     /**
@@ -293,15 +286,9 @@ public class DungeonWindow extends Scene {
      * @return the east part of the dungeon
      */
     public StackPane east(){
-        StackPane eastStack = new StackPane();
-        myEastW.setPreserveRatio(false);
-        myEastW.fitWidthProperty().bind(eastStack.widthProperty());
-        myEastW.fitHeightProperty().bind(eastStack.heightProperty());
-        myDoorE.setFitWidth(80);
-        myDoorE.setFitHeight(120);
-        eastStack.getChildren().addAll(myEastW, myDoorE);
-        return eastStack;
+        return getStackPane(myEastW, myDoorE);
     }
+
 
     /**
      * This is the north and displays a wall and if there
@@ -309,15 +296,8 @@ public class DungeonWindow extends Scene {
      * @return the north part of the dungeon
      */
    public StackPane north(){
-        StackPane northStack = new StackPane();
-        myNorthW.setPreserveRatio(false);
-        myNorthW.fitWidthProperty().bind(northStack.widthProperty());
-        myNorthW.fitHeightProperty().bind(northStack.heightProperty());
-        myDoorN.setFitWidth(80);
-        myDoorN.setFitHeight(120);
-        northStack.getChildren().addAll(myNorthW, myDoorN);
-        return northStack;
-    }
+       return getStackPane(myNorthW, myDoorN);
+   }
 
     /**
      * This is the south and displays a wall and if there
@@ -325,14 +305,26 @@ public class DungeonWindow extends Scene {
      * @return the south part of the dungeon
      */
     public StackPane south(){
-        StackPane southStack = new StackPane();
-        mySouthW.setPreserveRatio(false);
-        mySouthW.fitWidthProperty().bind(southStack.widthProperty());
-        mySouthW.fitHeightProperty().bind(southStack.heightProperty());
-        myDoorS.setFitWidth(80);
-        myDoorS.setFitHeight(120);
-        southStack.getChildren().addAll(mySouthW, myDoorS);
-        return southStack;
+        return getStackPane(mySouthW, myDoorS);
+    }
+
+    /**
+     * This method sets up the wall and doors on the plane so that the
+     * door overlaps the wall and tne returns it to the right side.
+     *
+     * @param theWall the wall image
+     * @param theDoor the door image
+     * @return the stack pane
+     */
+    private StackPane getStackPane(ImageView theWall, ImageView theDoor) {
+        StackPane aStack = new StackPane();
+        theWall.setPreserveRatio(false);
+        theWall.fitWidthProperty().bind(aStack.widthProperty());
+        theWall.fitHeightProperty().bind(aStack.heightProperty());
+        theDoor.setFitWidth(80);
+        theDoor.setFitHeight(120);
+        aStack.getChildren().addAll(theWall, theDoor);
+        return aStack;
     }
 
     /**

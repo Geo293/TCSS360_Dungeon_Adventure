@@ -14,9 +14,9 @@ import javafx.scene.control.TextField;
 
 
 /**
- * this class displays a character selection screen that will prompted
+ * this class displays a character selection screen that will prompt
  * the user to choose what character they want and displays their stats,
- * and let the user name their character.
+ * and let the username their character.
  *
  * @author Geovani Vasquez
  * @version Oct, 31 2025
@@ -155,9 +155,7 @@ public class CharacterSelected extends Scene {
         HBox bac = new HBox();
         bac.setAlignment(javafx.geometry.Pos.CENTER);
         bac.setSpacing(20);
-        myBackButton.setOnAction(e -> {
-            reset();
-        });
+        myBackButton.setOnAction(e -> reset());
         myBackButton.setStyle("-fx-background-color: #80461B; -fx-text-fill: white;");
         bac.getChildren().addAll(myBackButton, myCharacterName);
         return bac;
@@ -167,7 +165,7 @@ public class CharacterSelected extends Scene {
      * This method sets the bottom button to be a start game button
      * and then sends a message to the user to write a name if
      * they haven't already.
-     * @return
+     * @return the HBox set up for the bottom selection when entering a name
      */
     public HBox startTheGame(){
         HBox gameStart = new HBox();
@@ -219,31 +217,34 @@ public class CharacterSelected extends Scene {
 
         switch(theName) {
             case "Warrior":
-                stats = "Hit Points: 125\n" +
-                        "Attack Speed: 4\n" +
-                        "Chance to Hit: 80%\n" +
-                        "Min Damage: 35\n" +
-                        "Max Damage: 60\n" +
-                        "Block Chance: 20%\n" +
-                        "Special: Crushing Blow";
+                stats = """
+                        Hit Points: 125
+                        Attack Speed: 4
+                        Chance to Hit: 80%
+                        Min Damage: 35
+                        Max Damage: 60
+                        Block Chance: 20%
+                        Special: Crushing Blow""";
                 break;
             case "Priestess":
-                stats = "Hit Points: 75\n" +
-                        "Attack Speed: 5\n" +
-                        "Chance to Hit: 70%\n" +
-                        "Min Damage: 25\n" +
-                        "Max Damage: 45\n" +
-                        "Block Chance: 30%\n" +
-                        "Special: HEAL";
+                stats = """
+                        Hit Points: 75
+                        Attack Speed: 5
+                        Chance to Hit: 70%
+                        Min Damage: 25
+                        Max Damage: 45
+                        Block Chance: 30%
+                        Special: HEAL""";
                 break;
             case "Thief":
-                stats = "Hit Points: 75\n" +
-                        "Attack Speed: 6\n" +
-                        "Chance to Hit: 80%\n" +
-                        "Min Damage: 20\n" +
-                        "Max Damage: 40\n" +
-                        "Block Chance: 40%\n" +
-                        "Special: surprise attack";
+                stats = """
+                        Hit Points: 75
+                        Attack Speed: 6
+                        Chance to Hit: 80%
+                        Min Damage: 20
+                        Max Damage: 40
+                        Block Chance: 40%
+                        Special: surprise attack""";
                 break;
         }
         myCharacterType = theName;

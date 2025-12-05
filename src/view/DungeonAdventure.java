@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 
 /**
  * Displays the dungeon
- *
  * press h during game play to display the entire dungeon in the terminal as a
  * string
  * @author Geovani Vasquez
@@ -23,7 +22,7 @@ public class DungeonAdventure extends Application {
 
     /**
      * This method launches the game
-     * @param args is the argyment
+     * @param args is the argument
      */
     public static void main(String[] args) {
         launch(args);

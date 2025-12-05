@@ -63,10 +63,7 @@ public class GameGuide extends Scene {
     public void setUpKeyListeners(){
         this.setOnKeyPressed(event -> {
            switch (event.getCode()) {
-               case ESCAPE:
-                   myController.backToDungeon(myHero);
-                   break;
-               case G:
+               case ESCAPE, G:
                    myController.backToDungeon(myHero);
                    break;
            }

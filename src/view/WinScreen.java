@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
 /**
- * This cless displays a win screen after the user collects all the pillars
+ * This class displays a win screen after the user collects all the pillars
  * and brings it to the exit
  *
  * @author Geovani Vasquez
