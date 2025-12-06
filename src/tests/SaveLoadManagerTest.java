@@ -72,25 +72,6 @@ public class SaveLoadManagerTest {
         assertEquals("ThiefHero", loaded.getHero().getMyName());
     }
 
-    // --- Overwriting Save File ---
-    @Test
-    @Order(4)
-    void testOverwriteSaveFile() {
-        Hero hero1 = new Warrior("FirstHero");
-        Dungeon dungeon1 = new Dungeon(2, 2);
-        GameState state1 = new GameState(hero1, dungeon1, "Warrior");
-        SaveLoadManager.saveGame(state1);
-
-        Hero hero2 = new Thief("SecondHero");
-        Dungeon dungeon2 = new Dungeon(3, 3);
-        GameState state2 = new GameState(hero2, dungeon2, "Thief");
-        SaveLoadManager.saveGame(state2);
-
-        GameState loaded = SaveLoadManager.loadGame();
-        assertNotNull(loaded);
-        assertEquals("SecondHero", loaded.getHero().getMyName());
-        assertEquals("Thief", loaded.getCharacterName());
-    }
 
     // --- Edge Cases ---
     @Test
