@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for SaveLoadManager.
+ * @author Carson Poirier
+ * @version 12/5/25
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SaveLoadManagerTest {
@@ -26,7 +28,7 @@ public class SaveLoadManagerTest {
         }
     }
 
-    // --- Basic Save/Load Tests ---
+
     @Test
     @Order(1)
     void testSaveAndLoadWarrior() {
@@ -72,7 +74,7 @@ public class SaveLoadManagerTest {
         assertEquals("ThiefHero", loaded.getHero().getMyName());
     }
 
-    // --- Overwriting Save File ---
+
     @Test
     @Order(4)
     void testOverwriteSaveFile() {
@@ -92,7 +94,7 @@ public class SaveLoadManagerTest {
         assertEquals("Thief", loaded.getCharacterName());
     }
 
-    // --- Edge Cases ---
+
     @Test
     @Order(5)
     void testLoadWhenNoFileExists() {
@@ -106,12 +108,12 @@ public class SaveLoadManagerTest {
     @Test
     @Order(6)
     void testLoadCorruptedFile() throws IOException {
-        // Write junk data to the save file
+
         try (FileOutputStream fos = new FileOutputStream(SAVE_FILE)) {
             fos.write(new byte[]{0x00, 0x01, 0x02});
         }
 
         GameState loaded = SaveLoadManager.loadGame();
-        assertNull(loaded); // should fail gracefully
+        assertNull(loaded);
     }
 }

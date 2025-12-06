@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for MonsterFactory using an in-memory SQLite database.
+ * @author Carson Poirier
+ * @version 12/5/25
  */
 public class MonsterFactoryTest {
 
