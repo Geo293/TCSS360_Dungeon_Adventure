@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for SaveLoadManager.
+ * @author Carson Poirier
+ * @version 12/5/25
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SaveLoadManagerTest {
@@ -26,7 +28,7 @@ public class SaveLoadManagerTest {
         }
     }
 
-    // --- Basic Save/Load Tests ---
+
     @Test
     @Order(1)
     void testSaveAndLoadWarrior() {
@@ -73,7 +75,7 @@ public class SaveLoadManagerTest {
     }
 
 
-    // --- Edge Cases ---
+
     @Test
     @Order(5)
     void testLoadWhenNoFileExists() {
@@ -93,6 +95,6 @@ public class SaveLoadManagerTest {
         }
 
         GameState loaded = SaveLoadManager.loadGame();
-        assertNull(loaded); // should fail gracefully
+        assertNull(loaded);
     }
 }
