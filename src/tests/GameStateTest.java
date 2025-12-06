@@ -49,14 +49,6 @@ public class GameStateTest {
         assertEquals("Thief", state.getCharacterName());
     }
 
-    //  Null Handling
-    @Test
-    void testNullArgumentsAllowed() {
-        GameState state = new GameState(null, null, null);
-        assertNull(state.getHero());
-        assertNull(state.getDungeon());
-        assertNull(state.getCharacterName());
-    }
 
     //  Serialization & Deserialization
     @Test

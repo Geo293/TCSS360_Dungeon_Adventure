@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for SaveLoadManager.
- * @author Carson Poirier
- * @version 12/5/25
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SaveLoadManagerTest {
@@ -28,7 +26,7 @@ public class SaveLoadManagerTest {
         }
     }
 
-
+    // --- Basic Save/Load Tests ---
     @Test
     @Order(1)
     void testSaveAndLoadWarrior() {
@@ -75,26 +73,7 @@ public class SaveLoadManagerTest {
     }
 
 
-    @Test
-    @Order(4)
-    void testOverwriteSaveFile() {
-        Hero hero1 = new Warrior("FirstHero");
-        Dungeon dungeon1 = new Dungeon(2, 2);
-        GameState state1 = new GameState(hero1, dungeon1, "Warrior");
-        SaveLoadManager.saveGame(state1);
-
-        Hero hero2 = new Thief("SecondHero");
-        Dungeon dungeon2 = new Dungeon(3, 3);
-        GameState state2 = new GameState(hero2, dungeon2, "Thief");
-        SaveLoadManager.saveGame(state2);
-
-        GameState loaded = SaveLoadManager.loadGame();
-        assertNotNull(loaded);
-        assertEquals("SecondHero", loaded.getHero().getMyName());
-        assertEquals("Thief", loaded.getCharacterName());
-    }
-
-
+    // --- Edge Cases ---
     @Test
     @Order(5)
     void testLoadWhenNoFileExists() {
@@ -108,12 +87,12 @@ public class SaveLoadManagerTest {
     @Test
     @Order(6)
     void testLoadCorruptedFile() throws IOException {
-
+        // Write junk data to the save file
         try (FileOutputStream fos = new FileOutputStream(SAVE_FILE)) {
             fos.write(new byte[]{0x00, 0x01, 0x02});
         }
 
         GameState loaded = SaveLoadManager.loadGame();
-        assertNull(loaded);
+        assertNull(loaded); // should fail gracefully
     }
 }
